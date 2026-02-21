@@ -126,39 +126,42 @@ export function VaultViewer({ materialId }: { materialId: string }) {
             </div>
 
             {/* Premium Viewer Toolbar */}
-            <div className="h-14 bg-slate-900 border-b border-slate-800 flex items-center justify-between px-6 z-40">
-                <div className="flex items-center gap-4">
-                    <div className="flex flex-col">
-                        <span className="text-xs font-black text-white truncate max-w-[200px]">{material?.title}</span>
-                        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-tighter">Digital Asset Vault</span>
+            <div className="h-16 md:h-14 bg-slate-900 border-b border-slate-800 flex items-center justify-between px-4 md:px-6 z-40">
+                <div className="flex items-center gap-3 overflow-hidden">
+                    <div className="flex flex-col min-w-0">
+                        <span className="text-[10px] md:text-xs font-black text-white truncate">{material?.title}</span>
+                        <span className="text-[8px] md:text-[10px] text-slate-500 font-bold uppercase tracking-tighter">Digital Asset Vault</span>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2 bg-slate-950/50 p-1.5 rounded-xl border border-white/5">
+                <div className="flex items-center gap-1 md:gap-2 bg-slate-950/50 p-1 rounded-xl border border-white/5">
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="h-8 text-slate-400 hover:text-white"
+                        className="h-7 w-7 md:h-8 md:w-8 text-slate-400 hover:text-white p-0"
                         onClick={() => setZoom(Math.max(50, zoom - 10))}
                     >
                         -
                     </Button>
-                    <span className="text-[10px] font-mono font-bold text-indigo-400 w-12 text-center">{zoom}%</span>
+                    <span className="text-[9px] md:text-[10px] font-mono font-bold text-indigo-400 w-8 md:w-12 text-center">{zoom}%</span>
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="h-8 text-slate-400 hover:text-white"
+                        className="h-7 w-7 md:h-8 md:w-8 text-slate-400 hover:text-white p-0"
                         onClick={() => setZoom(Math.min(200, zoom + 10))}
                     >
                         +
                     </Button>
                 </div>
 
-                <div className="hidden md:flex items-center gap-3">
+                <div className="flex items-center gap-3">
                     <div className="flex items-center gap-1.5 bg-green-500/10 px-2 py-1 rounded-full border border-green-500/20">
-                        <div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
-                        <span className="text-[9px] font-black text-green-500 uppercase">Stream Healthy</span>
+                        <div className="h-1 w-1 md:h-1.5 md:w-1.5 rounded-full bg-green-500 animate-pulse" />
+                        <span className="text-[7px] md:text-[9px] font-black text-green-500 uppercase whitespace-nowrap">Stream Active</span>
                     </div>
+                    <Button variant="ghost" size="sm" className="h-8 text-slate-400 hover:text-white text-[10px] hidden sm:flex" onClick={() => router.push('/dashboard/materials')}>
+                        Exit
+                    </Button>
                 </div>
             </div>
 
@@ -179,12 +182,12 @@ export function VaultViewer({ materialId }: { materialId: string }) {
                                 style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'top center' }}
                             >
                                 <iframe
-                                    src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
-                                    className="w-full h-full border-0 pointer-events-none"
+                                    src={`${pdfUrl}#view=FitH&toolbar=0&navpanes=0`}
+                                    className="w-full h-full border-0 select-none"
                                     title={material.title}
                                 />
-                                {/* Security Overlay to block interaction with iframe */}
-                                <div className="absolute inset-0 z-10" onContextMenu={(e) => e.preventDefault()} />
+                                {/* Transparent layer to intercept selection/right-clicks if iframe is same-origin */}
+                                <div className="absolute inset-0 z-10 pointer-events-none" onContextMenu={(e) => e.preventDefault()} />
                             </div>
                         ) : (
                             <div className="flex flex-col items-center justify-center h-full gap-4 text-slate-500">
