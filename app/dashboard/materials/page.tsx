@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { MaterialCard } from "@/components/features/MaterialCard"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { ShoppingBag } from "lucide-react"
 import api from "@/lib/api"
 import { useAuth } from "@/context/AuthContext"
@@ -56,16 +57,21 @@ export default function MaterialsPage() {
     }
 
     return (
-        <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="space-y-1">
-                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white uppercase tracking-tighter">My Materials</h2>
-                    <p className="text-sm text-slate-400">Access your purchased content securely.</p>
+        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-slate-800/50">
+                <div className="space-y-2">
+                    <div className="flex items-center gap-3">
+                        <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter">Authorized Vault</h2>
+                        <Badge className="bg-indigo-500/10 text-indigo-400 border-indigo-500/20 text-[10px] font-black uppercase tracking-widest px-2 py-0.5">
+                            Security: Active
+                        </Badge>
+                    </div>
+                    <p className="text-sm text-slate-400 font-medium">Access your premium purchased content within the encrypted environment.</p>
                 </div>
                 <Link href="/dashboard/store">
-                    <Button variant="outline" className="w-full sm:w-auto gap-2 border-slate-700 text-slate-300">
-                        <ShoppingBag className="h-4 w-4" />
-                        Browse Store
+                    <Button variant="outline" className="w-full md:w-auto h-11 bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white rounded-xl transition-all shadow-xl">
+                        <ShoppingBag className="h-4 w-4 mr-2" />
+                        Acquire More Materials
                     </Button>
                 </Link>
             </div>

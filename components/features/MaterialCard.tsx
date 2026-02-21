@@ -3,7 +3,7 @@
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Lock, Unlock, FileText } from "lucide-react"
+import { Lock, Unlock, FileText, ShieldCheck, Zap } from "lucide-react"
 import Link from "next/link"
 
 interface MaterialCardProps {
@@ -16,31 +16,45 @@ interface MaterialCardProps {
 
 export function MaterialCard({ id, title, purchasedDate, isActive }: MaterialCardProps) {
     return (
-        <Card className="flex flex-col overflow-hidden transition-all hover:border-indigo-500/50">
-            <div className="aspect-video w-full bg-slate-900 relative flex items-center justify-center border-b border-slate-800">
-                <FileText className="h-12 w-12 text-slate-700" />
-                <div className="absolute top-2 right-2">
-                    <Badge variant={isActive ? "success" : "secondary"}>
-                        {isActive ? "Active License" : "Expired"}
+        <Card className="group flex flex-col overflow-hidden bg-slate-900/50 border-slate-800 transition-all duration-500 hover:border-indigo-500/50 hover:shadow-[0_0_30px_-5px_theme(colors.indigo.500/0.1)]">
+            <div className="aspect-video w-full bg-slate-900 relative flex items-center justify-center border-b border-slate-800 overflow-hidden">
+                {/* Background Pattern */}
+                <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#4f46e5_1px,transparent_1px)] [background-size:16px_16px]" />
+
+                <FileText className="h-12 w-12 text-slate-700 transition-transform duration-500 group-hover:scale-110 group-hover:text-indigo-500/50" />
+
+                <div className="absolute top-3 right-3 flex flex-col gap-2 items-end">
+                    <Badge className={isActive ? "bg-green-500/10 text-green-500 border-green-500/20" : "bg-slate-800 text-slate-400"}>
+                        {isActive ? (
+                            <div className="flex items-center gap-1.5">
+                                <ShieldCheck className="h-3 w-3" />
+                                <span>Secured Access</span>
+                            </div>
+                        ) : "Expired"}
                     </Badge>
                 </div>
             </div>
-            <CardHeader>
-                <CardTitle className="line-clamp-1">{title}</CardTitle>
-                <p className="text-xs text-slate-400">Purchased: {purchasedDate}</p>
+
+            <CardHeader className="space-y-1 p-5">
+                <CardTitle className="text-base font-bold text-white transition-colors group-hover:text-indigo-400 line-clamp-1">{title}</CardTitle>
+                <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                    <Zap className="h-3 w-3 text-amber-500/50" />
+                    <span>Purchased {purchasedDate}</span>
+                </div>
             </CardHeader>
-            <CardFooter className="mt-auto pt-0">
+
+            <CardFooter className="p-5 pt-0 mt-auto">
                 {isActive ? (
                     <Link href={`/vault/${id}`} className="w-full">
-                        <Button className="w-full gap-2">
+                        <Button className="w-full h-11 bg-indigo-600 hover:bg-indigo-500 text-white font-bold gap-2 rounded-xl shadow-lg shadow-indigo-500/20 active:scale-[0.98] transition-all">
                             <Unlock className="h-4 w-4" />
-                            Open in Vault
+                            Enter Secure Vault
                         </Button>
                     </Link>
                 ) : (
-                    <Button variant="secondary" disabled className="w-full gap-2">
+                    <Button variant="secondary" disabled className="w-full h-11 gap-2 rounded-xl bg-slate-800/50 text-slate-500 border-slate-700">
                         <Lock className="h-4 w-4" />
-                        License Expired
+                        License Terminated
                     </Button>
                 )}
             </CardFooter>
