@@ -25,14 +25,22 @@ export function VaultViewer({ materialId }: { materialId: string }) {
     const [showSessionAlert] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [isStreaming, setIsStreaming] = useState(false)
+    const [isFlashActive, setIsFlashActive] = useState(false)
+    const [zoom, setZoom] = useState(100)
 
     // Security Event Listeners
     useEffect(() => {
         const handleContextMenu = (e: MouseEvent) => e.preventDefault()
         const handleKeyDown = (e: KeyboardEvent) => {
-            if ((e.ctrlKey && (e.key === 's' || e.key === 'p')) || e.key === 'PrintScreen') {
+            // Block PrintScreen, Ctrl+P, Ctrl+S, Ctrl+U, F12
+            if (
+                e.key === 'PrintScreen' ||
+                (e.ctrlKey && (e.key === 'p' || e.key === 's' || e.key === 'u' || e.key === 'c')) ||
+                e.key === 'F12'
+            ) {
                 e.preventDefault()
-                alert("Vault Protection: Action Blocked")
+                setIsFlashActive(true)
+                setTimeout(() => setIsFlashActive(false), 200)
             }
         }
         const handleVisibilityChange = () => setIsBlurred(document.hidden)
@@ -117,6 +125,43 @@ export function VaultViewer({ materialId }: { materialId: string }) {
                 </div>
             </div>
 
+            {/* Premium Viewer Toolbar */}
+            <div className="h-14 bg-slate-900 border-b border-slate-800 flex items-center justify-between px-6 z-40">
+                <div className="flex items-center gap-4">
+                    <div className="flex flex-col">
+                        <span className="text-xs font-black text-white truncate max-w-[200px]">{material?.title}</span>
+                        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-tighter">Digital Asset Vault</span>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-2 bg-slate-950/50 p-1.5 rounded-xl border border-white/5">
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 text-slate-400 hover:text-white"
+                        onClick={() => setZoom(Math.max(50, zoom - 10))}
+                    >
+                        -
+                    </Button>
+                    <span className="text-[10px] font-mono font-bold text-indigo-400 w-12 text-center">{zoom}%</span>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 text-slate-400 hover:text-white"
+                        onClick={() => setZoom(Math.min(200, zoom + 10))}
+                    >
+                        +
+                    </Button>
+                </div>
+
+                <div className="hidden md:flex items-center gap-3">
+                    <div className="flex items-center gap-1.5 bg-green-500/10 px-2 py-1 rounded-full border border-green-500/20">
+                        <div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
+                        <span className="text-[9px] font-black text-green-500 uppercase">Stream Healthy</span>
+                    </div>
+                </div>
+            </div>
+
             {/* Main Viewer Area */}
             <div className="relative flex-1 flex flex-col items-center justify-center bg-slate-900/50 overflow-hidden select-none p-2 sm:p-4 md:p-8">
                 {isLoading ? (
@@ -129,14 +174,17 @@ export function VaultViewer({ materialId }: { materialId: string }) {
                 ) : material && material.hasAccess ? (
                     <div className={`relative w-full h-full max-w-5xl flex flex-col transition-all duration-700 ${isBlurred ? "blur-2xl grayscale scale-95" : "scale-100"}`}>
                         {pdfUrl ? (
-                            <div className="relative flex-1 bg-white rounded-lg shadow-[0_0_100px_-20px_rgba(0,0,0,0.5)] overflow-hidden">
+                            <div
+                                className="relative flex-1 bg-white rounded-lg shadow-[0_0_100px_-20px_rgba(0,0,0,0.5)] overflow-hidden transition-transform duration-300"
+                                style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'top center' }}
+                            >
                                 <iframe
                                     src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
-                                    className="w-full h-full border-0"
+                                    className="w-full h-full border-0 pointer-events-none"
                                     title={material.title}
                                 />
-                                {/* Security Overlay to block right click on iframe */}
-                                <div className="absolute inset-0 z-10 pointer-events-none" />
+                                {/* Security Overlay to block interaction with iframe */}
+                                <div className="absolute inset-0 z-10" onContextMenu={(e) => e.preventDefault()} />
                             </div>
                         ) : (
                             <div className="flex flex-col items-center justify-center h-full gap-4 text-slate-500">
@@ -148,17 +196,10 @@ export function VaultViewer({ materialId }: { materialId: string }) {
                         )}
 
                         {/* High-Fidelity Watermark Overlay */}
-                        <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden opacity-[0.03]">
-                            {[...Array(20)].map((_, i) => (
-                                <div key={i} className="flex whitespace-nowrap gap-20 py-10 -rotate-12 select-none">
-                                    {[...Array(10)].map((_, j) => (
-                                        <span key={j} className="text-4xl font-black text-black select-none">
-                                            {user.email} • {new Date().toLocaleDateString()} • {user.id.substring(0, 6)}
-                                        </span>
-                                    ))}
-                                </div>
-                            ))}
-                        </div>
+                        <Watermark
+                            text={user.email}
+                            subtext={`UID-${user.id.substring(0, 8).toUpperCase()}`}
+                        />
                     </div>
                 ) : (
                     <div className="max-w-md w-full p-8 rounded-3xl border border-red-500/20 bg-red-500/10 backdrop-blur-md text-center">
@@ -175,11 +216,21 @@ export function VaultViewer({ materialId }: { materialId: string }) {
 
                 {/* Blur Overlay Message */}
                 {isBlurred && !isLoading && (
-                    <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-950/80 backdrop-blur-sm">
-                        <EyeOff className="h-12 w-12 text-slate-400 mb-4" />
-                        <h3 className="text-xl font-bold text-white">Content Hidden</h3>
-                        <p className="text-slate-400">Return focus to window to resume studying</p>
+                    <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-950/90 backdrop-blur-xl transition-all duration-500">
+                        <div className="h-20 w-20 rounded-full bg-slate-900 flex items-center justify-center border border-white/5 shadow-2xl mb-6">
+                            <EyeOff className="h-10 w-10 text-slate-500" />
+                        </div>
+                        <h3 className="text-2xl font-black text-white tracking-tight mb-2">Secure Shield Active</h3>
+                        <p className="text-slate-500 font-medium">Content is hidden while vault is out of focus</p>
+                        <div className="mt-8 px-4 py-2 rounded-lg border border-indigo-500/20 bg-indigo-500/5 text-[10px] font-bold text-indigo-400 uppercase tracking-widest">
+                            Official Audit: {user.id.substring(0, 12)}
+                        </div>
                     </div>
+                )}
+
+                {/* Visual Flash Security Deterrent */}
+                {isFlashActive && (
+                    <div className="absolute inset-0 z-[200] bg-white animate-out fade-out duration-200" />
                 )}
             </div>
         </div>
