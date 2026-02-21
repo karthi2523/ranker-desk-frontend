@@ -11,6 +11,16 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        slate: {
+          950: "#0f172a",
+          800: "#1e293b",
+        },
+        indigo: {
+          500: "#6366f1",
+        },
+      },
+      fontFamily: {
+        sans: ["var(--font-inter)"],
       },
     },
   },

@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛡️ All Gov Alerts Frontend | Premium Study Portal
 
-## Getting Started
+A high-end, responsive, and secure frontend for the **All Government Alerts Platform**. Built with Next.js 14, Tailwind CSS, and Framer Motion, featuring a professional executive aesthetic.
 
-First, run the development server:
+## ✨ Premium Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+*   **🎨 Ultra-Premium UI**:
+    *   **Mesh-Glow Visuals**: Sophisticated multi-layered gradients and grid patterns for a modern, high-end feel.
+    *   **Responsive Executive Navbar**: Glassmorphism navigation with dedicated Admin and User states.
+    *   **Dynamic Landing Page**: Optimized for speed and engagement with rich exam-specific content.
+*   **🛡️ Advanced Security Integration**:
+    *   **Admin 2FA Interface**: Seamless OTP verification flow integrated directly into the login experience.
+    *   **Secure Session Guard**: Prevents accidental navigation exits and unauthorized access attempts.
+    *   **Watermarked PDF Viewer**: Protected material viewing with purchase validation.
+*   **🔔 Real-Time Echo Panel**:
+    *   Live notification center with instant badges for security, content updates, and purchases.
+*   **💳 Dynamic Storefront**:
+    *   Category-based material browsing with an intuitive purchase flow.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+*   **Framework**: Next.js 14 (App Router)
+*   **Styling**: Tailwind CSS & Lucide Icons
+*   **State Management**: React Context API
+*   **Animations**: Framer Motion
+*   **API Client**: Axios with interceptors
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📋 Setup & Deployment
 
-## Learn More
+1.  **Environment Setup**:
+    Create a `.env.local` file with the following:
+    ```env
+    NEXT_PUBLIC_API_URL="http://localhost:5000/api"
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+2.  **Installation**:
+    ```bash
+    npm install
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3.  **Launch**:
+    ```bash
+    npm run dev
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Unified Branding
 
-## Deploy on Vercel
+This project incorporates the official **All Government Alerts** branding, using a sophisticated Indigo and Slate color palette and high-performance SVG visual systems.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+© 2026 All Gov Alerts Platform. Developed for premium academic security.
