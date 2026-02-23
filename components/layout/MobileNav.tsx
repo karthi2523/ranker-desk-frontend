@@ -26,6 +26,7 @@ const adminItems = [
     { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
     { icon: FileText, label: "Inventory", href: "/dashboard/admin-materials" },
     { icon: Upload, label: "Deploy Asset", href: "/dashboard/upload" },
+    { icon: LayoutDashboard, label: "Packages", href: "/dashboard/packages" },
     { icon: Users, label: "Users", href: "/dashboard/users" },
     { icon: DollarSign, label: "Sales", href: "/dashboard/sales" },
     { icon: Settings, label: "Settings", href: "/dashboard/settings" },

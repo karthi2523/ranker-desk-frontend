@@ -10,7 +10,9 @@ import { useAuth } from "@/context/AuthContext"
 import { useNotifications } from "@/context/NotificationContext"
 import Link from "next/link"
 
-interface Material {
+import { useSearchParams } from "next/navigation"
+
+interface Item {
     id: string
     title: string
     description: string
@@ -19,25 +21,28 @@ interface Material {
 
 export default function CheckoutPage({ params }: { params: { materialId: string } }) {
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const type = searchParams.get('type') || 'material'
     const { user } = useAuth()
     const { refresh: refreshNotifications } = useNotifications()
-    const [material, setMaterial] = useState<Material | null>(null)
+    const [item, setItem] = useState<Item | null>(null)
     const [isLoading, setIsLoading] = useState(true)
     const [isProcessing, setIsProcessing] = useState(false)
     const [isSuccess, setIsSuccess] = useState(false)
 
     useEffect(() => {
         if (params.materialId) {
-            fetchMaterial()
+            fetchItem()
         }
     }, [params.materialId])
 
-    const fetchMaterial = async () => {
+    const fetchItem = async () => {
         try {
-            const response = await api.get(`/materials/${params.materialId}`)
-            setMaterial(response.data)
+            const endpoint = type === 'package' ? `/packages/${params.materialId}` : `/materials/${params.materialId}`
+            const response = await api.get(endpoint)
+            setItem(response.data)
         } catch (error) {
-            console.error("Failed to fetch material", error)
+            console.error("Failed to fetch item", error)
         } finally {
             setIsLoading(false)
         }
@@ -46,7 +51,11 @@ export default function CheckoutPage({ params }: { params: { materialId: string 
     const handleConfirmPayment = async () => {
         setIsProcessing(true)
         try {
-            await api.post('/orders', { materialId: params.materialId })
+            const payload = type === 'package'
+                ? { packageId: params.materialId }
+                : { materialId: params.materialId }
+
+            await api.post('/orders', payload)
             setIsSuccess(true)
             refreshNotifications() // Instant sync
             setTimeout(() => {
@@ -66,10 +75,10 @@ export default function CheckoutPage({ params }: { params: { materialId: string 
         )
     }
 
-    if (!material) {
+    if (!item) {
         return (
             <div className="text-center py-12">
-                <h2 className="text-xl font-bold text-white">Material not found</h2>
+                <h2 className="text-xl font-bold text-white">Item not found</h2>
                 <Button className="mt-4" onClick={() => router.push('/dashboard/store')}>Back to Store</Button>
             </div>
         )
@@ -107,15 +116,15 @@ export default function CheckoutPage({ params }: { params: { materialId: string 
                     <CardContent className="space-y-4">
                         <div className="flex justify-between items-start pb-4 border-b border-slate-800">
                             <div>
-                                <h3 className="font-semibold text-white">{material.title}</h3>
-                                <p className="text-sm text-slate-400 line-clamp-1">{material.description}</p>
+                                <h3 className="font-semibold text-white">{item.title}</h3>
+                                <p className="text-sm text-slate-400 line-clamp-1">{item.description}</p>
                             </div>
-                            <span className="font-bold text-white text-lg">₹{material.price}</span>
+                            <span className="font-bold text-white text-lg">₹{item.price}</span>
                         </div>
                         <div className="space-y-2 pt-2">
                             <div className="flex justify-between text-sm">
                                 <span className="text-slate-400">Subtotal</span>
-                                <span className="text-white">₹{material.price}</span>
+                                <span className="text-white">₹{item.price}</span>
                             </div>
                             <div className="flex justify-between text-sm">
                                 <span className="text-slate-400">Platform Fee</span>
@@ -123,7 +132,7 @@ export default function CheckoutPage({ params }: { params: { materialId: string 
                             </div>
                             <div className="flex justify-between text-lg font-bold pt-4 border-t border-slate-800">
                                 <span className="text-white">Total Amount</span>
-                                <span className="text-indigo-400">₹{material.price}</span>
+                                <span className="text-indigo-400">₹{item.price}</span>
                             </div>
                         </div>
                     </CardContent>
@@ -138,7 +147,7 @@ export default function CheckoutPage({ params }: { params: { materialId: string 
                             ) : (
                                 <CreditCard className="h-5 w-5" />
                             )}
-                            Confirm & Pay ₹{material.price}
+                            Confirm & Pay ₹{item.price}
                         </Button>
                         <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
                             <ShieldCheck className="h-3 w-3" />

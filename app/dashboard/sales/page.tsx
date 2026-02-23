@@ -11,7 +11,8 @@ interface Order {
     status: string
     createdAt: string
     user: { email: string, name: string | null }
-    material: { title: string }
+    material?: { title: string }
+    package?: { title: string }
 }
 
 export default function SalesPage() {
@@ -67,7 +68,7 @@ export default function SalesPage() {
                                             <Package className="h-5 w-5 text-indigo-400" />
                                         </div>
                                         <div>
-                                            <p className="text-sm font-bold text-white line-clamp-1">{order.material.title}</p>
+                                            <p className="text-sm font-bold text-white line-clamp-1">{order.material?.title || order.package?.title}</p>
                                             <p className="text-[10px] text-slate-500 uppercase font-black tracking-tighter">Asset ID: {order.id.substring(0, 8)}</p>
                                         </div>
                                     </div>

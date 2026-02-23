@@ -15,34 +15,52 @@ interface Material {
     description: string
     price: number
     isActive: boolean
+    type?: 'material' // Added type definition to differentiate
+}
+
+interface Package {
+    id: string
+    title: string
+    description: string
+    price: number
+    isActive: boolean
+    type?: 'package' // Added type to differentiate
 }
 
 export default function StorePage() {
     const router = useRouter()
     const { user } = useAuth()
-    const [materials, setMaterials] = useState<Material[]>([])
+    const [items, setItems] = useState<(Material | Package)[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
-        fetchMaterials()
+        fetchStoreItems()
     }, [])
 
-    const fetchMaterials = async () => {
+    const fetchStoreItems = async () => {
         try {
-            const response = await api.get('/materials')
-            setMaterials(response.data)
+            const [materialsRes, packagesRes] = await Promise.all([
+                api.get('/materials'),
+                api.get('/packages')
+            ])
+
+            const materialsWithType = materialsRes.data.map((m: any) => ({ ...m, type: 'material' }))
+            const packagesWithType = packagesRes.data.map((p: any) => ({ ...p, type: 'package' }))
+
+            // Interleave or combine them. Here we just concatenate.
+            setItems([...packagesWithType, ...materialsWithType])
         } catch (err: any) {
             console.error("Store fetch error:", err)
             const msg = err.response?.data?.message || err.message || 'Failed to connect to server'
-            setError(`Could not load materials: ${msg}`)
+            setError(`Could not load store items: ${msg}`)
         } finally {
             setIsLoading(false)
         }
     }
 
-    const handleBuy = (materialId: string) => {
-        router.push(`/dashboard/store/checkout/${materialId}`)
+    const handleBuy = (id: string, type: 'material' | 'package') => {
+        router.push(`/dashboard/store/checkout/${id}?type=${type}`)
     }
 
     const handleDownloadDemo = (materialId: string) => {
@@ -65,7 +83,7 @@ export default function StorePage() {
                     <ShieldAlert className="h-12 w-12 text-red-500 mx-auto mb-4" />
                     <h2 className="text-2xl font-bold text-white mb-2">Connection Issues</h2>
                     <p className="text-red-400/80 mb-6">{error}</p>
-                    <Button onClick={fetchMaterials} variant="outline" className="border-red-500/50 text-red-400 hover:bg-red-500/10">
+                    <Button onClick={fetchStoreItems} variant="outline" className="border-red-500/50 text-red-400 hover:bg-red-500/10">
                         Try reconnecting
                     </Button>
                 </div>
@@ -101,12 +119,12 @@ export default function StorePage() {
             </div>
 
             {/* Empty State */}
-            {materials.length === 0 && (
+            {items.length === 0 && (
                 <div className="rounded-3xl border border-dashed border-slate-800 bg-slate-900/20 p-20 text-center">
                     <ShoppingBag className="h-16 w-16 text-slate-700 mx-auto mb-6" />
                     <h3 className="text-xl font-bold text-white mb-2">Vault is currently sealed</h3>
                     <p className="text-slate-500 max-w-md mx-auto">
-                        Our premium materials are being updated for the latest standards.
+                        Our premium materials and packages are being updated for the latest standards.
                         Please check back soon for new additions.
                     </p>
                 </div>
@@ -114,10 +132,17 @@ export default function StorePage() {
 
             {/* Grid Layout */}
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {materials.map((material, idx) => (
-                    <Card key={material.id} className="group relative flex flex-col border-slate-800 bg-slate-900/40 transition-all duration-300 hover:-translate-y-2 hover:border-indigo-500/50 hover:shadow-[0_20px_40px_-15px_rgba(79,70,229,0.2)] backdrop-blur-md overflow-hidden">
+                {items.map((item, idx) => (
+                    <Card key={item.id} className="group relative flex flex-col border-slate-800 bg-slate-900/40 transition-all duration-300 hover:-translate-y-2 hover:border-indigo-500/50 hover:shadow-[0_20px_40px_-15px_rgba(79,70,229,0.2)] backdrop-blur-md overflow-hidden">
                         {/* Status Badge */}
-                        {idx === 0 && (
+                        {item.type === 'package' && (
+                            <div className="absolute top-4 right-4 z-20">
+                                <Badge className="bg-emerald-500/20 text-emerald-500 border-emerald-500/30 font-bold backdrop-blur-md">
+                                    PACKAGE DEAL
+                                </Badge>
+                            </div>
+                        )}
+                        {idx === 0 && item.type !== 'package' && (
                             <div className="absolute top-4 right-4 z-20">
                                 <Badge className="bg-amber-500/20 text-amber-500 border-amber-500/30 font-bold backdrop-blur-md">
                                     BEST SELLER
@@ -137,16 +162,18 @@ export default function StorePage() {
                             </div>
 
                             <div className="absolute bottom-4 left-4 flex gap-2">
-                                <Badge variant="secondary" className="bg-slate-900/80 text-xs font-medium border-slate-700 backdrop-blur-sm">PDF CONTENT</Badge>
+                                <Badge variant="secondary" className="bg-slate-900/80 text-xs font-medium border-slate-700 backdrop-blur-sm">
+                                    {item.type === 'package' ? 'BUNDLE' : 'PDF CONTENT'}
+                                </Badge>
                             </div>
                         </div>
 
                         <CardHeader className="space-y-3 pb-4">
                             <CardTitle className="text-xl font-bold text-white group-hover:text-indigo-400 transition-colors line-clamp-1">
-                                {material.title}
+                                {item.title}
                             </CardTitle>
                             <p className="text-sm text-slate-400 font-medium leading-relaxed line-clamp-2 min-h-[40px]">
-                                {material.description}
+                                {item.description}
                             </p>
                         </CardHeader>
 
@@ -154,7 +181,7 @@ export default function StorePage() {
                             <div className="flex items-center justify-between p-3 rounded-xl bg-slate-800/30 border border-slate-800 group-hover:border-indigo-500/20 transition-colors">
                                 <div className="flex flex-col">
                                     <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Price</span>
-                                    <span className="text-2xl font-extrabold text-white">₹{material.price}</span>
+                                    <span className="text-2xl font-extrabold text-white">₹{item.price}</span>
                                 </div>
                                 <div className="flex flex-col items-end">
                                     <div className="flex items-center text-amber-400 gap-1 font-bold">
@@ -168,18 +195,27 @@ export default function StorePage() {
 
                         <CardFooter className="mt-auto pt-4 flex-col gap-3">
                             <div className="flex w-full items-center justify-center gap-1.5 py-1">
-                                <Sparkles className="h-3 w-3 text-indigo-400" />
-                                <button
-                                    onClick={() => handleDownloadDemo(material.id)}
-                                    className="text-[11px] font-bold text-indigo-400 hover:text-indigo-300 uppercase tracking-widest transition-colors underline decoration-indigo-500/30 underline-offset-4"
-                                >
-                                    Click here for demo preview
-                                </button>
+                                {item.type === 'material' && (
+                                    <>
+                                        <Sparkles className="h-3 w-3 text-indigo-400" />
+                                        <button
+                                            onClick={() => handleDownloadDemo(item.id)}
+                                            className="text-[11px] font-bold text-indigo-400 hover:text-indigo-300 uppercase tracking-widest transition-colors underline decoration-indigo-500/30 underline-offset-4"
+                                        >
+                                            Click here for demo preview
+                                        </button>
+                                    </>
+                                )}
+                                {item.type === 'package' && (
+                                    <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-widest px-2 py-1 bg-emerald-500/10 rounded-full border border-emerald-500/20">
+                                        Multiple Assets Included
+                                    </span>
+                                )}
                             </div>
 
                             <div className="flex w-full gap-3">
                                 <Button
-                                    onClick={() => handleBuy(material.id)}
+                                    onClick={() => handleBuy(item.id, item.type as 'material' | 'package')}
                                     className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold h-11 relative overflow-hidden group/btn shadow-lg shadow-indigo-600/20"
                                 >
                                     <span className="relative z-10 flex items-center justify-center gap-2">
@@ -189,14 +225,16 @@ export default function StorePage() {
                                     <div className="absolute inset-x-0 bottom-0 h-1 bg-indigo-400/50 translate-y-1 transition-transform group-hover/btn:translate-y-0" />
                                 </Button>
 
-                                <Button
-                                    variant="outline"
-                                    className="border-slate-700 hover:bg-slate-800 text-slate-400 group/demo px-4"
-                                    onClick={() => handleDownloadDemo(material.id)}
-                                    title="View Demo PDF"
-                                >
-                                    <ExternalLink className="h-4 w-4 transition-transform group-hover/demo:scale-110" />
-                                </Button>
+                                {item.type === 'material' && (
+                                    <Button
+                                        variant="outline"
+                                        className="border-slate-700 hover:bg-slate-800 text-slate-400 group/demo px-4"
+                                        onClick={() => handleDownloadDemo(item.id)}
+                                        title="View Demo PDF"
+                                    >
+                                        <ExternalLink className="h-4 w-4 transition-transform group-hover/demo:scale-110" />
+                                    </Button>
+                                )}
                             </div>
                         </CardFooter>
                     </Card>

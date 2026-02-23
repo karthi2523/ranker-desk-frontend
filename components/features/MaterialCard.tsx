@@ -12,16 +12,17 @@ interface MaterialCardProps {
     purchasedDate: string
     isActive: boolean
     thumbnail?: string
+    type?: 'material' | 'package'
 }
 
-export function MaterialCard({ id, title, purchasedDate, isActive }: MaterialCardProps) {
+export function MaterialCard({ id, title, purchasedDate, isActive, type = 'material' }: MaterialCardProps) {
     return (
         <Card className="group flex flex-col overflow-hidden bg-slate-900/50 border-slate-800 transition-all duration-500 hover:border-indigo-500/50 hover:shadow-[0_0_30px_-5px_theme(colors.indigo.500/0.1)]">
-            <div className="aspect-video w-full bg-slate-900 relative flex items-center justify-center border-b border-slate-800 overflow-hidden">
+            <div className={`aspect-video w-full ${type === 'package' ? 'bg-emerald-950/20' : 'bg-slate-900'} relative flex items-center justify-center border-b border-slate-800 overflow-hidden`}>
                 {/* Background Pattern */}
-                <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#4f46e5_1px,transparent_1px)] [background-size:16px_16px]" />
+                <div className={`absolute inset-0 opacity-[0.03] bg-[radial-gradient(${type === 'package' ? '#10b981' : '#4f46e5'}_1px,transparent_1px)] [background-size:16px_16px]`} />
 
-                <FileText className="h-12 w-12 text-slate-700 transition-transform duration-500 group-hover:scale-110 group-hover:text-indigo-500/50" />
+                <FileText className={`h-12 w-12 text-slate-700 transition-transform duration-500 group-hover:scale-110 ${type === 'package' ? 'group-hover:text-emerald-500/50' : 'group-hover:text-indigo-500/50'}`} />
 
                 <div className="absolute top-3 right-3 flex flex-col gap-2 items-end">
                     <Badge className={isActive ? "bg-green-500/10 text-green-500 border-green-500/20" : "bg-slate-800 text-slate-400"}>
@@ -45,10 +46,10 @@ export function MaterialCard({ id, title, purchasedDate, isActive }: MaterialCar
 
             <CardFooter className="p-5 pt-0 mt-auto">
                 {isActive ? (
-                    <Link href={`/vault/${id}`} className="w-full">
-                        <Button className="w-full h-11 bg-indigo-600 hover:bg-indigo-500 text-white font-bold gap-2 rounded-xl shadow-lg shadow-indigo-500/20 active:scale-[0.98] transition-all">
+                    <Link href={type === 'package' ? `/vault/package/${id}` : `/vault/${id}`} className="w-full">
+                        <Button className={`w-full h-11 ${type === 'package' ? 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-500/20' : 'bg-indigo-600 hover:bg-indigo-500 shadow-indigo-500/20'} text-white font-bold gap-2 rounded-xl shadow-lg active:scale-[0.98] transition-all`}>
                             <Unlock className="h-4 w-4" />
-                            Enter Secure Vault
+                            {type === 'package' ? 'Open Package' : 'Enter Secure Vault'}
                         </Button>
                     </Link>
                 ) : (

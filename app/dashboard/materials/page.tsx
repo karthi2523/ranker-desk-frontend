@@ -14,10 +14,15 @@ interface Order {
     materialId: string
     status: string
     createdAt: string
-    material: {
+    material?: {
         title: string
         price: number
     }
+    package?: {
+        title: string
+        price: number
+    }
+    packageId?: string
 }
 
 export default function MaterialsPage() {
@@ -37,14 +42,18 @@ export default function MaterialsPage() {
             const orders: Order[] = response.data
 
             // Transform orders to materials format for card
-            const myMaterials = orders.map(order => ({
-                id: order.materialId,
-                title: order.material.title,
-                purchasedDate: new Date(order.createdAt).toLocaleDateString(),
-                isActive: order.status === 'COMPLETED',
-            }))
+            const myItems = orders.map(order => {
+                const isPackage = !!order.package
+                return {
+                    id: isPackage ? order.packageId : order.materialId,
+                    title: isPackage ? order.package!.title : order.material!.title,
+                    purchasedDate: new Date(order.createdAt).toLocaleDateString(),
+                    isActive: order.status === 'COMPLETED',
+                    type: isPackage ? 'package' : 'material',
+                }
+            })
 
-            setMaterials(myMaterials)
+            setMaterials(myItems as any)
         } catch (error) {
             console.error("Failed to fetch orders", error)
         } finally {

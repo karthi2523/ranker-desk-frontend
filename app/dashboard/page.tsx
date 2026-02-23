@@ -84,7 +84,7 @@ export default function DashboardPage() {
                                 stats.activity.map((order: any) => (
                                     <div key={order.id} className="flex items-center">
                                         <div className="ml-4 space-y-1">
-                                            <p className="text-sm font-medium leading-none text-white font-semibold">Accessed &quot;{order.material.title}&quot;</p>
+                                            <p className="text-sm font-medium leading-none text-white font-semibold">Accessed &quot;{order.material?.title || order.package?.title}&quot;</p>
                                             <p className="text-sm text-slate-400">{new Date(order.createdAt).toLocaleDateString()} • Encrypted Stream</p>
                                         </div>
                                         <div className="ml-auto font-medium text-emerald-500 text-sm">Verified</div>

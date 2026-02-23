@@ -11,7 +11,10 @@ interface Order {
     amount: number
     status: string
     createdAt: string
-    material: {
+    material?: {
+        title: string
+    }
+    package?: {
         title: string
     }
 }
@@ -60,7 +63,7 @@ export function OrderTable() {
                             orders.map((order) => (
                                 <tr key={order.id} className="border-b border-slate-800 transition-colors hover:bg-slate-900/50 data-[state=selected]:bg-slate-900">
                                     <td className="p-4 align-middle font-medium text-indigo-400">#{order.id.substring(0, 8).toUpperCase()}</td>
-                                    <td className="p-4 align-middle text-white">{order.material.title}</td>
+                                    <td className="p-4 align-middle text-white">{order.material?.title || order.package?.title}</td>
                                     <td className="p-4 align-middle text-slate-300">₹{order.amount}</td>
                                     <td className="p-4 align-middle">
                                         <Badge variant={
