@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  /* ── Core Palette ─────────────────────────────── */
+  --background: #0a0e1a;
+  --surface: #111827;
+  --surface-raised: #1a2235;
+  --border-color: #1e2d45;
+
+  /* ── Text ─────────────────────────────────────── */
+  --foreground: #f0f2f5;
+  --text-primary: #f0f2f5;
+  --text-secondary: #8a9bb0;
+  --text-muted: #4a5a70;
+
+  /* ── Accent: Warm Gold ────────────────────────── */
+  --accent: #c9a84c;
+  --accent-hover: #dbb95c;
+  --accent-muted: rgba(201, 168, 76, 0.10);
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* ─── Global Scrollbar ───────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* ─── Secure PDF Viewer ──────────────────────────── */
+.pdf-viewer-area,
+.pdf-viewer-area * {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+}
+
+.pdf-viewer-area canvas,
+.pdf-viewer-area img {
+  pointer-events: none !important;
+  -webkit-user-drag: none !important;
+}
+
+.react-pdf__Page {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.pdf-viewer-area::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.pdf-viewer-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pdf-viewer-area::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 99px;
+}
+
+.pdf-viewer-area::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
