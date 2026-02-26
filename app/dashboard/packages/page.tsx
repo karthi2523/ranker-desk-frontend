@@ -66,7 +66,7 @@ export default function AdminPackagesPage() {
  setPackages(packages.filter(p => p.id !== packageToDelete.id))
  setDeleteModalOpen(false)
  setPackageToDelete(null)
- } catch (error: any) {
+ } catch (error: unknown) {
  showToast(error.response?.data?.message ||"Purge operation failed","error")
  } finally {
  setIsActionLoading(false)
@@ -96,7 +96,7 @@ export default function AdminPackagesPage() {
  setPackages(packages.map(p => p.id === packageToEdit.id ? response.data : p))
  setEditModalOpen(false)
  setPackageToEdit(null)
- } catch (error: any) {
+ } catch (error: unknown) {
  showToast(error.response?.data?.message ||"Failed to update package","error")
  } finally {
  setIsActionLoading(false)

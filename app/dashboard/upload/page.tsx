@@ -57,7 +57,7 @@ export default function UploadPage() {
  setTimeout(() => {
  router.push("/dashboard/admin-materials")
  }, 2000)
- } catch (err: any) {
+ } catch (error: unknown) {
  setError(err.response?.data?.message ||"Failed to initiate asset deployment.")
  } finally {
  setIsLoading(false)

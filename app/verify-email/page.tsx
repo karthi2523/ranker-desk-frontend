@@ -41,7 +41,7 @@ function VerifyEmailForm() {
  await api.post("/auth/verify-otp", { email, code: otp })
  showToast("Email verified successfully! You can now log in.","success")
  router.replace("/login")
- } catch (err: any) {
+ } catch (error: unknown) {
  setError(err.response?.data?.message ||"Invalid or expired OTP. Please try again.")
  } finally {
  setIsLoading(false)
@@ -54,7 +54,7 @@ function VerifyEmailForm() {
  try {
  await api.post("/auth/resend-otp", { email })
  showToast("A new OTP has been sent to your email.","info")
- } catch (err: any) {
+ } catch (error: unknown) {
  setError("Failed to resend OTP. Please try again later.")
  } finally {
  setIsResending(false)

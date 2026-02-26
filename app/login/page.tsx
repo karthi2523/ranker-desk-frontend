@@ -48,7 +48,7 @@ export default function LoginPage() {
 
             const { accessToken, user: userData } = response.data
             login(accessToken, userData)
-        } catch (err: any) {
+        } catch (error: unknown) {
             const errorMessage = err.response?.data?.message || err.response?.data?.error || "Invalid credentials. Please try again."
             setError(errorMessage)
 
@@ -75,7 +75,7 @@ export default function LoginPage() {
             })
             const { accessToken, user: userData } = response.data
             login(accessToken, userData)
-        } catch (err: any) {
+        } catch (error: unknown) {
             setError(err.response?.data?.message || "Invalid or expired code")
         } finally {
             setIsLoading(false)

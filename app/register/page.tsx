@@ -50,7 +50,7 @@ export default function RegisterPage() {
  await api.post('/auth/register', { name, email, password, phone })
  showToast("Successfully signed up! Please verify your email.","success")
  router.replace(`/verify-email?email=${email}`)
- } catch (err: any) {
+ } catch (error: unknown) {
  setError(err.response?.data?.error ||"Registration failed. Please try again.")
  } finally {
  setIsLoading(false)

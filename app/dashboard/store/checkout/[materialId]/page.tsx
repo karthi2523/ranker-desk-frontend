@@ -60,7 +60,7 @@ export default function CheckoutPage({ params }: { params: { materialId: string 
  setTimeout(() => {
  router.push('/dashboard/vault')
  }, 2000)
- } catch (error: any) {
+ } catch (error: unknown) {
  alert(error.response?.data?.message ||"Payment failed. Please try again.")
  setIsProcessing(false)
  }

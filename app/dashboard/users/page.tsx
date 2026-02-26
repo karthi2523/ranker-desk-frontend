@@ -62,7 +62,7 @@ export default function UsersPage() {
             setUsers(users.filter(u => u.id !== userToDelete.id))
             setDeleteModalOpen(false)
             setUserToDelete(null)
-        } catch (error: any) {
+        } catch (error: unknown) {
             const message = error.response?.data?.message || "Purge operation failed"
             showToast(message, "error")
         } finally {
@@ -79,7 +79,7 @@ export default function UsersPage() {
             setUsers(users.map(u => u.id === userForRole.id ? { ...u, role: newRole } : u))
             setRoleModalOpen(false)
             setUserForRole(null)
-        } catch (error: any) {
+        } catch (error: unknown) {
             showToast(error.response?.data?.message || "Role update failed", "error")
         } finally {
             setIsActionLoading(false)

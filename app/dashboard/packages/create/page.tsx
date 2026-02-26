@@ -80,7 +80,7 @@ export default function CreatePackagePage() {
  setTimeout(() => {
  router.push("/dashboard/packages")
  }, 2000)
- } catch (err: any) {
+ } catch (error: unknown) {
  setError(err.response?.data?.message ||"Failed to create package.")
  } finally {
  setIsLoading(false)

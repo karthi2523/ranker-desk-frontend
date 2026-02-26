@@ -53,7 +53,7 @@ function StoreContent() {
             const materialsWithType = materialsRes.data.map((m: any) => ({ ...m, type: 'material' }))
             const packagesWithType = packagesRes.data.map((p: any) => ({ ...p, type: 'package' }))
             setItems([...packagesWithType, ...materialsWithType])
-        } catch (err: any) {
+        } catch (error: unknown) {
             console.error("Store fetch error:", err)
             const msg = err.response?.data?.message || err.message || 'Failed to connect to server'
             setError(`Could not load store items: ${msg}`)
