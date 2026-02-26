@@ -68,7 +68,7 @@ export default function AdminMaterialsPage() {
             setMaterials(materials.filter(m => m.id !== materialToDelete.id))
             setDeleteModalOpen(false)
             setMaterialToDelete(null)
-        } catch (error: unknown) {
+        } catch (error: any) {
             showToast(error.response?.data?.message || "Purge operation failed", "error")
         } finally {
             setIsActionLoading(false)
@@ -98,7 +98,7 @@ export default function AdminMaterialsPage() {
             setMaterials(materials.map(m => m.id === materialToEdit.id ? response.data : m))
             setEditModalOpen(false)
             setMaterialToEdit(null)
-        } catch (error: unknown) {
+        } catch (error: any) {
             showToast(error.response?.data?.message || "Failed to update asset", "error")
         } finally {
             setIsActionLoading(false)

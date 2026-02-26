@@ -29,7 +29,7 @@ export default function SettingsPage() {
  if (setUser) {
  setUser(prev => prev ? { ...prev, name: response.data.user.name } : null)
  }
- } catch (error: unknown) {
+ } catch (error: any) {
  showToast(error.response?.data?.message ||"Update failed","error")
  } finally {
  setIsLoading(false)
@@ -62,7 +62,7 @@ export default function SettingsPage() {
  showToast("Verification code sent to your email","success")
  refreshNotifications() // Instant sync
  setStep("otp")
- } catch (error: unknown) {
+ } catch (error: any) {
  showToast(error.response?.data?.message ||"Verification failed","error")
  } finally {
  setIsLoading(false)
@@ -81,7 +81,7 @@ export default function SettingsPage() {
  setStep("form")
  setPasswords({ current:"", new:"", confirm:""})
  setOtp("")
- } catch (error: unknown) {
+ } catch (error: any) {
  showToast(error.response?.data?.message ||"Update failed","error")
  } finally {
  setIsLoading(false)
