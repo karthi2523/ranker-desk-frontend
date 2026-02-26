@@ -48,11 +48,11 @@ export default function LoginPage() {
 
             const { accessToken, user: userData } = response.data
             login(accessToken, userData)
-        } catch (error: unknown) {
-            const errorMessage = err.response?.data?.message || err.response?.data?.error || "Invalid credentials. Please try again."
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || error.response?.data?.error || "Invalid credentials. Please try again."
             setError(errorMessage)
 
-            if (err.response?.status === 403 && err.response?.data?.unverified) {
+            if (error.response?.status === 403 && error.response?.data?.unverified) {
                 setEmail(email)
                 setStep("2FA")
             }
@@ -75,8 +75,8 @@ export default function LoginPage() {
             })
             const { accessToken, user: userData } = response.data
             login(accessToken, userData)
-        } catch (error: unknown) {
-            setError(err.response?.data?.message || "Invalid or expired code")
+        } catch (error: any) {
+            setError(error.response?.data?.message || "Invalid or expired code")
         } finally {
             setIsLoading(false)
         }
