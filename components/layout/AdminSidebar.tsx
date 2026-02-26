@@ -20,25 +20,25 @@ export function AdminSidebar() {
     const { logout, user } = useAuth()
 
     return (
-        <aside className="hidden w-72 h-screen sticky top-0 flex-col border-r border-[#1e2d45] bg-[#0a0e1a] md:flex select-none">
+        <aside className="hidden w-72 h-screen sticky top-0 flex-col border-r border-border bg-background md:flex select-none">
             {/* Admin Brand Area */}
-            <div className="flex h-24 items-center px-8 border-b border-[#1e2d45]/50">
+            <div className="flex h-24 items-center px-8 border-b border-border">
                 <Link href="/dashboard" className="group flex items-center gap-4">
-                    <div className="relative h-11 w-11 rounded-xl overflow-hidden border border-[#1e2d45] bg-slate-900 flex items-center justify-center transition-all duration-500 group-hover:border-[#c9a84c]/50 group-hover:scale-105">
+                    <div className="relative h-11 w-11 rounded-xl border border-border bg-background flex items-center justify-center transition-all duration-500 group-hover:border-border">
                         <img
                             src="/logo.png"
                             alt="Logo"
-                            className="h-9 w-9 object-contain"
+                            className="h-7 w-7 object-contain grayscale opacity-80 group-hover:opacity-100 transition-opacity"
                         />
                     </div>
                     <div className="flex flex-col">
                         <div className="flex items-center gap-2">
-                            <span className="text-sm font-black text-[#f0f2f5] tracking-tight uppercase group-hover:text-[#c9a84c] transition-colors">
-                                All Government
+                            <span className="text-sm font-black text-text-primary tracking-tight uppercase transition-colors">
+                                ALL GOVERNMENT
                             </span>
-                            <span className="text-[9px] bg-[#e05252] text-white font-black px-1.5 py-0.5 rounded-sm uppercase tracking-tighter shadow-sm">ADMIN</span>
+                            <span className="text-[8px] bg-accent text-background font-black px-1.5 py-0.5 rounded-sm uppercase tracking-tighter">ADMIN</span>
                         </div>
-                        <span className="text-[9px] font-black text-[#e05252] tracking-[0.25em] uppercase mt-1">
+                        <span className="text-[9px] font-black text-accent tracking-[0.25em] uppercase mt-1">
                             SECURITY CONTROL
                         </span>
                     </div>
@@ -48,34 +48,35 @@ export function AdminSidebar() {
             {/* Navigation Registry */}
             <div className="flex-1 px-4 py-8 overflow-y-auto custom-scrollbar">
                 <div className="px-4 mb-4">
-                    <p className="text-[10px] font-black text-[#4a5a70] uppercase tracking-[0.3em]">Command Hierarchy</p>
+                    <p className="text-[10px] font-black text-text-muted uppercase tracking-[0.3em]">Command Hierarchy</p>
                 </div>
                 <nav className="space-y-1.5">
                     {adminSidebarItems.map((item) => {
                         const isActive = pathname === item.href
+                        const Icon = item.icon
                         return (
                             <Link
                                 key={item.href}
                                 href={item.href}
                                 className={cn(
-                                    "group relative flex items-center justify-between rounded-xl px-4 py-3 text-xs font-black uppercase tracking-[0.15em] transition-all duration-300",
+                                    "group relative flex items-center justify-between rounded-xl px-4 py-3 text-xs font-black uppercase tracking-[0.15em] transition-colors duration-200",
                                     isActive
-                                        ? "bg-[#c9a84c]/10 text-[#c9a84c] border border-[#c9a84c]/20 shadow-lg shadow-gold-950/10"
-                                        : "text-[#8a9bb0] hover:bg-[#1e2d45]/30 hover:text-[#f0f2f5]"
+                                        ? "bg-surface-raised text-text-primary"
+                                        : "text-text-muted hover:bg-surface-raised hover:text-text-primary"
                                 )}
                             >
                                 <div className="flex items-center gap-3.5">
-                                    <item.icon className={cn(
-                                        "h-4 w-4 transition-transform duration-300 group-hover:scale-110",
-                                        isActive ? "text-[#c9a84c]" : "text-[#4a5a70] group-hover:text-[#c9a84c]/70"
+                                    <Icon className={cn(
+                                        "h-4 w-4 transition-colors duration-200",
+                                        isActive ? "text-accent" : "text-text-muted group-hover:text-text-primary"
                                     )} />
                                     <span>{item.label}</span>
                                 </div>
                                 {isActive && (
-                                    <div className="h-1.5 w-1.5 rounded-full bg-[#c9a84c] shadow-[0_0_8px_#c9a84c]" />
+                                    <div className="h-1.5 w-1.5 rounded-full bg-accent shadow-none" />
                                 )}
                                 {!isActive && (
-                                    <ChevronRight className="h-3 w-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-[#4a5a70]" />
+                                    <ChevronRight className="h-3 w-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-text-muted" />
                                 )}
                             </Link>
                         )
@@ -84,24 +85,24 @@ export function AdminSidebar() {
             </div>
 
             {/* Administrative Entity Info */}
-            <div className="p-4 border-t border-[#1e2d45]/50 bg-slate-900/10">
-                <div className="flex items-center gap-3 px-4 py-3 mb-4 rounded-xl bg-[#0a0e1a] border border-[#1e2d45]">
-                    <div className="h-8 w-8 rounded-lg bg-[#e05252]/10 border border-[#e05252]/20 flex items-center justify-center">
-                        <ShieldAlert className="h-4 w-4 text-[#e05252]" />
+            <div className="p-4 border-t border-border bg-background">
+                <div className="flex items-center gap-3 px-4 py-3 mb-4 rounded-xl bg-surface border border-border">
+                    <div className="h-8 w-8 rounded-lg bg-transparent border border-accent/30 flex items-center justify-center">
+                        <ShieldAlert className="h-4 w-4 text-accent" />
                     </div>
                     <div className="flex-1 min-w-0">
-                        <p className="text-[10px] font-black text-white truncate uppercase">{user?.name || 'ADMIN'}</p>
-                        <p className="text-[10px] font-bold text-[#4a5a70] truncate tracking-tighter uppercase">Authorized User</p>
+                        <p className="text-[10px] font-black text-text-primary truncate uppercase">{user?.name || 'ADMIN USER'}</p>
+                        <p className="text-[10px] font-bold text-text-muted truncate tracking-tighter uppercase">Authorized User</p>
                     </div>
                 </div>
                 <button
                     onClick={logout}
-                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-[#4a5a70] transition-all duration-300 hover:bg-[#e05252]/10 hover:text-[#e05252] group"
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted transition-colors hover:bg-surface hover:text-text-primary group"
                 >
                     <LogOut className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
                     Terminate Session
                 </button>
             </div>
-        </aside>
+        </aside >
     )
 }

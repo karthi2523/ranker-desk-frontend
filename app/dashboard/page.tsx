@@ -46,53 +46,53 @@ export default function DashboardPage() {
     return (
         <div className="space-y-8 max-w-5xl animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Header */}
-            <div className="pb-5 border-b border-[#1e2d45]">
-                <h2 className="text-xl font-bold tracking-tight text-[#f0f2f5]">Overview</h2>
-                <p className="text-[#8a9bb0] text-sm mt-1 font-medium">
-                    Welcome back, <span className="text-[#c9a84c] font-bold">{user?.name || 'Member'}</span>. Your encrypted vault is ready for access.
+            <div className="pb-5 border-b border-border">
+                <h2 className="text-2xl font-black tracking-tight text-text-primary">Overview</h2>
+                <p className="text-text-muted text-sm mt-1 font-medium tracking-tight">
+                    Welcome back, <span className="text-accent font-black">{user?.name || 'Member'}</span>. Your encrypted vault is ready for access.
                 </p>
             </div>
 
             {/* Stats */}
             <div className="grid gap-4 sm:grid-cols-3">
-                <Card className="bg-[#0a0e1a] border-[#1e2d45] hover:border-[#c9a84c]/30 transition-all duration-300">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-                        <CardTitle className="text-[10px] font-black text-[#8a9bb0] uppercase tracking-widest">Purchased Materials</CardTitle>
-                        <div className="h-8 w-8 rounded-lg bg-[#c9a84c]/10 border border-[#c9a84c]/20 flex items-center justify-center">
-                            <BookOpen className="h-4 w-4 text-[#c9a84c]" />
+                <Card className="bg-surface border-border hover:border-border transition-all duration-300 rounded-xl">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+                        <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-widest">Purchased Materials</CardTitle>
+                        <div className="h-8 w-8 rounded-lg bg-transparent border border-accent/30 flex items-center justify-center">
+                            <BookOpen className="h-4 w-4 text-accent" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-black text-[#f0f2f5]">
-                            {isLoading ? <span className="text-[#1e2d45]">—</span> : stats.materialsCount}
+                        <div className="text-4xl font-black text-text-primary tracking-tighter">
+                            {isLoading ? <span className="text-text-muted">—</span> : stats.materialsCount}
                         </div>
-                        <p className="text-[10px] text-[#4a5a70] mt-1 font-bold uppercase tracking-tighter">Secure access granted</p>
+                        <p className="text-[10px] text-text-muted mt-2 font-black uppercase tracking-widest">Secure access granted</p>
                     </CardContent>
                 </Card>
 
-                <Card className="bg-[#0a0e1a] border-[#1e2d45] hover:border-[#c9a84c]/30 transition-all duration-300">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-                        <CardTitle className="text-[10px] font-black text-[#8a9bb0] uppercase tracking-widest">Security Status</CardTitle>
-                        <div className="h-8 w-8 rounded-lg bg-[#c9a84c]/10 border border-[#c9a84c]/20 flex items-center justify-center">
-                            <ShieldCheck className="h-4 w-4 text-[#c9a84c]" />
+                <Card className="bg-surface border-border hover:border-border transition-all duration-300 rounded-xl">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+                        <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-widest">Security Status</CardTitle>
+                        <div className="h-8 w-8 rounded-lg bg-transparent border border-accent/30 flex items-center justify-center">
+                            <ShieldCheck className="h-4 w-4 text-accent" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-black text-[#c9a84c]">SECURE</div>
-                        <p className="text-[10px] text-[#4a5a70] mt-1 font-bold uppercase tracking-tighter">Device fingerprint verified</p>
+                        <div className="text-4xl font-black text-text-primary tracking-tighter">SECURE</div>
+                        <p className="text-[10px] text-text-muted mt-2 font-black uppercase tracking-widest">Device fingerprint verified</p>
                     </CardContent>
                 </Card>
 
-                <Card className="bg-[#0a0e1a] border-[#1e2d45] hover:border-[#c9a84c]/30 transition-all duration-300">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-                        <CardTitle className="text-[10px] font-black text-[#8a9bb0] uppercase tracking-widest">Vault Access</CardTitle>
-                        <div className="h-8 w-8 rounded-lg bg-[#c9a84c]/10 border border-[#c9a84c]/20 flex items-center justify-center">
-                            <Clock className="h-4 w-4 text-[#c9a84c]" />
+                <Card className="bg-surface border-border hover:border-border transition-all duration-300 rounded-xl">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+                        <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-widest">Vault Access</CardTitle>
+                        <div className="h-8 w-8 rounded-lg bg-transparent border border-accent/30 flex items-center justify-center">
+                            <Clock className="h-4 w-4 text-accent" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-black text-[#f0f2f5]">ACTIVE</div>
-                        <p className="text-[10px] text-[#4a5a70] mt-1 font-bold uppercase tracking-tighter">Session is currently live</p>
+                        <div className="text-4xl font-black text-text-primary tracking-tighter">ACTIVE</div>
+                        <p className="text-[10px] text-text-muted mt-2 font-black uppercase tracking-widest">Session is currently live</p>
                     </CardContent>
                 </Card>
             </div>
@@ -100,54 +100,54 @@ export default function DashboardPage() {
             {/* Activity + Security */}
             <div className="grid gap-4 lg:grid-cols-5">
                 {/* Recent Activity */}
-                <Card className="lg:col-span-3 bg-[#0a0e1a] border-[#1e2d45]">
-                    <CardHeader className="pb-4 border-b border-[#1e2d45]">
+                <Card className="lg:col-span-3 bg-surface border-border rounded-xl">
+                    <CardHeader className="pb-4 border-b border-border">
                         <div className="flex items-center justify-between">
-                            <CardTitle className="text-xs font-black text-[#f0f2f5] uppercase tracking-widest">Recent Acquisitions</CardTitle>
+                            <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-widest">Recent Acquisitions</CardTitle>
                             <Link
                                 href="/dashboard/vault"
-                                className="text-[10px] font-black text-[#c9a84c] hover:text-[#dbb95c] flex items-center gap-1 transition-colors uppercase tracking-widest"
+                                className="text-[10px] font-black text-accent hover:text-accent-hover flex items-center gap-1 transition-colors uppercase tracking-widest"
                             >
                                 Open vault <ArrowRight className="h-3 w-3" />
                             </Link>
                         </div>
                     </CardHeader>
-                    <CardContent className="pt-4">
+                    <CardContent className="pt-4 p-0">
                         {isLoading ? (
-                            <div className="space-y-3">
+                            <div className="space-y-3 p-6">
                                 {[1, 2, 3].map(i => (
-                                    <div key={i} className="h-12 rounded-lg bg-slate-900/50 animate-pulse" />
+                                    <div key={i} className="h-12 bg-surface animate-pulse" />
                                 ))}
                             </div>
                         ) : stats.activity.length > 0 ? (
-                            <div className="space-y-1">
+                            <div className="divide-y divide-border">
                                 {stats.activity.map((order: any) => (
                                     <div
                                         key={order.id}
-                                        className="flex items-center gap-4 py-2.5 px-3 rounded-lg hover:bg-slate-900/40 transition-colors group"
+                                        className="flex items-center gap-4 py-4 px-6 hover:bg-surface transition-colors group"
                                     >
-                                        <div className="h-8 w-8 rounded-lg bg-[#c9a84c]/10 border border-[#c9a84c]/20 flex items-center justify-center shrink-0">
-                                            <FileText className="h-4 w-4 text-[#c9a84c]" />
+                                        <div className="h-10 w-10 rounded-lg bg-transparent border border-accent/20 flex items-center justify-center shrink-0">
+                                            <FileText className="h-5 w-5 text-accent" />
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <p className="text-xs font-black text-[#f0f2f5] truncate uppercase tracking-tight">
+                                            <p className="text-sm font-black text-text-primary truncate tracking-tight">
                                                 {order.material?.title || order.package?.title || 'Material'}
                                             </p>
-                                            <p className="text-[10px] text-[#4a5a70] mt-0.5 font-bold uppercase tracking-tighter">
+                                            <p className="text-[10px] text-text-muted mt-1 font-black uppercase tracking-widest">
                                                 {new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                                             </p>
                                         </div>
-                                        <span className="text-[9px] font-black text-[#c9a84c] bg-[#c9a84c]/10 border border-[#c9a84c]/20 px-2 py-0.5 rounded-full shrink-0 uppercase tracking-widest">
+                                        <span className="text-[9px] font-black text-accent bg-accent/10 rounded-full px-3 py-1 shrink-0 uppercase tracking-widest">
                                             Active
                                         </span>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            <div className="text-center py-12">
-                                <BookOpen className="h-8 w-8 text-[#1e2d45] mx-auto mb-4" />
-                                <p className="text-[#4a5a70] text-[10px] font-black uppercase tracking-widest">No assets detected in vault.</p>
-                                <Link href="/dashboard/store" className="text-[#c9a84c] text-[10px] font-black hover:text-[#dbb95c] mt-2 inline-block uppercase tracking-widest border-b border-[#c9a84c]/20 pb-0.5">
+                            <div className="text-center py-16 px-6">
+                                <BookOpen className="h-12 w-12 text-text-muted mx-auto mb-6" />
+                                <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">No assets detected in vault.</p>
+                                <Link href="/dashboard/store" className="text-text-primary text-[10px] font-black hover:text-text-secondary mt-4 inline-block uppercase tracking-widest border-b border-white pb-1 transition-colors">
                                     Browse the store →
                                 </Link>
                             </div>
@@ -156,28 +156,28 @@ export default function DashboardPage() {
                 </Card>
 
                 {/* Security Info */}
-                <Card className="lg:col-span-2 bg-[#0a0e1a] border-[#1e2d45]">
-                    <CardHeader className="pb-4 border-b border-[#1e2d45]">
-                        <CardTitle className="text-xs font-black text-[#f0f2f5] uppercase tracking-widest">Account Protection</CardTitle>
+                <Card className="lg:col-span-2 bg-surface border-border rounded-xl">
+                    <CardHeader className="pb-4 border-b border-border">
+                        <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-widest">Account Protection</CardTitle>
                     </CardHeader>
-                    <CardContent className="pt-4 space-y-3">
-                        <div className="flex items-center justify-between p-3.5 rounded-xl border border-[#1e2d45] bg-slate-900/10">
+                    <CardContent className="pt-6 space-y-4 px-6">
+                        <div className="flex items-center justify-between p-4 border border-border bg-surface">
                             <div>
-                                <div className="text-[10px] font-black text-[#f0f2f5] uppercase tracking-widest">License Status</div>
-                                <div className="text-[10px] text-[#c9a84c] font-black mt-1 uppercase tracking-widest flex items-center gap-1.5">
-                                    <div className="h-1.5 w-1.5 rounded-full bg-[#c9a84c] animate-pulse" />
+                                <div className="text-[10px] font-black text-text-muted uppercase tracking-widest">License Status</div>
+                                <div className="text-xs text-accent font-black mt-1.5 uppercase tracking-widest flex items-center gap-2">
+                                    <div className="h-2 w-2 bg-white" />
                                     VALID & ACTIVE
                                 </div>
                             </div>
                         </div>
-                        <div className="flex items-center justify-between p-3.5 rounded-xl border border-[#1e2d45] bg-slate-900/10">
+                        <div className="flex items-center justify-between p-4 border border-border bg-surface">
                             <div>
-                                <div className="text-[10px] font-black text-[#f0f2f5] uppercase tracking-widest">Watermarking</div>
-                                <div className="text-[10px] text-[#4a5a70] font-black mt-1 uppercase tracking-widest">Enabled on all streams</div>
+                                <div className="text-[10px] font-black text-text-muted uppercase tracking-widest">Watermarking</div>
+                                <div className="text-xs text-accent font-black mt-1.5 uppercase tracking-widest">Enabled on all streams</div>
                             </div>
-                            <ShieldCheck className="h-4 w-4 text-[#c9a84c]/60" />
+                            <ShieldCheck className="h-4 w-4 text-accent" />
                         </div>
-                        <p className="text-[10px] text-[#4a5a70] font-medium leading-relaxed pt-2 text-center uppercase tracking-tighter">
+                        <p className="text-[10px] text-text-muted font-bold leading-relaxed pt-4 text-center uppercase tracking-widest">
                             Your account is protected by hardware-bound verification and dynamic document serialization.
                         </p>
                     </CardContent>

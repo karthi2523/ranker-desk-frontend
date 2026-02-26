@@ -9,21 +9,22 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        surface: "var(--surface)",
-        "surface-raised": "var(--surface-raised)",
-        border: "var(--border-color)",
+        background: "#0a0e1a",
+        foreground: "#f0f2f5",
+        surface: "#111827",
+        "surface-raised": "#1a2235",
+        border: "#1e2d45",
         accent: {
-          DEFAULT: "var(--accent)",
-          hover: "var(--accent-hover)",
-          muted: "var(--accent-muted)",
+          DEFAULT: "#c9a84c",
+          hover: "#dbb95c",
+          muted: "#c9a84c1a",
         },
         text: {
-          primary: "var(--text-primary)",
-          secondary: "var(--text-secondary)",
-          muted: "var(--text-muted)",
+          primary: "#f0f2f5",
+          secondary: "#8a9bb0",
+          muted: "#4a5a70",
         },
+        error: "#e05252",
       },
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],

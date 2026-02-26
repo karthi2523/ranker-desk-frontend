@@ -1,5 +1,5 @@
-import { PackageViewer } from "@/components/features/PackageViewer"
+import { PackageViewer } from"@/components/features/PackageViewer"
 
 export default function PackageVaultPage({ params }: { params: { packageId: string } }) {
-    return <PackageViewer packageId={params.packageId} />
+ return <PackageViewer packageId={params.packageId} />
 }

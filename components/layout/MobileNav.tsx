@@ -1,12 +1,12 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import {
     X, LogOut, LayoutDashboard, FileText, Upload,
-    Users, DollarSign, ShoppingCart, MonitorSmartphone, Settings, Lock
+    Users, DollarSign, ShoppingCart, MonitorSmartphone, Settings, Lock, ShieldAlert
 } from "lucide-react"
 import { useAuth } from "@/context/AuthContext"
 
@@ -40,11 +40,19 @@ export function MobileNav({ isOpen, onClose, isAdmin }: MobileNavProps) {
     const { logout } = useAuth()
     const items = isAdmin ? adminItems : userItems
 
-    useEffect(() => { onClose() }, [pathname])
-
+    // Close when route changes
     useEffect(() => {
-        document.body.style.overflow = isOpen ? "hidden" : "unset"
-        return () => { document.body.style.overflow = "unset" }
+        onClose()
+    }, [pathname])
+
+    // Prevent body scroll when menu is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = 'unset'
+        }
+        return () => { document.body.style.overflow = 'unset' }
     }, [isOpen])
 
     return (
@@ -52,7 +60,7 @@ export function MobileNav({ isOpen, onClose, isAdmin }: MobileNavProps) {
             {/* Backdrop */}
             <div
                 className={cn(
-                    "fixed inset-0 z-50 bg-[#0a0e1a]/80 transition-opacity duration-300 md:hidden",
+                    "fixed inset-0 z-50 bg-background/80 transition-opacity duration-300 md:hidden",
                     isOpen ? "opacity-100" : "pointer-events-none opacity-0"
                 )}
                 onClick={onClose}
@@ -61,26 +69,34 @@ export function MobileNav({ isOpen, onClose, isAdmin }: MobileNavProps) {
             {/* Drawer */}
             <div
                 className={cn(
-                    "fixed inset-y-0 left-0 z-50 w-64 bg-[#111827] border-r border-[#1e2d45] p-5 transition-transform duration-300 ease-in-out md:hidden",
+                    "fixed inset-y-0 left-0 z-50 w-72 bg-surface border-r border-border p-6 shadow-none transition-transform duration-300 ease-in-out md:hidden",
                     isOpen ? "translate-x-0" : "-translate-x-full"
                 )}
             >
-                <div className="flex items-center justify-between mb-7">
-                    <Link href="/dashboard" className="flex items-center gap-3" onClick={onClose}>
-                        <div className="h-8 w-8 rounded-lg overflow-hidden border border-[#1e2d45]">
-                            <img src="/logo.png" alt="Logo" className="h-full w-full object-cover" />
+                <div className="flex items-center justify-between mb-8">
+                    <Link href="/dashboard" className="group flex items-center gap-3" onClick={onClose}>
+                        <div className="relative h-9 w-9 rounded-lg overflow-hidden border border-white/5 transition-transform duration-300 group-hover:scale-105">
+                            <img
+                                src="/logo.png"
+                                alt="Logo"
+                                className="h-full w-full object-cover"
+                            />
                         </div>
                         <div className="flex flex-col leading-none">
-                            <span className="text-sm font-bold text-[#f0f2f5]">All Government</span>
-                            <span className="text-[8px] font-bold text-[#c9a84c] tracking-[0.2em] uppercase mt-0.5">Alerts</span>
+                            <span className="text-sm font-black text-text-primary tracking-tight">
+                                All Government
+                            </span>
+                            <span className="text-[8px] font-bold text-accent tracking-[0.2em] uppercase mt-0.5">
+                                Alerts Platform
+                            </span>
                         </div>
                     </Link>
-                    <button onClick={onClose} className="text-[#4a5a70] hover:text-[#f0f2f5] transition-colors">
-                        <X className="h-5 w-5" />
+                    <button onClick={onClose} className="text-text-secondary hover:text-text-primary transition-colors">
+                        <X className="h-6 w-6" />
                     </button>
                 </div>
 
-                <nav className="space-y-0.5">
+                <nav className="space-y-2">
                     {items.map((item) => {
                         const isActive = pathname === item.href
                         return (
@@ -88,26 +104,26 @@ export function MobileNav({ isOpen, onClose, isAdmin }: MobileNavProps) {
                                 key={item.href}
                                 href={item.href}
                                 className={cn(
-                                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all border-l-2",
+                                    "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all",
                                     isActive
-                                        ? "bg-[#1a2235] text-[#f0f2f5] border-[#c9a84c]"
-                                        : "text-[#8a9bb0] hover:bg-[#1a2235] hover:text-[#f0f2f5] border-transparent"
+                                        ? "bg-accent/10 text-accent shadow-none"
+                                        : "text-text-secondary hover:bg-surface-raised hover:text-text-primary"
                                 )}
                             >
-                                <item.icon className={cn("h-4 w-4 shrink-0", isActive ? "text-[#c9a84c]" : "text-[#4a5a70]")} />
+                                <item.icon className="h-5 w-5" />
                                 {item.label}
                             </Link>
                         )
                     })}
                 </nav>
 
-                <div className="absolute bottom-8 left-5 right-5 border-t border-[#1e2d45] pt-4">
+                <div className="absolute bottom-10 left-6 right-6 pt-6 border-t border-border">
                     <button
                         onClick={logout}
-                        className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-[#8a9bb0] hover:bg-[#e05252]/10 hover:text-[#e05252] transition-all border-l-2 border-transparent"
+                        className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-bold text-text-secondary transition-colors hover:bg-error/10 hover:text-error"
                     >
-                        <LogOut className="h-4 w-4 shrink-0" />
-                        Logout
+                        <LogOut className="h-5 w-5" />
+                        Terminate Session
                     </button>
                 </div>
             </div>

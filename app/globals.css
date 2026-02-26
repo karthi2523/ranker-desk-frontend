@@ -7,7 +7,7 @@ html {
 }
 
 :root {
-  /* ── Core Palette ─────────────────────────────── */
+  /* ── Core Palette (Navy / Slate) ─────────────────────────────── */
   --background: #0a0e1a;
   --surface: #111827;
   --surface-raised: #1a2235;
@@ -19,10 +19,11 @@ html {
   --text-secondary: #8a9bb0;
   --text-muted: #4a5a70;
 
-  /* ── Accent: Warm Gold ────────────────────────── */
+  /* ── Accent: Gold / Amber ────────────────────────── */
   --accent: #c9a84c;
   --accent-hover: #dbb95c;
-  --accent-muted: rgba(201, 168, 76, 0.10);
+  --accent-muted: #c9a84c1a;
+  --error: #e05252;
 }
 
 body {
@@ -36,6 +37,24 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 99px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
   }
 }
 
