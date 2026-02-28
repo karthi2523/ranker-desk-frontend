@@ -1,5 +1,0 @@
-﻿cbc0553 HEAD@{0}: merge origin/updates: Fast-forward
-6979942 HEAD@{1}: commit: feat/fix: Implement Admin Package Viewer and resolve multiple package title null references
-1c1a7bb HEAD@{2}: commit: Fix Vault scrolling and optimize for mobile devices
-9248ae9 HEAD@{3}: commit: Ultra-premium Vault overhaul: Secure indicators, executive layout, and advanced protective viewer
-017a1e5 HEAD@{4}: commit: Enhance Vault Security: High-fidelity watermarking, screenshot deterrents, and premium viewer UI

@@ -1,9 +1,0 @@
-﻿*   cbc0553 Fixed merge conflict issues
-|\  
-| * 6979942 feat/fix: Implement Admin Package Viewer and resolve multiple package title null references
-| * 1c1a7bb Fix Vault scrolling and optimize for mobile devices
-| * 9248ae9 Ultra-premium Vault overhaul: Secure indicators, executive layout, and advanced protective viewer
-| * 017a1e5 Enhance Vault Security: High-fidelity watermarking, screenshot deterrents, and premium viewer UI
-| * 0af01f8 Ultra-premium UI overhaul, Admin 2FA, and official branding
-| * 1b52991 Initial commit from Create Next App
-* eb7d3da Sync frontend code with latest updates and security fixes
