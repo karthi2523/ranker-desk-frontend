@@ -6,8 +6,16 @@ const BACKEND_URL = RAW_BACKEND_URL.replace(/\/+$/, ''); // strip trailing slash
 async function handler(request: NextRequest) {
     const url = new URL(request.url);
     const path = url.pathname.replace(/^\/api\/+/, ''); // strip leading /api/ with any number of slashes
-    const targetUrl = `${BACKEND_URL}/${path}${url.search}`;
-    console.log(`[Proxy] ${request.method} ${url.pathname} -> ${targetUrl}`);
+    let targetUrl = `${BACKEND_URL}/${path}${url.search}`;
+    // Aggressively collapse any double slashes into a single slash (ignoring the https:// part)
+    targetUrl = targetUrl.replace(/([^:]\/)\/+/g, "$1");
+    console.log(`\n\n[PROXY DEBUG]`);
+    console.log(`1. Request URL: ${request.url}`);
+    console.log(`2. raw pathname: ${url.pathname}`);
+    console.log(`3. RAW_BACKEND_URL: ${RAW_BACKEND_URL}`);
+    console.log(`4. BACKEND_URL (stripped): ${BACKEND_URL}`);
+    console.log(`5. extracted path: ${path}`);
+    console.log(`6. FINAL targetUrl: ${targetUrl}\n\n`);
 
     // Build clean headers
     const headers: Record<string, string> = {
