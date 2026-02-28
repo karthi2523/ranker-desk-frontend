@@ -54,7 +54,7 @@ function StoreContent() {
             const packagesWithType = packagesRes.data.map((p: any) => ({ ...p, type: 'package' }))
             setItems([...packagesWithType, ...materialsWithType])
         } catch (error: any) {
-            console.error("Store fetch error:", err)
+            console.error("Store fetch error:", error)
             const msg = error.response?.data?.message || error.message || 'Failed to connect to server'
             setError(`Could not load store items: ${msg}`)
         } finally {
@@ -74,7 +74,7 @@ function StoreContent() {
     }
 
     const handleDownloadDemo = (materialId: string) => {
-        window.open(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'}/materials/${materialId}/demo`, '_blank')
+        window.open(`/api/materials/${materialId}/demo`, '_blank')
     }
 
     if (isLoading) {

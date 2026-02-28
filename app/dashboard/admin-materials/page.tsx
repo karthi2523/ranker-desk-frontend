@@ -192,7 +192,7 @@ export default function AdminMaterialsPage() {
                                             variant="secondary"
                                             className="h-10 text-[10px] font-black uppercase tracking-widest border border-border hover:bg-surface gap-2 text-text-primary"
                                             onClick={() => {
-                                                const url = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'}/materials/${material.id}/demo`;
+                                                const url = `/api/materials/${material.id}/demo`;
                                                 window.open(url, '_blank');
                                             }}
                                             disabled={!material.demoPath}
