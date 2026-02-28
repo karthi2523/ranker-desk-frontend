@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
     BookOpen, ShieldCheck, Clock, ArrowRight,
@@ -18,8 +18,23 @@ export default function DashboardPage() {
         activity: [] as any[]
     })
     const [isLoading, setIsLoading] = useState(true)
+    const [toast, setToast] = useState("")
 
     const isAdmin = user?.role === 'ADMIN'
+
+    // Prevent browser back button from leaving the dashboard
+    useEffect(() => {
+        window.history.pushState(null, '', window.location.href)
+
+        const handlePopState = () => {
+            window.history.pushState(null, '', window.location.href)
+            setToast("You're already on the dashboard")
+            setTimeout(() => setToast(""), 3000)
+        }
+
+        window.addEventListener('popstate', handlePopState)
+        return () => window.removeEventListener('popstate', handlePopState)
+    }, [])
 
     useEffect(() => {
         if (user && !isAdmin) fetchStudentDashboardData()
@@ -183,6 +198,16 @@ export default function DashboardPage() {
                     </CardContent>
                 </Card>
             </div>
+
+            {/* Toast notification for back button */}
+            {toast && (
+                <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-bottom-4 duration-300">
+                    <div className="bg-surface-raised border border-border rounded-xl px-6 py-3 shadow-2xl flex items-center gap-3">
+                        <div className="h-2 w-2 rounded-full bg-accent animate-pulse" />
+                        <span className="text-sm font-medium text-text-primary">{toast}</span>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
