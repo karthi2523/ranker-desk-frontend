@@ -15,15 +15,6 @@ walkDir('d:/Freelance/Edwynaa/New folder/edwyna-material-ui-main/app/dashboard',
     let content = fs.readFileSync(filePath, 'utf-8');
     let original = content;
 
-    // Fix buttons that have bg-accent and hover:bg-accent but text-accent (which makes them invisible)
-    // We want text-surface (or text-background/text-slate-950) on solid bg-accent
-    
-    // Example: bg-accent text-accent -> bg-accent text-background
-    // Example: bg-accent hover:bg-accent hover:text-text-primary -> bg-accent hover:bg-accent text-background
-    // Example: bg-accent text-text-primary -> bg-accent text-background
-    
-    // Note: We need to be careful with bg-accent/10 which is fine with text-accent
-    
     // 1. Find all `bg-accent` (without opacity) combined with `text-accent` or `text-text-primary` in the same class string
     content = content.replace(/className="([^"]*\bbg-accent\b[^"]*)"/g, function(match, classNames) {
         // If it's a solid accent background (not bg-accent/something)

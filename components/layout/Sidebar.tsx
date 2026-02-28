@@ -37,7 +37,7 @@ export function Sidebar() {
                         <img
                             src="/logo.png"
                             alt="Logo"
-                            className="h-6 w-6 object-contain grayscale opacity-80 group-hover:opacity-100 transition-opacity"
+                            className="h-6 w-6 object-contain transition-opacity"
                         />
                     </div>
                     <div className="flex flex-col leading-none">
