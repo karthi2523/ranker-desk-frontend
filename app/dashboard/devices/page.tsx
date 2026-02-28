@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from"react"
 import { DeviceCard } from"@/components/features/DeviceCard"
@@ -25,13 +25,13 @@ export default function DevicesPage() {
  try {
  const response = await api.get('/auth/sessions')
  // Map sessions to DeviceCard format
- const mapped = response.data.map((s: any) => ({
+ const mapped = response.data.map((s: any, index: number) => ({
  id: s.id,
  name: s.deviceFingerprint ||"Unknown Device",
  type:"Device",
  location:"Unknown",
- lastActive: s.isActive ?"Active now": new Date(s.lastActiveAt).toLocaleString(),
- isCurrent: s.isActive // Simple heuristic for now
+ lastActive: index === 0 ? "Active now" : new Date(s.lastActiveAt).toLocaleString(),
+ isCurrent: index === 0 // Most recently active session is the current device
  }))
  setSessions(mapped)
  } catch (error) {
