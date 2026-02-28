@@ -42,7 +42,7 @@ export function LandingNavbar() {
                             <img
                                 src="/logo.png"
                                 alt="All Gov Logo"
-                                className="h-6 w-6 object-contain grayscale opacity-80 group-hover:opacity-100 transition-opacity"
+                                className="h-6 w-6 object-contain"
                             />
                         </div>
                         <div className="flex flex-col leading-tight">

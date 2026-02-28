@@ -28,7 +28,7 @@ export function AdminSidebar() {
                         <img
                             src="/logo.png"
                             alt="Logo"
-                            className="h-7 w-7 object-contain grayscale opacity-80 group-hover:opacity-100 transition-opacity"
+                            className="h-7 w-7 object-contain"
                         />
                     </div>
                     <div className="flex flex-col">
