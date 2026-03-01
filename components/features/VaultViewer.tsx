@@ -122,7 +122,14 @@ export function VaultViewer({ materialId }: { materialId: string }) {
     if (!user) return null
 
     return (
-        <div className="relative h-screen w-full overflow-hidden bg-background flex flex-col select-none">
+        <div
+            className="relative h-screen w-full overflow-hidden bg-background flex flex-col select-none"
+            style={{
+                WebkitUserSelect: 'none',
+                userSelect: 'none',
+                WebkitTouchCallout: 'none',
+            } as React.CSSProperties}
+        >
             {/* Security Alert Modal */}
             <Modal
                 isOpen={showSessionAlert}
@@ -200,7 +207,7 @@ export function VaultViewer({ materialId }: { materialId: string }) {
             </div>
 
             {/* ── Main Content Area ─────────────────────────────────── */}
-            <div className="relative flex-1 flex flex-col items-center justify-center bg-surface/40 overflow-hidden p-2 sm:p-4 md:p-8">
+            <div className="relative flex-1 flex flex-col bg-surface/40 overflow-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
 
                 {isLoading ? (
                     <div className="flex flex-col items-center gap-4">
@@ -211,18 +218,21 @@ export function VaultViewer({ materialId }: { materialId: string }) {
                     </div>
                 ) : material && material.hasAccess ? (
                     <div
-                        className={`relative w-full h-full max-w-5xl flex flex-col ${isBlurred
-                            ? "blur-3xl grayscale brightness-50 scale-95"
-                            : "scale-100"
+                        className={`relative w-full flex-1 min-h-0 flex flex-col items-center ${isBlurred
+                            ? "blur-3xl grayscale brightness-50"
+                            : ""
                             }`}
                         style={{
-                            transition: isBlurred ? "none" : "filter 0.4s, transform 0.4s",
-                            transform: `scale(${zoom / 100})`,
-                            transformOrigin: 'top center'
+                            transition: isBlurred ? "none" : "filter 0.4s",
                         }}
                     >
                         {pdfUrl ? (
-                            <div className="relative flex-1 bg-white rounded-lg border border-border shadow-none overflow-hidden">
+                            <div
+                                className="relative flex-1 w-full bg-white shadow-none overflow-auto"
+                                style={{
+                                    zoom: `${zoom}%`,
+                                }}
+                            >
                                 <PdfSecureViewer pdfUrl={pdfUrl} title={material.title} />
 
                                 {/* Watermark Overlay */}
@@ -232,7 +242,7 @@ export function VaultViewer({ materialId }: { materialId: string }) {
                                 />
                             </div>
                         ) : (
-                            <div className="flex flex-col items-center justify-center h-full gap-4 text-text-muted">
+                            <div className="flex flex-col items-center justify-center flex-1 gap-4 text-text-muted">
                                 <AlertTriangle className="h-12 w-12 opacity-20" />
                                 <p className="text-sm font-medium uppercase tracking-widest">
                                     {material.fileExists
