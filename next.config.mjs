@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    env: {
+        NEXT_PUBLIC_API_URL: 'https://transtracheal-bently-tarnally.ngrok-free.dev/api/'
+    },
     eslint: {
         ignoreDuringBuilds: true,
     },
