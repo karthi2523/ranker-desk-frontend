@@ -11,6 +11,12 @@ const nextConfig = {
         config.resolve.alias.canvas = false
         return config
     },
+    async rewrites() {
+        return [
+            // Removed rewrites - Next.js rewrite engine preserves the `Host` header
+            // which causes Ngrok to throw ERR_NGROK_8012. We must revert to `app/api/...`
+        ]
+    },
 }
 
 export default nextConfig

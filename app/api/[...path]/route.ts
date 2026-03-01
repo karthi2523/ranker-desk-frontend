@@ -1,72 +1,80 @@
 import { NextRequest, NextResponse } from 'next/server';
+import axios from 'axios';
 
 const RAW_BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/';
 const BACKEND_URL = RAW_BACKEND_URL.replace(/\/+$/, ''); // strip trailing slashes
 
 async function handler(request: NextRequest) {
     const url = new URL(request.url);
-    const path = url.pathname.replace(/^\/api\/+/, ''); // strip leading /api/ with any number of slashes
+    const path = url.pathname.replace(/^\/api\/+/, '');
     let targetUrl = `${BACKEND_URL}/${path}${url.search}`;
-    // Aggressively collapse any double slashes into a single slash (ignoring the https:// part)
     targetUrl = targetUrl.replace(/([^:]\/)\/+/g, "$1");
-    console.log(`\n\n[PROXY DEBUG]`);
-    console.log(`1. Request URL: ${request.url}`);
-    console.log(`2. raw pathname: ${url.pathname}`);
-    console.log(`3. RAW_BACKEND_URL: ${RAW_BACKEND_URL}`);
-    console.log(`4. BACKEND_URL (stripped): ${BACKEND_URL}`);
-    console.log(`5. extracted path: ${path}`);
-    console.log(`6. FINAL targetUrl: ${targetUrl}\n\n`);
 
-    // Build clean headers
-    const headers: Record<string, string> = {
-        'Content-Type': request.headers.get('Content-Type') || 'application/json',
-        'ngrok-skip-browser-warning': 'true',
-    };
+    // Extract headers as a plain object
+    const headers: Record<string, string> = {};
+    request.headers.forEach((value, key) => {
+        const lowerKey = key.toLowerCase();
+        // Omit host header. Axios will generate the correct Host header based on the target URL.
+        // Drop x-forwarded-* headers injected by Next.js. Ngrok throws ERR_NGROK_8012 if it sees
+        // x-forwarded-host: localhost:3000!
+        if (
+            lowerKey !== 'host' &&
+            lowerKey !== 'connection' &&
+            !lowerKey.startsWith('x-forwarded-')
+        ) {
+            headers[lowerKey] = value;
+        }
+    });
 
-    // Forward auth token if present
-    const authHeader = request.headers.get('Authorization');
-    if (authHeader) {
-        headers['Authorization'] = authHeader;
-    }
+    // Add required ngrok headers to prevent Ngrok from serving the HTML warning page
+    headers['ngrok-skip-browser-warning'] = 'true';
+
+    console.log(`\n[PROXY AXIOS DEBUG] Target URL: ${targetUrl}`);
 
     try {
-        let body: string | undefined;
+        let data: any;
         if (request.method !== 'GET' && request.method !== 'HEAD') {
-            body = await request.text();
+            const text = await request.text();
+            if (text) {
+                try {
+                    data = JSON.parse(text);
+                } catch {
+                    data = text;
+                }
+            }
         }
 
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 15000);
-
-        const response = await fetch(targetUrl, {
+        // We use axios because Next.js patches global `fetch` to forward the `Host` 
+        // header (localhost:3000) exactly as it was received, which breaks Ngrok.
+        const response = await axios({
+            url: targetUrl,
             method: request.method,
             headers,
-            body,
-            signal: controller.signal,
+            data,
+            responseType: 'arraybuffer', // Crucial for getting raw PDFs and files properly
+            validateStatus: () => true, // Don't throw on 4xx/5xx status codes
+            timeout: 15000,
         });
 
-        clearTimeout(timeout);
-
-        const data = await response.arrayBuffer();
-
-        // Forward important response headers from backend
         const responseHeaders = new Headers();
-        const contentType = response.headers.get('Content-Type');
-        if (contentType) responseHeaders.set('Content-Type', contentType);
-        const contentDisposition = response.headers.get('Content-Disposition');
-        if (contentDisposition) responseHeaders.set('Content-Disposition', contentDisposition);
-        const contentLength = response.headers.get('Content-Length');
-        if (contentLength) responseHeaders.set('Content-Length', contentLength);
 
-        return new NextResponse(data, {
+        // Forward critical headers
+        if (response.headers['content-type']) {
+            responseHeaders.set('Content-Type', response.headers['content-type'] as string);
+        }
+        if (response.headers['content-disposition']) {
+            responseHeaders.set('Content-Disposition', response.headers['content-disposition'] as string);
+        }
+
+        return new NextResponse(response.data, {
             status: response.status,
             statusText: response.statusText,
             headers: responseHeaders,
         });
     } catch (error: any) {
-        console.error(`Proxy error [${request.method} ${path}]:`, error.cause || error.message);
+        console.error(`Proxy [Axios] error [${request.method} ${path}]:`, error.message);
         return NextResponse.json(
-            { error: 'Backend unreachable', details: error.message },
+            { error: 'Backend unreachable via proxy', details: error.message },
             { status: 502 }
         );
     }
