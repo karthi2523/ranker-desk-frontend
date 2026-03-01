@@ -84,6 +84,22 @@ export default function CheckoutPage({ params }: { params: { materialId: string 
 
             const { data: orderData } = await api.post("/payment/create-order", payload)
 
+            // Lock body width to prevent Razorpay iframe from expanding the mobile viewport
+            const lockBody = () => {
+                document.body.style.overflow = 'hidden'
+                document.body.style.width = '100vw'
+                document.body.style.position = 'fixed'
+                document.body.style.top = `-${window.scrollY}px`
+            }
+            const unlockBody = () => {
+                const scrollY = document.body.style.top
+                document.body.style.overflow = ''
+                document.body.style.width = ''
+                document.body.style.position = ''
+                document.body.style.top = ''
+                window.scrollTo(0, parseInt(scrollY || '0') * -1)
+            }
+
             // STEP 2: Open Razorpay modal with the order
             const options = {
                 key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
@@ -102,6 +118,7 @@ export default function CheckoutPage({ params }: { params: { materialId: string 
                     razorpay_order_id: string
                     razorpay_signature: string
                 }) {
+                    unlockBody()
                     // STEP 3: Verify payment signature on the backend (security step)
                     try {
                         await api.post("/payment/verify", {
@@ -121,6 +138,7 @@ export default function CheckoutPage({ params }: { params: { materialId: string 
                 },
                 modal: {
                     ondismiss: () => {
+                        unlockBody()
                         setIsProcessing(false)
                     },
                 },
@@ -128,9 +146,11 @@ export default function CheckoutPage({ params }: { params: { materialId: string 
 
             const rzp = new window.Razorpay(options)
             rzp.on("payment.failed", (response: any) => {
+                unlockBody()
                 setError(`Payment failed: ${response.error.description}`)
                 setIsProcessing(false)
             })
+            lockBody()
             rzp.open()
         } catch (err: any) {
             setError(err.response?.data?.message || "Could not initiate payment. Please try again.")
