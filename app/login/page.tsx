@@ -219,7 +219,7 @@ export default function LoginPage() {
                                     <Input
                                         id="otp"
                                         placeholder="6-digit code"
-                                        value={otpCode}
+                                        value={otpCode || ""}
                                         onChange={(e) => setOtpCode(e.target.value)}
                                         disabled={isLoading}
                                         required
