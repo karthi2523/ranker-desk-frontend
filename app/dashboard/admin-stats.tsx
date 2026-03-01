@@ -131,7 +131,7 @@ export default function AdminStats() {
                     </Card>
                 </Link>
 
-                <Link href="/dashboard/sales" className="block group">
+                <Link href="/dashboard/users" className="block group">
                     <Card className="bg-surface border-border group-hover:border-accent/40 transition-all duration-300 rounded-xl cursor-pointer h-full">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
                             <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em]">Live Sessions</CardTitle>
