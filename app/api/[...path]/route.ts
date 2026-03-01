@@ -11,14 +11,21 @@ async function handler(request: NextRequest) {
 
     // Reconstruct headers perfectly for fetch to bypass Ngrok host validation errors
     const customHeaders = new Headers();
+
+    // Vercel Serverless / Edge `fetch` strictly enforces forbidden headers. 
+    // Passing these will cause a fatal 500 TypeError.
+    const forbiddenHeaders = [
+        'host', 'connection', 'keep-alive', 'content-length', 'content-encoding',
+        'transfer-encoding', 'expect', 'upgrade'
+    ];
+
     request.headers.forEach((value, key) => {
         const lowerKey = key.toLowerCase();
 
-        // Ngrok checks `Host` and `X-Forwarded-Host` to route traffic. If it sees `localhost:3000`
-        // or a Vercel deployment URL here, it instantly throws ERR_NGROK_8012. 
+        // Ngrok checks `Host` and `X-Forwarded-*` to route traffic. If it sees Vercel URL
+        // or localhost here, it instantly throws ERR_NGROK_8012. 
         if (
-            lowerKey !== 'host' &&
-            lowerKey !== 'connection' &&
+            !forbiddenHeaders.includes(lowerKey) &&
             !lowerKey.startsWith('x-forwarded-')
         ) {
             customHeaders.set(key, value);
@@ -26,8 +33,6 @@ async function handler(request: NextRequest) {
     });
 
     customHeaders.set('ngrok-skip-browser-warning', 'true');
-    // Ensure Node.js fetch uses connection: close to prevent TCP keep-alive hangs
-    customHeaders.set('connection', 'close');
 
     console.log(`\n[PROXY FETCH DEBUG] Target URL: ${targetUrl}`);
 
