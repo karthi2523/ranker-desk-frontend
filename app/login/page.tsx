@@ -73,212 +73,209 @@ export default function LoginPage() {
         }
     }
 
-    async function handleForceLogin() {
-        if (!pendingCredentials) return
-        setActiveSessionExists(false)
-        async function onVerify2FA(event: React.FormEvent<HTMLFormElement>) {
-            event.preventDefault()
-            await attemptVerify2FA(false)
-        }
-
-        async function attemptVerify2FA(forceLogin: boolean) {
-            setIsLoading(true)
-            setError("")
-            setActiveSessionExists(false)
-
-            try {
-                const deviceFingerprint = getDeviceId()
-                const response = await api.post('/auth/verify-login-2fa', {
-                    email,
-                    code: otpCode,
-                    deviceFingerprint,
-                    forceLogin
-                })
-                const { accessToken, user: userData } = response.data
-                login(accessToken, userData)
-            } catch (error: any) {
-                const errorMessage = error.response?.data?.message || "Invalid or expired code"
-                setError(errorMessage)
-
-                if (error.response?.status === 403 && error.response?.data?.activeSessionExists) {
-                    setActiveSessionExists(true)
-                }
-            } finally {
-                setIsLoading(false)
-            }
-        }
-
-        async function handleForceLogin() {
-            setError("")
-            setActiveSessionExists(false)
-            if (step === "LOGIN" && pendingCredentials) {
-                await attemptLogin(pendingCredentials.email, pendingCredentials.password, true)
-            } else if (step === "2FA") {
-                await attemptVerify2FA(true)
-            }
-        }
-
-        return (
-            <div className="flex items-center justify-center min-h-screen bg-background px-4 relative overflow-hidden">
-                <Card className="w-full max-w-sm relative z-10">
-                    <CardHeader className="space-y-4">
-                        <div className="flex justify-center">
-                            <div className="h-20 w-20 rounded-2xl overflow-hidden shadow-none border border-border transition-transform hover:scale-105 duration-500">
-                                <img
-                                    src="/logo.png"
-                                    alt="All Government Alerts Logo"
-                                    className="h-full w-full object-cover"
-                                />
-                            </div>
-                        </div>
-                        <div className="text-center">
-                            <CardTitle className="text-2xl font-black text-text-primary tracking-tight">
-                                {step === "LOGIN" ? "Welcome Back" : "Security Verification"}
-                            </CardTitle>
-                            <CardDescription className="text-text-secondary font-medium tracking-tight">
-                                {step === "LOGIN" ? "Access your secure study vault" : "Enter the code sent to your email"}
-                            </CardDescription>
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        {step === "LOGIN" ? (
-                            <form onSubmit={onSubmit}>
-                                <div className="grid gap-4">
-                                    <div className="grid gap-2">
-                                        <Input
-                                            id="email"
-                                            name="email"
-                                            placeholder="name@example.com"
-                                            type="email"
-                                            autoCapitalize="none"
-                                            autoComplete="email"
-                                            autoCorrect="off"
-                                            disabled={isLoading}
-                                            required
-                                            className="bg-transparent"
-                                        />
-                                    </div>
-                                    <div className="grid gap-2">
-                                        <div className="relative">
-                                            <Input
-                                                id="password"
-                                                name="password"
-                                                placeholder="Password"
-                                                type={showPassword ? "text" : "password"}
-                                                autoCapitalize="none"
-                                                autoComplete="current-password"
-                                                disabled={isLoading}
-                                                required
-                                                className="bg-transparent pr-10"
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={() => setShowPassword(!showPassword)}
-                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary transition-colors"
-                                                disabled={isLoading}
-                                            >
-                                                {showPassword ? (
-                                                    <EyeOff className="h-4 w-4" />
-                                                ) : (
-                                                    <Eye className="h-4 w-4" />
-                                                )}
-                                            </button>
-                                        </div>
-                                    </div>
-                                    {error && (
-                                        <div className="text-sm text-red-500 text-center bg-red-500/10 p-2 rounded border border-red-500/20 animate-in fade-in zoom-in-95">
-                                            {error}
-                                        </div>
-                                    )}
-                                    {activeSessionExists && (
-                                        <div className="space-y-2 animate-in fade-in zoom-in-95">
-                                            <div className="text-xs text-amber-500 text-center bg-amber-500/10 p-3 rounded-lg border border-amber-500/20">
-                                                ⚠️ Your account is active on another device. Sign in here to terminate that session.
-                                            </div>
-                                            <Button
-                                                type="button"
-                                                onClick={handleForceLogin}
-                                                disabled={isLoading}
-                                                className="w-full h-11 bg-amber-500 hover:bg-amber-600 text-white text-xs font-black uppercase tracking-wider transition-all active:scale-95"
-                                            >
-                                                {isLoading ? (
-                                                    <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                                                ) : "Sign In & Terminate Other Session"}
-                                            </Button>
-                                        </div>
-                                    )}
-                                    <Button disabled={isLoading} className="w-full h-11 transition-all active:scale-95">
-                                        {isLoading && (
-                                            <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                                        )}
-                                        Sign In
-                                    </Button>
-                                </div>
-                            </form>
-                        ) : (
-                            <form onSubmit={onVerify2FA}>
-                                <div className="grid gap-4">
-                                    <div className="grid gap-2">
-                                        <Input
-                                            id="otp"
-                                            placeholder="6-digit code"
-                                            value={otpCode}
-                                            onChange={(e) => setOtpCode(e.target.value)}
-                                            disabled={isLoading}
-                                            required
-                                            className="text-center text-2xl tracking-[0.5em] font-bold text-accent h-14"
-                                            maxLength={6}
-                                        />
-                                    </div>
-                                    {error && (
-                                        <div className="text-sm text-red-500 text-center bg-red-500/10 p-2 rounded border border-red-500/20">
-                                            {error}
-                                        </div>
-                                    )}
-                                    {activeSessionExists && (
-                                        <div className="space-y-2 animate-in fade-in zoom-in-95">
-                                            <div className="text-xs text-amber-500 text-center bg-amber-500/10 p-3 rounded-lg border border-amber-500/20">
-                                                ⚠️ Your account is active on another device. Sign in here to terminate that session.
-                                            </div>
-                                            <Button
-                                                type="button"
-                                                onClick={handleForceLogin}
-                                                disabled={isLoading}
-                                                className="w-full h-11 bg-amber-500 hover:bg-amber-600 text-white text-xs font-black uppercase tracking-wider transition-all active:scale-95"
-                                            >
-                                                {isLoading ? (
-                                                    <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                                                ) : "Sign In & Terminate Other Session"}
-                                            </Button>
-                                        </div>
-                                    )}
-                                    <Button disabled={isLoading} className="w-full h-11 transition-all active:scale-95">
-                                        {isLoading && (
-                                            <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                                        )}
-                                        Verify & Access
-                                    </Button>
-                                    <button
-                                        type="button"
-                                        onClick={() => setStep("LOGIN")}
-                                        className="text-xs text-text-secondary hover:text-text-primary transition-colors text-center mt-2"
-                                        disabled={isLoading}
-                                    >
-                                        Back to login
-                                    </button>
-                                </div>
-                            </form>
-                        )}
-                    </CardContent>
-                    <CardFooter className="flex flex-col gap-4 text-center text-sm text-text-secondary border-t border-border mt-4 pt-6">
-                        <Link href="/register" className="underline underline-offset-4 hover:text-text-primary transition-colors font-semibold">
-                            Don&apos;t have an account? Sign Up
-                        </Link>
-                        <Link href="/" className="hover:text-text-primary transition-colors text-xs font-medium">
-                            ← Back to Home
-                        </Link>
-                    </CardFooter>
-                </Card>
-            </div>
-        )
+    async function onVerify2FA(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault()
+        await attemptVerify2FA(false)
     }
+
+    async function attemptVerify2FA(forceLogin: boolean) {
+        setIsLoading(true)
+        setError("")
+        setActiveSessionExists(false)
+
+        try {
+            const deviceFingerprint = getDeviceId()
+            const response = await api.post('/auth/verify-login-2fa', {
+                email,
+                code: otpCode,
+                deviceFingerprint,
+                forceLogin
+            })
+            const { accessToken, user: userData } = response.data
+            login(accessToken, userData)
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || "Invalid or expired code"
+            setError(errorMessage)
+
+            if (error.response?.status === 403 && error.response?.data?.activeSessionExists) {
+                setActiveSessionExists(true)
+            }
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    async function handleForceLogin() {
+        setError("")
+        setActiveSessionExists(false)
+        if (step === "LOGIN" && pendingCredentials) {
+            await attemptLogin(pendingCredentials.email, pendingCredentials.password, true)
+        } else if (step === "2FA") {
+            await attemptVerify2FA(true)
+        }
+    }
+
+    return (
+        <div className="flex items-center justify-center min-h-screen bg-background px-4 relative overflow-hidden">
+            <Card className="w-full max-w-sm relative z-10">
+                <CardHeader className="space-y-4">
+                    <div className="flex justify-center">
+                        <div className="h-20 w-20 rounded-2xl overflow-hidden shadow-none border border-border transition-transform hover:scale-105 duration-500">
+                            <img
+                                src="/logo.png"
+                                alt="All Government Alerts Logo"
+                                className="h-full w-full object-cover"
+                            />
+                        </div>
+                    </div>
+                    <div className="text-center">
+                        <CardTitle className="text-2xl font-black text-text-primary tracking-tight">
+                            {step === "LOGIN" ? "Welcome Back" : "Security Verification"}
+                        </CardTitle>
+                        <CardDescription className="text-text-secondary font-medium tracking-tight">
+                            {step === "LOGIN" ? "Access your secure study vault" : "Enter the code sent to your email"}
+                        </CardDescription>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    {step === "LOGIN" ? (
+                        <form onSubmit={onSubmit}>
+                            <div className="grid gap-4">
+                                <div className="grid gap-2">
+                                    <Input
+                                        id="email"
+                                        name="email"
+                                        placeholder="name@example.com"
+                                        type="email"
+                                        autoCapitalize="none"
+                                        autoComplete="email"
+                                        autoCorrect="off"
+                                        disabled={isLoading}
+                                        required
+                                        className="bg-transparent"
+                                    />
+                                </div>
+                                <div className="grid gap-2">
+                                    <div className="relative">
+                                        <Input
+                                            id="password"
+                                            name="password"
+                                            placeholder="Password"
+                                            type={showPassword ? "text" : "password"}
+                                            autoCapitalize="none"
+                                            autoComplete="current-password"
+                                            disabled={isLoading}
+                                            required
+                                            className="bg-transparent pr-10"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary transition-colors"
+                                            disabled={isLoading}
+                                        >
+                                            {showPassword ? (
+                                                <EyeOff className="h-4 w-4" />
+                                            ) : (
+                                                <Eye className="h-4 w-4" />
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
+                                {error && (
+                                    <div className="text-sm text-red-500 text-center bg-red-500/10 p-2 rounded border border-red-500/20 animate-in fade-in zoom-in-95">
+                                        {error}
+                                    </div>
+                                )}
+                                {activeSessionExists && (
+                                    <div className="space-y-2 animate-in fade-in zoom-in-95">
+                                        <div className="text-xs text-amber-500 text-center bg-amber-500/10 p-3 rounded-lg border border-amber-500/20">
+                                            ⚠️ Your account is active on another device. Sign in here to terminate that session.
+                                        </div>
+                                        <Button
+                                            type="button"
+                                            onClick={handleForceLogin}
+                                            disabled={isLoading}
+                                            className="w-full h-11 bg-amber-500 hover:bg-amber-600 text-white text-xs font-black uppercase tracking-wider transition-all active:scale-95"
+                                        >
+                                            {isLoading ? (
+                                                <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                                            ) : "Sign In & Terminate Other Session"}
+                                        </Button>
+                                    </div>
+                                )}
+                                <Button disabled={isLoading} className="w-full h-11 transition-all active:scale-95">
+                                    {isLoading && (
+                                        <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                                    )}
+                                    Sign In
+                                </Button>
+                            </div>
+                        </form>
+                    ) : (
+                        <form onSubmit={onVerify2FA}>
+                            <div className="grid gap-4">
+                                <div className="grid gap-2">
+                                    <Input
+                                        id="otp"
+                                        placeholder="6-digit code"
+                                        value={otpCode}
+                                        onChange={(e) => setOtpCode(e.target.value)}
+                                        disabled={isLoading}
+                                        required
+                                        className="text-center text-2xl tracking-[0.5em] font-bold text-accent h-14"
+                                        maxLength={6}
+                                    />
+                                </div>
+                                {error && (
+                                    <div className="text-sm text-red-500 text-center bg-red-500/10 p-2 rounded border border-red-500/20">
+                                        {error}
+                                    </div>
+                                )}
+                                {activeSessionExists && (
+                                    <div className="space-y-2 animate-in fade-in zoom-in-95">
+                                        <div className="text-xs text-amber-500 text-center bg-amber-500/10 p-3 rounded-lg border border-amber-500/20">
+                                            ⚠️ Your account is active on another device. Sign in here to terminate that session.
+                                        </div>
+                                        <Button
+                                            type="button"
+                                            onClick={handleForceLogin}
+                                            disabled={isLoading}
+                                            className="w-full h-11 bg-amber-500 hover:bg-amber-600 text-white text-xs font-black uppercase tracking-wider transition-all active:scale-95"
+                                        >
+                                            {isLoading ? (
+                                                <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                                            ) : "Sign In & Terminate Other Session"}
+                                        </Button>
+                                    </div>
+                                )}
+                                <Button disabled={isLoading} className="w-full h-11 transition-all active:scale-95">
+                                    {isLoading && (
+                                        <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                                    )}
+                                    Verify & Access
+                                </Button>
+                                <button
+                                    type="button"
+                                    onClick={() => setStep("LOGIN")}
+                                    className="text-xs text-text-secondary hover:text-text-primary transition-colors text-center mt-2"
+                                    disabled={isLoading}
+                                >
+                                    Back to login
+                                </button>
+                            </div>
+                        </form>
+                    )}
+                </CardContent>
+                <CardFooter className="flex flex-col gap-4 text-center text-sm text-text-secondary border-t border-border mt-4 pt-6">
+                    <Link href="/register" className="underline underline-offset-4 hover:text-text-primary transition-colors font-semibold">
+                        Don&apos;t have an account? Sign Up
+                    </Link>
+                    <Link href="/" className="hover:text-text-primary transition-colors text-xs font-medium">
+                        ← Back to Home
+                    </Link>
+                </CardFooter>
+            </Card>
+        </div>
+    )
+}
