@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { FileText, Calendar, DollarSign, Loader2, Plus, Ghost, Eye, Trash2, Edit3, ShieldAlert, Save, Search } from "lucide-react"
+import { FileText, Calendar, DollarSign, Loader2, Plus, Ghost, Eye, Trash2, Edit3, ShieldAlert, Save, Search, ToggleLeft, ToggleRight } from "lucide-react"
 import api from "@/lib/api"
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/context/ToastContext"
@@ -20,6 +20,7 @@ interface Material {
     description: string | null
     price: number
     demoPath: string | null
+    isActive: boolean
     createdAt: string
 }
 
@@ -27,6 +28,7 @@ export default function AdminMaterialsPage() {
     const [materials, setMaterials] = useState<Material[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [isActionLoading, setIsActionLoading] = useState(false)
+    const [togglingId, setTogglingId] = useState<string | null>(null)
 
     // Deletion State
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
@@ -49,7 +51,7 @@ export default function AdminMaterialsPage() {
 
     const fetchMaterials = async () => {
         try {
-            const response = await api.get('/materials')
+            const response = await api.get('/materials/admin')
             setMaterials(response.data)
         } catch (error) {
             console.error("Failed to fetch materials", error)
@@ -59,12 +61,30 @@ export default function AdminMaterialsPage() {
         }
     }
 
+    const handleToggleStatus = async (material: Material) => {
+        setTogglingId(material.id)
+        try {
+            const response = await api.patch(`/materials/${material.id}/toggle`)
+            setMaterials(prev =>
+                prev.map(m => m.id === material.id ? { ...m, isActive: response.data.isActive } : m)
+            )
+            showToast(
+                `"${material.title}" is now ${response.data.isActive ? 'active (visible to users)' : 'inactive (hidden from users)'}`,
+                response.data.isActive ? "success" : "error"
+            )
+        } catch (error: any) {
+            showToast(error.response?.data?.message || "Failed to toggle status", "error")
+        } finally {
+            setTogglingId(null)
+        }
+    }
+
     const handleDeleteMaterial = async () => {
         if (!materialToDelete) return
         setIsActionLoading(true)
         try {
             await api.delete(`/materials/${materialToDelete.id}`)
-            showToast(`Asset"${materialToDelete.title}"purged from inventory`, "success")
+            showToast(`Asset "${materialToDelete.title}" purged from inventory`, "success")
             setMaterials(materials.filter(m => m.id !== materialToDelete.id))
             setDeleteModalOpen(false)
             setMaterialToDelete(null)
@@ -95,7 +115,7 @@ export default function AdminMaterialsPage() {
                 price: parseFloat(editFormData.price)
             })
             showToast("Asset metadata updated successfully", "success")
-            setMaterials(materials.map(m => m.id === materialToEdit.id ? response.data : m))
+            setMaterials(materials.map(m => m.id === materialToEdit.id ? { ...response.data, isActive: m.isActive } : m))
             setEditModalOpen(false)
             setMaterialToEdit(null)
         } catch (error: any) {
@@ -133,7 +153,7 @@ export default function AdminMaterialsPage() {
                     <p className="text-sm text-text-secondary font-medium">Review, inspect, and manage all deployed intellectual assets on the sovereign network.</p>
                 </div>
                 <Link href="/dashboard/upload">
-                    <Button className="h-12 px-6 bg-accent hover:bg-accent text-background font-black uppercase tracking-widest text-[10px] gap-2 shadow-none shadow-none border-none transition-all hover:scale-[1.02] active:scale-[0.98]">
+                    <Button className="h-12 px-6 bg-accent hover:bg-accent text-background font-black uppercase tracking-widest text-[10px] gap-2 shadow-none border-none transition-all hover:scale-[1.02] active:scale-[0.98]">
                         <Plus className="h-4 w-4" />
                         Deploy New Asset
                     </Button>
@@ -142,7 +162,7 @@ export default function AdminMaterialsPage() {
 
             <div className="grid gap-4">
                 {filteredMaterials.map((material) => (
-                    <Card key={material.id} className="group border-border bg-surface hover:border-accent/40 transition-all duration-300 overflow-hidden shadow-none">
+                    <Card key={material.id} className={`group border-border bg-surface transition-all duration-300 overflow-hidden shadow-none ${material.isActive ? 'hover:border-accent/40' : 'opacity-60 hover:border-red-400/40'}`}>
                         <CardContent className="p-0">
                             <div className="flex flex-col md:flex-row">
                                 {/* Visual Indicator */}
@@ -162,11 +182,15 @@ export default function AdminMaterialsPage() {
                                 {/* Content */}
                                 <div className="p-6 flex-1 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                                     <div className="space-y-1.5 min-w-0">
-                                        <div className="flex items-center gap-3">
+                                        <div className="flex items-center gap-3 flex-wrap">
                                             <h3 className="text-lg font-black text-text-primary group-hover:text-accent transition-colors uppercase tracking-tight truncate">
                                                 {material.title}
                                             </h3>
                                             <Badge className="bg-background text-text-muted border-border text-[8px] font-black uppercase tracking-[0.2em] px-1.5 py-0">PDF</Badge>
+                                            {/* Active/Inactive Badge */}
+                                            <Badge className={`text-[8px] font-black uppercase tracking-[0.2em] px-2 py-0.5 border ${material.isActive ? 'bg-green-500/10 text-green-400 border-green-500/30' : 'bg-red-500/10 text-red-400 border-red-500/30'}`}>
+                                                {material.isActive ? '● Active' : '○ Inactive'}
+                                            </Badge>
                                         </div>
                                         <p className="text-xs text-text-secondary font-medium line-clamp-1 opacity-70">
                                             {material.description || "No description provided for this secure asset."}
@@ -187,7 +211,26 @@ export default function AdminMaterialsPage() {
                                     </div>
 
                                     {/* Actions */}
-                                    <div className="flex items-center gap-2 shrink-0">
+                                    <div className="flex items-center gap-2 shrink-0 flex-wrap">
+                                        {/* Toggle Active/Inactive */}
+                                        <Button
+                                            onClick={() => handleToggleStatus(material)}
+                                            disabled={togglingId === material.id}
+                                            variant="outline"
+                                            title={material.isActive ? "Click to deactivate (hide from users)" : "Click to activate (show to users)"}
+                                            className={`h-10 px-3 text-[10px] font-black uppercase tracking-widest gap-1.5 transition-all ${material.isActive
+                                                ? 'border-green-500/40 text-green-400 hover:bg-green-500/10'
+                                                : 'border-red-500/40 text-red-400 hover:bg-red-500/10'
+                                                }`}
+                                        >
+                                            {togglingId === material.id
+                                                ? <Loader2 className="h-4 w-4 animate-spin" />
+                                                : material.isActive
+                                                    ? <><ToggleRight className="h-4 w-4" /> Active</>
+                                                    : <><ToggleLeft className="h-4 w-4" /> Inactive</>
+                                            }
+                                        </Button>
+
                                         <Button
                                             variant="secondary"
                                             className="h-10 text-[10px] font-black uppercase tracking-widest border border-border hover:bg-surface gap-2 text-text-primary"
@@ -234,7 +277,7 @@ export default function AdminMaterialsPage() {
                     <div className="flex flex-col items-center justify-center h-[300px] rounded-2xl border-2 border-dashed border-border bg-surface">
                         <Search className="h-10 w-10 text-text-muted mb-4" />
                         <h3 className="text-lg font-black text-text-secondary uppercase tracking-tighter">No assets found</h3>
-                        <p className="text-xs text-text-muted font-bold mt-1">Your search for"{searchString}"yielded no matching deployed assets.</p>
+                        <p className="text-xs text-text-muted font-bold mt-1">Your search for "{searchString}" yielded no matching deployed assets.</p>
                     </div>
                 )}
 
@@ -278,7 +321,7 @@ export default function AdminMaterialsPage() {
                         <Button
                             disabled={isActionLoading}
                             onClick={handleDeleteMaterial}
-                            className="flex-1 h-11 bg-accent/10 hover:bg-accent/10 text-text-primary text-[10px] font-black uppercase tracking-[0.2em] shadow-none shadow-none"
+                            className="flex-1 h-11 bg-accent/10 hover:bg-accent/10 text-text-primary text-[10px] font-black uppercase tracking-[0.2em] shadow-none"
                         >
                             {isActionLoading ? "Purging Asset..." : "Confirm Purge"}
                         </Button>
@@ -339,7 +382,7 @@ export default function AdminMaterialsPage() {
                         <Button
                             type="submit"
                             disabled={isActionLoading}
-                            className="flex-1 h-11 bg-accent hover:bg-accent text-background text-[10px] font-black uppercase tracking-[0.2em] shadow-none shadow-none"
+                            className="flex-1 h-11 bg-accent hover:bg-accent text-background text-[10px] font-black uppercase tracking-[0.2em] shadow-none"
                         >
                             {isActionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <>
                                 <Save className="mr-2 h-4 w-4" />
