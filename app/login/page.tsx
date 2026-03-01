@@ -20,6 +20,8 @@ export default function LoginPage() {
     const [step, setStep] = useState<"LOGIN" | "2FA">("LOGIN")
     const [email, setEmail] = useState("")
     const [otpCode, setOtpCode] = useState("")
+    const [activeSessionExists, setActiveSessionExists] = useState(false)
+    const [pendingCredentials, setPendingCredentials] = useState<{ email: string; password: string } | null>(null)
 
     useEffect(() => {
         if (user) {
@@ -31,17 +33,23 @@ export default function LoginPage() {
         event.preventDefault()
         setIsLoading(true)
         setError("")
+        setActiveSessionExists(false)
 
         const formData = new FormData(event.currentTarget)
-        const email = formData.get("email") as string
-        const password = formData.get("password") as string
+        const emailVal = formData.get("email") as string
+        const passwordVal = formData.get("password") as string
 
+        await attemptLogin(emailVal, passwordVal, false)
+    }
+
+    async function attemptLogin(emailVal: string, passwordVal: string, forceLogin: boolean) {
+        setIsLoading(true)
         try {
             const deviceFingerprint = getDeviceId()
-            const response = await api.post('/auth/login', { email, password, deviceFingerprint })
+            const response = await api.post('/auth/login', { email: emailVal, password: passwordVal, deviceFingerprint, forceLogin })
 
             if (response.data.require2FA) {
-                setEmail(email)
+                setEmail(emailVal)
                 setStep("2FA")
                 return
             }
@@ -52,13 +60,24 @@ export default function LoginPage() {
             const errorMessage = error.response?.data?.message || error.response?.data?.error || "Invalid credentials. Please try again."
             setError(errorMessage)
 
-            if (error.response?.status === 403 && error.response?.data?.unverified) {
-                setEmail(email)
+            if (error.response?.status === 403 && error.response?.data?.activeSessionExists) {
+                // Show the force-logout confirmation
+                setPendingCredentials({ email: emailVal, password: passwordVal })
+                setActiveSessionExists(true)
+            } else if (error.response?.status === 403 && error.response?.data?.unverified) {
+                setEmail(emailVal)
                 setStep("2FA")
             }
         } finally {
             setIsLoading(false)
         }
+    }
+
+    async function handleForceLogin() {
+        if (!pendingCredentials) return
+        setActiveSessionExists(false)
+        setError("")
+        await attemptLogin(pendingCredentials.email, pendingCredentials.password, true)
     }
 
     async function onVerify2FA(event: React.FormEvent<HTMLFormElement>) {
@@ -152,6 +171,23 @@ export default function LoginPage() {
                                 {error && (
                                     <div className="text-sm text-red-500 text-center bg-red-500/10 p-2 rounded border border-red-500/20 animate-in fade-in zoom-in-95">
                                         {error}
+                                    </div>
+                                )}
+                                {activeSessionExists && (
+                                    <div className="space-y-2 animate-in fade-in zoom-in-95">
+                                        <div className="text-xs text-amber-500 text-center bg-amber-500/10 p-3 rounded-lg border border-amber-500/20">
+                                            ⚠️ Your account is active on another device. Sign in here to terminate that session.
+                                        </div>
+                                        <Button
+                                            type="button"
+                                            onClick={handleForceLogin}
+                                            disabled={isLoading}
+                                            className="w-full h-11 bg-amber-500 hover:bg-amber-600 text-white text-xs font-black uppercase tracking-wider transition-all active:scale-95"
+                                        >
+                                            {isLoading ? (
+                                                <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                                            ) : "Sign In & Terminate Other Session"}
+                                        </Button>
                                     </div>
                                 )}
                                 <Button disabled={isLoading} className="w-full h-11 transition-all active:scale-95">
