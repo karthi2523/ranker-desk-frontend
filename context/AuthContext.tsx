@@ -16,7 +16,7 @@ interface AuthContextType {
     user: User | null;
     isLoading: boolean;
     login: (token: string, user: User) => void;
-    logout: () => void;
+    logout: () => Promise<void>;
     checkAuth: () => Promise<void>;
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
     getDeviceId: () => string | null;
@@ -76,10 +76,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         router.replace("/dashboard");
     };
 
-    const logout = () => {
-        Cookies.remove("token");
-        setUser(null);
-        router.replace("/login");
+    const logout = async () => {
+        try {
+            await api.post("/auth/logout");
+        } catch (error) {
+            console.error("Logout API failed:", error);
+        } finally {
+            Cookies.remove("token");
+            setUser(null);
+            router.replace("/login");
+        }
     };
 
     return (
