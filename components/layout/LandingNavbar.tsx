@@ -47,10 +47,10 @@ export function LandingNavbar() {
                         </div>
                         <div className="flex flex-col leading-tight">
                             <span className="text-xl font-black text-text-primary tracking-tight transition-colors">
-                                All Gov
+                                All government
                             </span>
-                            <span className="text-[10px] font-black text-text-muted tracking-[0.3em] uppercase">
-                                Platform
+                            <span className="text-[10px] font-black text-text-muted tracking-widest mt-0.5">
+                                Alerts
                             </span>
                         </div>
                     </Link>

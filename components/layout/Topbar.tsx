@@ -10,6 +10,7 @@ import { MobileNav } from "./MobileNav"
 import { useNotifications } from "@/context/NotificationContext"
 import { formatDistanceToNow } from "date-fns"
 import { useRouter, useSearchParams } from "next/navigation"
+import Link from "next/link"
 
 export function Topbar() {
     const { user } = useAuth()
@@ -82,14 +83,28 @@ export function Topbar() {
     return (
         <>
             <header className="flex h-16 items-center gap-4 border-b border-border bg-background px-4 md:px-6 sticky top-0 z-40">
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    className="md:hidden text-zinc-500 hover:text-text-primary"
-                    onClick={toggleMobileNav}
-                >
-                    <Menu className="h-5 w-5" />
-                </Button>
+                {/* Mobile Menu & Logo */}
+                <div className="flex md:hidden items-center gap-3">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-zinc-500 hover:text-text-primary"
+                        onClick={toggleMobileNav}
+                    >
+                        <Menu className="h-5 w-5" />
+                    </Button>
+                    <Link href="/dashboard" className="flex items-center gap-2">
+                        <img src="/logo.png" alt="Logo" className="h-6 w-6 object-contain" />
+                        <div className="flex flex-col leading-none hidden sm:flex">
+                            <span className="text-sm font-black text-text-primary tracking-tight transition-colors">
+                                All government
+                            </span>
+                            <span className="text-[9px] font-black text-accent tracking-widest mt-0.5">
+                                Alerts
+                            </span>
+                        </div>
+                    </Link>
+                </div>
 
                 {/* Search */}
                 <div className="flex-1">
@@ -136,7 +151,7 @@ export function Topbar() {
                                 <div className="flex items-center justify-between p-4 border-b border-border bg-surface/50">
                                     <div className="flex items-center gap-2">
                                         <Bell className="h-4 w-4 text-zinc-400" />
-                                        <h3 className="text-sm font-black text-text-primary uppercase tracking-tighter">Notifications</h3>
+                                        <h3 className="text-sm font-black text-text-primary uppercase tracking-tighter">All government Alerts</h3>
                                     </div>
                                     {notifications.length > 0 && (
                                         <button

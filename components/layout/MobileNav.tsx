@@ -83,11 +83,11 @@ export function MobileNav({ isOpen, onClose, isAdmin }: MobileNavProps) {
                             />
                         </div>
                         <div className="flex flex-col leading-none">
-                            <span className="text-sm font-black text-text-primary tracking-tight">
-                                All Government
+                            <span className="text-sm font-black text-text-primary tracking-tight transition-colors">
+                                All government
                             </span>
-                            <span className="text-[8px] font-bold text-accent tracking-[0.2em] uppercase mt-0.5">
-                                Alerts Platform
+                            <span className="text-[10px] font-black text-accent tracking-widest mt-1">
+                                Alerts
                             </span>
                         </div>
                     </Link>

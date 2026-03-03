@@ -101,7 +101,7 @@ export function PdfSecureViewer({ pdfUrl, title }: PdfSecureViewerProps) {
             </div>
 
             {/* ── Screenshot/Recording restriction notice ── */}
-            <div className="flex items-center justify-center gap-2 px-3 py-1.5 bg-red-950/40 border-b border-red-500/20 text-[9px] font-black text-red-400/80 uppercase tracking-[0.2em] select-none shrink-0">
+            <div className="flex items-center justify-center gap-2 px-3 py-2 bg-red-600 border-b border-red-500 text-[10px] sm:text-xs font-black text-white uppercase tracking-widest select-none shrink-0 shadow-[0_4px_20px_rgba(220,38,38,0.4)] z-20">
                 🔒 Screenshot · Screen Recording · Copy — All Restricted · Watermarked to your account
             </div>
 

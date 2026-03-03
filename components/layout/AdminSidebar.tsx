@@ -33,13 +33,13 @@ export function AdminSidebar() {
                     </div>
                     <div className="flex flex-col">
                         <div className="flex items-center gap-2">
-                            <span className="text-sm font-black text-text-primary tracking-tight uppercase transition-colors">
-                                ALL GOVERNMENT
+                            <span className="text-sm font-black text-text-primary tracking-tight transition-colors">
+                                All government
                             </span>
                             <span className="text-[8px] bg-accent text-background font-black px-1.5 py-0.5 rounded-sm uppercase tracking-tighter">ADMIN</span>
                         </div>
-                        <span className="text-[9px] font-black text-accent tracking-[0.25em] uppercase mt-1">
-                            SECURITY CONTROL
+                        <span className="text-[10px] font-black text-accent tracking-widest mt-1">
+                            Alerts
                         </span>
                     </div>
                 </Link>

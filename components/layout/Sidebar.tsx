@@ -42,10 +42,10 @@ export function Sidebar() {
                     </div>
                     <div className="flex flex-col leading-none">
                         <span className="text-sm font-black text-text-primary tracking-tight transition-colors">
-                            All Government
+                            All government
                         </span>
-                        <span className="text-[10px] font-black text-accent tracking-[0.2em] uppercase mt-1">
-                            ALERTS
+                        <span className="text-[10px] font-black text-accent tracking-widest mt-1">
+                            Alerts
                         </span>
                     </div>
                 </Link>
