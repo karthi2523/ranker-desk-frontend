@@ -19,7 +19,7 @@ export default function PrivacyPage() {
                 >
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-black tracking-widest uppercase mb-8">
                         <Shield className="h-3 w-3" />
-                        <span>Protocol Security Level: MAX</span>
+                        <span>Data Privacy Hub</span>
                     </div>
 
                     <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white to-text-secondary">
@@ -27,7 +27,7 @@ export default function PrivacyPage() {
                     </h1>
 
                     <p className="text-xl text-text-muted font-medium mb-16 leading-relaxed">
-                        Last Updated: March 2026. Your operational security is our prime directive. We do not compromise on data integrity.
+                        Last Updated: March 2026. Your privacy and security are our top priorities. We do not compromise on data integrity.
                     </p>
                 </motion.div>
 
@@ -42,10 +42,10 @@ export default function PrivacyPage() {
                         <div className="relative z-10">
                             <h2 className="text-2xl font-black tracking-tight mb-4 flex items-center gap-3">
                                 <Lock className="h-6 w-6 text-accent" />
-                                1. Information Acquisition
+                                1. Information Collection
                             </h2>
                             <p className="text-text-secondary leading-relaxed font-medium">
-                                We gather only essential telemetry and authentication vectors required to establish your secure vault. This includes your heavily encrypted identity hashes, purchase history logs, and device fingerprints to orchestrate our zero-leak dynamic watermarking system.
+                                We gather only essential telemetry and authentication vectors required to establish your student account. This includes your heavily encrypted identity hashes, purchase history logs, and device fingerprints to orchestrate our zero-leak dynamic watermarking system.
                             </p>
                         </div>
                     </motion.section>
@@ -56,7 +56,7 @@ export default function PrivacyPage() {
                         viewport={{ once: true }}
                         className="space-y-6"
                     >
-                        <h2 className="text-2xl font-black tracking-tight text-white">2. Cryptographic Utilization</h2>
+                        <h2 className="text-2xl font-black tracking-tight text-white">2. Security Infrastructure</h2>
                         <ul className="space-y-4 text-text-secondary font-medium list-disc list-inside">
                             <li>To inject unique, trace-capable watermarks directly into asset binaries upon requesting rendering.</li>
                             <li>To facilitate end-to-end encrypted storage pipelines utilizing AES-256 logic.</li>
@@ -82,9 +82,9 @@ export default function PrivacyPage() {
                         viewport={{ once: true }}
                         className="space-y-6"
                     >
-                        <h2 className="text-2xl font-black tracking-tight text-white">4. User Clearance Rights</h2>
+                        <h2 className="text-2xl font-black tracking-tight text-white">4. User Data Rights</h2>
                         <p className="text-text-secondary leading-relaxed font-medium">
-                            You maintain ultimate clearance over your data footprint. You hold the right to petition for a full data wipe (Account Termination Protocol), which immediately cascades and erases all non-transactional database references. Note: Any previously watermarked intelligence downloaded will retain its trace markers permanently.
+                            You maintain ultimate control over your data footprint. You hold the right to petition for a full data wipe (Account Deletion), which immediately cascades and erases all non-transactional database references. Note: Any previously watermarked study materials downloaded will retain its trace markers permanently.
                         </p>
                     </motion.section>
                 </div>
@@ -92,7 +92,7 @@ export default function PrivacyPage() {
                 <div className="mt-20 pt-10 border-t border-border flex justify-between items-center">
                     <Link href="/">
                         <Button variant="ghost" className="text-text-muted hover:text-white font-bold tracking-tight px-0">
-                            ← Return to Base
+                            ← Back to Home
                         </Button>
                     </Link>
                     <Link href="/terms">

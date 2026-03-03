@@ -15,12 +15,14 @@ import {
     Target,
     ArrowRight,
     ChevronRight,
-    Twitter,
     Youtube,
     Instagram,
-    Send
+    Send,
+    Facebook,
+    MessageCircle
 } from "lucide-react"
 import Link from "next/link"
+import { FaWhatsapp } from "react-icons/fa"
 
 export default function Home() {
     const categories = [
@@ -98,13 +100,13 @@ export default function Home() {
                     </motion.div>
 
                     {/* Social Proof Stats */}
-                    {/* Social Proof Stats */}
+                    {/* Platform Stats */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-24 pt-12 border-t border-border">
                         {[
-                            { value: "50K+", label: "Active Entities" },
-                            { value: "10K+", label: "Secure Archives" },
-                            { value: "98%", label: "Clearance Rate" },
-                            { value: "24/7", label: "Overwatch" },
+                            { value: "50K+", label: "Active Students" },
+                            { value: "10K+", label: "Study Materials" },
+                            { value: "98%", label: "Success Rate" },
+                            { value: "24/7", label: "Support" },
                         ].map((stat, i) => (
                             <motion.div
                                 key={stat.label}
@@ -126,12 +128,12 @@ export default function Home() {
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
                         <div className="max-w-2xl">
-                            <h2 className="text-[10px] font-black text-text-muted uppercase tracking-[0.3em] mb-4">Database Sectors</h2>
-                            <h3 className="text-5xl font-black text-text-primary tracking-tight">Select Classification</h3>
-                            <p className="text-text-muted mt-6 leading-relaxed text-lg font-medium">Enterprise-grade materials tailored for every major government recruitment board in India.</p>
+                            <h2 className="text-[10px] font-black text-text-muted uppercase tracking-[0.3em] mb-4">Study Materials</h2>
+                            <h3 className="text-5xl font-black text-text-primary tracking-tight">Select Category</h3>
+                            <p className="text-text-muted mt-6 leading-relaxed text-lg font-medium">Premium PDF notes tailored for every major government recruitment board in India.</p>
                         </div>
                         <Link href="/register" className="text-text-primary hover:text-text-secondary font-black tracking-tight flex items-center gap-2 group transition-colors">
-                            Access Full Index <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                            View All Categories <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </div>
 
@@ -152,7 +154,7 @@ export default function Home() {
                                 <p className="text-[10px] text-text-muted font-black uppercase tracking-widest mb-6">{cat.count}</p>
                                 <Link href="/register">
                                     <Button variant="ghost" className="p-0 h-auto text-text-secondary group-hover:text-accent hover:bg-transparent -ml-1 transition-colors font-bold tracking-tight">
-                                        Decrypt Detail <ArrowRight className="ml-2 h-4 w-4" />
+                                        View Details <ArrowRight className="ml-2 h-4 w-4" />
                                     </Button>
                                 </Link>
                             </motion.div>
@@ -200,8 +202,8 @@ export default function Home() {
             <section id="pricing" className="py-24 bg-background relative overflow-hidden">
                 <div className="container mx-auto px-6">
                     <div className="text-center mb-20">
-                        <h2 className="text-[10px] font-black text-text-muted uppercase tracking-[0.3em] mb-4">Acquisition Parameters</h2>
-                        <h3 className="text-5xl font-black text-text-primary tracking-tight">Per-Asset Pricing Model</h3>
+                        <h2 className="text-[10px] font-black text-text-muted uppercase tracking-[0.3em] mb-4">Pricing Plans</h2>
+                        <h3 className="text-5xl font-black text-text-primary tracking-tight">Pay Per PDF Module</h3>
                         <p className="text-text-muted mt-6 max-w-2xl mx-auto font-medium text-lg leading-relaxed">No subscriptions. Free portal access and alerts. Purchase only premium, verifiable study assets on a per-module basis.</p>
                     </div>
 
@@ -214,10 +216,10 @@ export default function Home() {
                     >
                         {/* Price Range Info */}
                         <div className="lg:col-span-1 p-12 bg-white flex flex-col justify-center border-r border-border">
-                            <div className="text-background font-black mb-6 uppercase tracking-widest text-[10px]">Financial Scale</div>
+                            <div className="text-background font-black mb-6 uppercase tracking-widest text-[10px]">Price Range</div>
                             <div className="text-6xl font-black text-background mb-4 tracking-tighter">₹50<span className="text-3xl font-normal text-text-secondary mx-2">-</span>₹1k</div>
                             <p className="text-text-muted font-bold leading-relaxed tracking-tight">
-                                Calibrated pricing mapped precisely to material density and exam complexity. (Alerts & job updates remain strictly free.)
+                                Affordable pricing mapped precisely to material density and exam complexity. (Alerts & job updates remain strictly free.)
                             </p>
                         </div>
 
@@ -239,7 +241,7 @@ export default function Home() {
                                     </div>
                                     <Link href="/register" className="mt-8 block">
                                         <Button variant="ghost" className="p-0 h-auto text-text-primary group-hover:pl-2 transition-all font-black tracking-tight rounded-none">
-                                            Acquire Asset <ArrowRight className="ml-2 h-4 w-4" />
+                                            Buy Material <ArrowRight className="ml-2 h-4 w-4" />
                                         </Button>
                                     </Link>
                                 </div>
@@ -250,7 +252,7 @@ export default function Home() {
                     <div className="mt-16 py-6 border-y border-border text-center max-w-6xl mx-auto">
                         <p className="text-text-muted font-bold tracking-tight text-sm flex items-center justify-center gap-3">
                             <Zap className="h-4 w-4 text-text-primary" />
-                            LIFETIME RETENTION ON ALL SECURED INTEL • CRYPTOGRAPHIC WATERMARKING ACTIVE
+                            LIFETIME ACCESS ON ALL PURCHASED MATERIALS • SECURE PDF DOWNLOADS
                         </p>
                     </div>
                 </div>
@@ -260,19 +262,19 @@ export default function Home() {
             <section id="about" className="py-24 bg-background border-y border-border">
                 <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
                     <div className="flex-1">
-                        <h2 className="text-[10px] font-black text-text-muted uppercase tracking-[0.3em] mb-4">Origins</h2>
-                        <h3 className="text-4xl md:text-5xl font-black text-text-primary mb-8 tracking-tight">Architecting the Standard Since 2024</h3>
+                        <h2 className="text-[10px] font-black text-text-muted uppercase tracking-[0.3em] mb-4">Our Mission</h2>
+                        <h3 className="text-4xl md:text-5xl font-black text-text-primary mb-8 tracking-tight">Setting the Standard Since 2024</h3>
                         <p className="text-text-secondary leading-relaxed mb-10 font-medium text-lg">
-                            All Gov started with a strict directive: centralize, secure, and distribute premium prep intel. We eradicated data leaks and eliminated hyper-inflated academy fees.
+                            All Gov started with a strict directive: centralize, secure, and distribute premium study materials. We eradicated data leaks and eliminated hyper-inflated academy fees.
                         </p>
                         <div className="grid grid-cols-2 gap-12 border-t border-border pt-8">
                             <div>
                                 <div className="text-4xl font-black text-text-primary tracking-tighter mb-2">50K<span className="text-text-muted">+</span></div>
-                                <p className="text-[10px] text-text-muted font-black tracking-widest uppercase">Verified Active Units</p>
+                                <p className="text-[10px] text-text-muted font-black tracking-widest uppercase">Registered Students</p>
                             </div>
                             <div>
                                 <div className="text-4xl font-black text-text-primary tracking-tighter mb-2">1M<span className="text-text-muted">/30</span></div>
-                                <p className="text-[10px] text-text-muted font-black tracking-widest uppercase">Target Clearances</p>
+                                <p className="text-[10px] text-text-muted font-black tracking-widest uppercase">Successful Exams</p>
                             </div>
                         </div>
                     </div>
@@ -296,19 +298,19 @@ export default function Home() {
                         <div className="absolute inset-0 bg-[linear-gradient(to_right,#27272a_1px,transparent_1px),linear-gradient(to_bottom,#27272a_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 group-hover:opacity-40 transition-opacity duration-1000" />
 
                         <div className="relative z-10">
-                            <h2 className="text-4xl md:text-7xl font-black text-text-primary mb-8 tracking-tighter">Initiate Protocol.</h2>
+                            <h2 className="text-4xl md:text-7xl font-black text-text-primary mb-8 tracking-tighter">Start Learning.</h2>
                             <p className="text-text-muted text-xl max-w-2xl mx-auto mb-12 font-medium tracking-tight">
-                                Secure your clearance now. The database is primed.
+                                Get immediate access to premium exam materials today.
                             </p>
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
                                 <Link href="/register">
                                     <Button size="lg" className="bg-white text-background hover:bg-accent-hover px-12 h-16 text-lg font-black tracking-tight rounded-none transition-all active:scale-95">
-                                        Execute Registration
+                                        Sign Up Now
                                     </Button>
                                 </Link>
                                 <Link href="/login">
                                     <Button size="lg" variant="outline" className="bg-background text-text-primary border-border hover:bg-surface px-12 h-16 text-lg font-black tracking-tight rounded-none transition-all">
-                                        Login Clearance
+                                        Log In
                                     </Button>
                                 </Link>
                             </div>
@@ -331,27 +333,32 @@ export default function Home() {
                                     />
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-3xl font-black text-text-primary tracking-tighter uppercase transition-colors leading-[0.9]">
-                                        All Gov
+                                    <span className="text-3xl font-black text-text-primary tracking-tighter transition-colors leading-[0.9]">
+                                        All government
                                     </span>
                                     <span className="text-[12px] font-black text-text-muted tracking-[0.4em] uppercase mt-2">
-                                        Platform
+                                        Alerts
                                     </span>
                                 </div>
                             </Link>
                             <p className="text-text-muted font-bold max-w-sm leading-relaxed mb-8 tracking-tight">
                                 India's strict-access platform for government exam study materials. High security. No noise.
                             </p>
-                            <div className="flex gap-4">
+                            <div className="flex flex-wrap gap-4">
                                 {[
-                                    { name: "Twitter", icon: <Twitter className="h-5 w-5" /> },
-                                    { name: "Telegram", icon: <Send className="h-5 w-5" /> },
-                                    { name: "YouTube", icon: <Youtube className="h-5 w-5" /> },
+                                    { name: "Instagram", href: "https://www.instagram.com/all_government_alerts/", icon: <Instagram className="h-5 w-5" /> },
+                                    { name: "YouTube", href: "https://youtube.com/@all_government_alerts", icon: <Youtube className="h-5 w-5" /> },
+                                    { name: "WhatsApp", href: "https://whatsapp.com/channel/0029VanToDy3gvWdW6pOsQ3J", icon: <FaWhatsapp className="h-5 w-5" /> },
+                                    { name: "Telegram", href: "https://t.me/all_government_alerts", icon: <Send className="h-5 w-5" /> },
+                                    { name: "Facebook", href: "https://www.facebook.com/share/1ByyLMZpZN/", icon: <Facebook className="h-5 w-5" /> },
                                 ].map((social) => (
                                     <Link
                                         key={social.name}
-                                        href="#"
-                                        className="h-12 w-12 bg-background border border-border flex items-center justify-center text-text-muted hover:text-text-primary hover:border-white transition-all duration-300"
+                                        href={social.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="h-12 w-12 bg-background border border-border flex items-center justify-center text-text-muted hover:text-text-primary hover:border-white transition-all duration-300 hover:scale-110"
+                                        title={social.name}
                                     >
                                         {social.icon}
                                     </Link>
@@ -369,7 +376,7 @@ export default function Home() {
                         </div>
 
                         <div>
-                            <h5 className="text-text-primary font-black text-[10px] uppercase tracking-[0.3em] mb-8">Protocol Validations</h5>
+                            <h5 className="text-text-primary font-black text-[10px] uppercase tracking-[0.3em] mb-8">Protocol</h5>
                             <div className="flex flex-col gap-5 text-text-muted font-bold text-sm tracking-tight">
                                 <Link href="/privacy" className="hover:text-text-primary transition-colors">Data Privacy</Link>
                                 <Link href="/terms" className="hover:text-text-primary transition-colors">Terms of Service</Link>
@@ -380,11 +387,11 @@ export default function Home() {
 
                     <div className="pt-10 border-t border-border flex flex-col md:flex-row items-center justify-between gap-8">
                         <div className="text-[10px] text-text-muted font-black tracking-[0.2em] uppercase">
-                            © 2026 ALL GOV. STRICT ARCHITECTURE.
+                            © 2026 ALL GOVERNMENT ALERTS. ALL RIGHTS RESERVED.
                         </div>
                         <div className="flex items-center gap-3 px-4 py-2 border border-border bg-background">
                             <div className="h-1.5 w-1.5 rounded-full bg-white" />
-                            <span className="text-[10px] font-black text-text-primary uppercase tracking-widest">Op Normal</span>
+                            <span className="text-[10px] font-black text-text-primary uppercase tracking-widest">System Online</span>
                         </div>
                     </div>
                 </div>

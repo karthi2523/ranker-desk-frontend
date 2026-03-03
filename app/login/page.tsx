@@ -144,7 +144,12 @@ export default function LoginPage() {
                                 {step === "LOGIN" ? "Welcome Back" : "Security Verification"}
                             </CardTitle>
                             <CardDescription className="text-text-secondary font-medium tracking-tight mt-1">
-                                {step === "LOGIN" ? "Access your secure study vault" : "Enter the code sent to your email"}
+                                {step === "LOGIN" ? "Access your study materials" : (
+                                    <span className="flex flex-col gap-1">
+                                        <span>Enter the code sent to your email</span>
+                                        <span className="text-xs opacity-80">If not found in your primary inbox, please check your spam folder.</span>
+                                    </span>
+                                )}
                             </CardDescription>
                         </div>
                     </CardHeader>

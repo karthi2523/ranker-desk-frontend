@@ -27,18 +27,18 @@ export default function TermsPage() {
                     </h1>
 
                     <p className="text-xl text-text-muted font-medium mb-16 leading-relaxed">
-                        Last Updated: March 2026. By infiltrating and utilizing the All Gov infrastructure, you automatically agree to the following rigorous operational terms.
+                        Last Updated: March 2026. By accessing and using the All Gov platform, you automatically agree to the following rigorous operational terms.
                     </p>
                 </motion.div>
 
                 <div className="space-y-12">
                     {[
                         {
-                            title: "1. Asset Acceptance & License",
+                            title: "1. Material Acceptance & License",
                             desc: "All content provided within this architecture is classified as premium study material, not legal counsel. Your purchase grants you a singular, non-transferable, revocable license strictly for personal exam preparation."
                         },
                         {
-                            title: "2. The Zero-Distribution Directive",
+                            title: "2. Anti-Distribution Policy",
                             desc: "Under no circumstances are you permitted to redistribute, broadcast, mirror, screenshot, or record our platform assets. Every PDF and document is embedded with cryptographic watermarks linked directly to your user hash. Unauthorized distribution will trigger immediate account termination without refund and potential legal escalation."
                         },
                         {
@@ -46,11 +46,11 @@ export default function TermsPage() {
                             desc: "While we strive for a 99.9% uptime metric, the All Gov platform is provided 'as is'. We reserve the right to initiate unscheduled maintenance protocols, modify content architectures, and adjust pricing parameters dynamically without prior warning."
                         },
                         {
-                            title: "4. Account Security Parameters",
+                            title: "4. Account Security Rules",
                             desc: "You are the sole commander of your login credentials. Sharing vault access is a direct violation of our security policies. The system employs concurrent-session disruption, automatically terminating active sessions if simultaneous logins are detected from unfamiliar vectors."
                         },
                         {
-                            title: "5. Financial Execution",
+                            title: "5. Refund Policy",
                             desc: "All transactions processed for digital assets are final. Due to the rapid delivery and immediate consumption nature of exam intel, we operate a strict zero-refund policy once an asset has been decrypted and served to your device."
                         }
                     ].map((section, i) => (
@@ -76,7 +76,7 @@ export default function TermsPage() {
                 <div className="mt-20 pt-10 border-t border-border flex justify-between items-center">
                     <Link href="/">
                         <Button variant="ghost" className="text-text-muted hover:text-white font-bold tracking-tight px-0">
-                            ← Return to Base
+                            ← Back to Home
                         </Button>
                     </Link>
                     <Link href="/license">

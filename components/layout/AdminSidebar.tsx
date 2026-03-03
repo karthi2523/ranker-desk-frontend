@@ -8,10 +8,10 @@ import { useAuth } from "@/context/AuthContext"
 
 const adminSidebarItems = [
     { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
-    { icon: FileText, label: "Inventory", href: "/dashboard/admin-materials" },
-    { icon: Upload, label: "Deploy Asset", href: "/dashboard/upload" },
+    { icon: FileText, label: "Materials", href: "/dashboard/admin-materials" },
+    { icon: Upload, label: "Upload Material", href: "/dashboard/upload" },
     { icon: Layers, label: "Packages", href: "/dashboard/packages" },
-    { icon: Users, label: "Personnel", href: "/dashboard/users" },
+    { icon: Users, label: "Users", href: "/dashboard/users" },
     { icon: DollarSign, label: "Financials", href: "/dashboard/sales" },
 ]
 
@@ -48,7 +48,7 @@ export function AdminSidebar() {
             {/* Navigation Registry */}
             <div className="flex-1 px-4 py-8 overflow-y-auto custom-scrollbar">
                 <div className="px-4 mb-4">
-                    <p className="text-[10px] font-black text-text-muted uppercase tracking-[0.3em]">Command Hierarchy</p>
+                    <p className="text-[10px] font-black text-text-muted uppercase tracking-[0.3em]">Main Menu</p>
                 </div>
                 <nav className="space-y-1.5">
                     {adminSidebarItems.map((item) => {
@@ -84,7 +84,7 @@ export function AdminSidebar() {
                 </nav>
             </div>
 
-            {/* Administrative Entity Info */}
+            {/* Admin User Info */}
             <div className="p-4 border-t border-border bg-background">
                 <div className="flex items-center gap-3 px-4 py-3 mb-4 rounded-xl bg-surface border border-border">
                     <div className="h-8 w-8 rounded-lg bg-transparent border border-accent/30 flex items-center justify-center">
@@ -100,7 +100,7 @@ export function AdminSidebar() {
                     className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted transition-colors hover:bg-surface hover:text-text-primary group"
                 >
                     <LogOut className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                    Terminate Session
+                    Logout
                 </button>
             </div>
         </aside >

@@ -10,6 +10,8 @@ import api from "@/lib/api"
 import { useAuth } from "@/context/AuthContext"
 import Link from "next/link"
 import AdminStats from "./admin-stats"
+import { Youtube, Instagram, Send, Facebook, MessageCircle } from "lucide-react"
+import { FaWhatsapp } from "react-icons/fa"
 
 export default function DashboardPage() {
     const { user } = useAuth()
@@ -180,6 +182,38 @@ export default function DashboardPage() {
                         <p className="text-[10px] text-text-muted font-bold leading-relaxed pt-4 text-center uppercase tracking-widest">
                             Your account is protected by hardware-bound verification and dynamic document serialization.
                         </p>
+                    </CardContent>
+                </Card>
+
+                {/* Social Community */}
+                <Card className="lg:col-span-2 bg-surface border-border rounded-xl">
+                    <CardHeader className="pb-4 border-b border-border">
+                        <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-widest">Connect With Us</CardTitle>
+                    </CardHeader>
+                    <CardContent className="pt-6 space-y-4 px-6">
+                        <p className="text-[10px] text-text-muted font-bold leading-relaxed mb-4 uppercase tracking-widest">
+                            Join our official channels for the latest exam alerts, study tips, and community support.
+                        </p>
+                        <div className="grid grid-cols-5 gap-3">
+                            {[
+                                { name: "Instagram", href: "https://www.instagram.com/all_government_alerts/", icon: <Instagram className="h-5 w-5" /> },
+                                { name: "YouTube", href: "https://youtube.com/@all_government_alerts", icon: <Youtube className="h-5 w-5" /> },
+                                { name: "WhatsApp", href: "https://whatsapp.com/channel/0029VanToDy3gvWdW6pOsQ3J", icon: <FaWhatsapp className="h-5 w-5" /> },
+                                { name: "Telegram", href: "https://t.me/all_government_alerts", icon: <Send className="h-5 w-5" /> },
+                                { name: "Facebook", href: "https://www.facebook.com/share/1ByyLMZpZN/", icon: <Facebook className="h-5 w-5" /> },
+                            ].map((social) => (
+                                <Link
+                                    key={social.name}
+                                    href={social.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="aspect-square bg-background border border-border flex items-center justify-center text-text-muted hover:text-text-primary hover:border-white transition-all duration-300 hover:scale-105 rounded-lg"
+                                    title={social.name}
+                                >
+                                    {social.icon}
+                                </Link>
+                            ))}
+                        </div>
                     </CardContent>
                 </Card>
             </div>
