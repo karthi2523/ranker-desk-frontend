@@ -123,7 +123,7 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Exam Categories Section */}
+
             <section id="exams" className="py-24 relative overflow-hidden bg-background">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
@@ -333,12 +333,9 @@ export default function Home() {
                                     />
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-3xl font-black text-text-primary tracking-tighter transition-colors leading-[0.9]">
-                                        All government
-                                    </span>
-                                    <span className="text-[12px] font-black text-text-muted tracking-[0.4em] uppercase mt-2">
-                                        Alerts
-                                    </span>
+                                    <h1 className="text-3xl font-black bg-clip-text text-transparent bg-[linear-gradient(110deg,#f0f2f5,45%,#c9a84c,55%,#f0f2f5)] bg-[length:200%_100%] animate-shimmer whitespace-nowrap leading-none tracking-tighter">
+                                        All Government Alerts
+                                    </h1>
                                 </div>
                             </Link>
                             <p className="text-text-muted font-bold max-w-sm leading-relaxed mb-8 tracking-tight">

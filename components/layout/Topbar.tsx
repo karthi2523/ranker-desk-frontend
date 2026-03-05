@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Bell, Search, Menu, CheckCircle2, Info, AlertTriangle, Check, Trash2, X, Clock } from "lucide-react"
+import { Bell, Search, Menu, CheckCircle2, Info, AlertTriangle, Check, Trash2, X, Clock, Shield } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,6 +11,7 @@ import { useNotifications } from "@/context/NotificationContext"
 import { formatDistanceToNow } from "date-fns"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
+import { motion, AnimatePresence } from "framer-motion"
 
 export function Topbar() {
     const { user } = useAuth()
@@ -75,38 +76,37 @@ export function Topbar() {
 
     const getInitials = (name?: string) => {
         if (!name) return "U"
-        return name.split("").map(n => n[0]).join("").toUpperCase().substring(0, 2)
+        return name.split(" ").map(n => n[0]).join("").toUpperCase().substring(0, 2)
     }
 
     const isAdmin = user?.role === "ADMIN"
 
     return (
         <>
-            <header className="flex h-16 items-center gap-4 border-b border-border bg-background px-4 md:px-6 sticky top-0 z-40">
+            <header className="flex h-16 items-center gap-4 border-b border-white/5 bg-background px-4 md:px-6 sticky top-0 z-40 backdrop-blur-md">
                 {/* Mobile Menu & Logo */}
-                <div className="flex md:hidden items-center gap-3">
+                <div className="flex md:hidden items-center gap-4">
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="text-zinc-500 hover:text-text-primary"
+                        className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/5 text-text-muted hover:text-white border border-white/5 transition-all"
                         onClick={toggleMobileNav}
                     >
                         <Menu className="h-5 w-5" />
                     </Button>
-                    <Link href="/dashboard" className="flex items-center gap-2">
-                        <img src="/logo.png" alt="Logo" className="h-6 w-6 object-contain" />
-                        <div className="flex flex-col leading-none hidden sm:flex">
-                            <span className="text-sm font-black text-text-primary tracking-tight transition-colors">
-                                All government
-                            </span>
-                            <span className="text-[9px] font-black text-accent tracking-widest mt-0.5">
-                                Alerts
-                            </span>
+                    <Link href="/dashboard" className="flex items-center gap-3">
+                        <div className="h-9 w-9 rounded-lg border border-accent/20 bg-surface flex items-center justify-center shrink-0">
+                            <img src="/logo.png" alt="Logo" className="h-5 w-5 object-contain" />
+                        </div>
+                        <div className="flex flex-col hidden xs:flex">
+                            <h1 className="text-base font-black tracking-tight bg-clip-text text-transparent bg-[linear-gradient(110deg,#f0f2f5,45%,#c9a84c,55%,#f0f2f5)] bg-[length:200%_100%] animate-shimmer whitespace-nowrap">
+                                All Government Alerts
+                            </h1>
                         </div>
                     </Link>
                 </div>
 
-                {/* Search */}
+                {/* Search - HIDDEN ON SMALLER SCREENS */}
                 <div className="flex-1">
                     <form onSubmit={handleSubmit} className="relative max-w-sm hidden md:block group">
                         <button
@@ -118,123 +118,134 @@ export function Topbar() {
                         <Input
                             type="search"
                             placeholder="Search materials..."
-                            className="w-full bg-surface border-border focus-visible:ring-accent/20 focus-visible:border-accent pl-9 text-sm h-10 text-text-primary placeholder:text-text-muted transition-colors"
+                            className="w-full bg-surface border-border focus-visible:ring-accent/20 focus-visible:border-accent pl-9 text-sm h-10 text-text-primary placeholder:text-text-muted transition-colors rounded-xl"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </form>
                 </div>
 
-                <div className="flex items-center gap-2 md:gap-4">
+                <div className="flex items-center gap-2 md:gap-4 ml-auto">
                     {/* Notifications */}
                     <div className="relative" ref={notifRef}>
                         <Button
                             variant="ghost"
                             size="icon"
                             className={cn(
-                                "text-text-secondary hover:text-text-primary relative",
-                                isNotifOpen && "text-text-primary bg-surface-raised"
+                                "h-10 w-10 rounded-xl bg-white/5 border border-white/5 text-text-secondary hover:text-white transition-all relative",
+                                isNotifOpen && "text-white bg-surface-raised border-accent/20"
                             )}
                             onClick={() => setIsNotifOpen(!isNotifOpen)}
                         >
                             <Bell className="h-5 w-5" />
                             {unreadCount > 0 && (
-                                <span className="absolute top-2 right-2 flex h-2 w-2">
+                                <span className="absolute top-2.5 right-2.5 flex h-2 w-2">
+                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
                                     <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
                                 </span>
                             )}
                         </Button>
 
                         {/* Notification Dropdown */}
-                        {isNotifOpen && (
-                            <div className="absolute right-0 mt-3 w-80 sm:w-96 rounded-xl border border-border bg-surface shadow-none z-[100] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                                <div className="flex items-center justify-between p-4 border-b border-border bg-surface/50">
-                                    <div className="flex items-center gap-2">
-                                        <Bell className="h-4 w-4 text-zinc-400" />
-                                        <h3 className="text-sm font-black text-text-primary uppercase tracking-tighter">All government Alerts</h3>
-                                    </div>
-                                    {notifications.length > 0 && (
-                                        <button
-                                            onClick={clearAll}
-                                            className="text-[10px] font-black text-zinc-600 hover:text-text-primary uppercase tracking-widest transition-colors flex items-center gap-1"
-                                        >
-                                            <Trash2 className="h-3 w-3" />
-                                            Clear All
-                                        </button>
-                                    )}
-                                </div>
-
-                                <div className="max-h-[70vh] overflow-y-auto custom-scrollbar">
-                                    {notifications.length === 0 ? (
-                                        <div className="p-12 text-center">
-                                            <div className="h-12 w-12 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center mx-auto mb-4">
-                                                <Bell className="h-6 w-6 text-zinc-700" />
+                        <AnimatePresence>
+                            {isNotifOpen && (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                                    className="absolute right-0 mt-3 w-80 sm:w-96 rounded-2xl border border-white/10 bg-background/95 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[100] overflow-hidden"
+                                >
+                                    <div className="flex items-center justify-between p-5 border-b border-white/5 bg-white/5">
+                                        <div className="flex items-center gap-2">
+                                            <div className="h-6 w-6 rounded-md bg-accent/20 flex items-center justify-center">
+                                                <Bell className="h-3 w-3 text-accent" />
                                             </div>
-                                            <p className="text-sm font-medium text-zinc-600">No new alerts found.</p>
+                                            <h3 className="text-[11px] font-black text-white uppercase tracking-widest">Live Archive</h3>
                                         </div>
-                                    ) : (
-                                        <div className="divide-y divide-zinc-900">
-                                            {notifications.map((notif) => (
-                                                <div
-                                                    key={notif.id}
-                                                    className={cn(
-                                                        "p-4 transition-colors group relative",
-                                                        !notif.isRead ? "bg-zinc-900" : "bg-black hover:bg-zinc-950"
-                                                    )}
-                                                >
-                                                    <div className="flex gap-3">
-                                                        <div className="mt-1 shrink-0">
-                                                            {getNotifIcon(notif.type)}
-                                                        </div>
-                                                        <div className="flex-1 min-w-0">
-                                                            <div className="flex items-center justify-between gap-2 mb-1">
-                                                                <p className={cn(
-                                                                    "text-sm font-bold truncate",
-                                                                    !notif.isRead ? "text-text-primary" : "text-zinc-500"
-                                                                )}>
-                                                                    {notif.title}
-                                                                </p>
-                                                                {!notif.isRead && (
-                                                                    <button
-                                                                        onClick={() => markAsRead(notif.id)}
-                                                                        className="p-1 rounded-md text-zinc-600 hover:text-text-primary hover:bg-zinc-800 transition-colors"
-                                                                    >
-                                                                        <Check className="h-3 w-3" />
-                                                                    </button>
+                                        {notifications.length > 0 && (
+                                            <button
+                                                onClick={clearAll}
+                                                className="text-[10px] font-black text-text-muted hover:text-white uppercase tracking-widest transition-colors flex items-center gap-1.5"
+                                            >
+                                                <Trash2 className="h-3 w-3" />
+                                                Clear
+                                            </button>
+                                        )}
+                                    </div>
 
-                                                                )}
+                                    <div className="max-h-[60vh] overflow-y-auto custom-scrollbar">
+                                        {notifications.length === 0 ? (
+                                            <div className="p-16 text-center">
+                                                <div className="h-14 w-14 rounded-full bg-white/5 border border-white/5 flex items-center justify-center mx-auto mb-6">
+                                                    <Bell className="h-6 w-6 text-white/20" />
+                                                </div>
+                                                <p className="text-sm font-black text-text-muted uppercase tracking-tighter">No alerts detected.</p>
+                                            </div>
+                                        ) : (
+                                            <div className="divide-y divide-white/5">
+                                                {notifications.map((notif) => (
+                                                    <div
+                                                        key={notif.id}
+                                                        className={cn(
+                                                            "p-5 transition-all group relative",
+                                                            !notif.isRead ? "bg-white/[0.03]" : "hover:bg-white/[0.02]"
+                                                        )}
+                                                    >
+                                                        <div className="flex gap-4">
+                                                            <div className="mt-1 shrink-0">
+                                                                <div className="h-8 w-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+                                                                    {getNotifIcon(notif.type)}
+                                                                </div>
                                                             </div>
-                                                            <p className="text-xs text-zinc-500 leading-relaxed font-medium break-words mb-2">
-                                                                {notif.message}
-                                                            </p>
-                                                            <div className="flex items-center gap-1.5 text-[10px] text-zinc-600 font-bold uppercase tracking-wider">
-                                                                <Clock className="h-2.5 w-2.5" />
-                                                                {formatDistanceToNow(new Date(notif.createdAt), { addSuffix: true })}
+                                                            <div className="flex-1 min-w-0">
+                                                                <div className="flex items-center justify-between gap-2 mb-1.5">
+                                                                    <p className={cn(
+                                                                        "text-[13px] font-black tracking-tight truncate",
+                                                                        !notif.isRead ? "text-white" : "text-text-muted"
+                                                                    )}>
+                                                                        {notif.title}
+                                                                    </p>
+                                                                    {!notif.isRead && (
+                                                                        <button
+                                                                            onClick={() => markAsRead(notif.id)}
+                                                                            className="h-6 w-6 rounded-lg bg-accent/10 border border-accent/20 text-accent flex items-center justify-center hover:bg-accent hover:text-background transition-all"
+                                                                        >
+                                                                            <Check className="h-3 w-3" />
+                                                                        </button>
+                                                                    )}
+                                                                </div>
+                                                                <p className="text-xs text-text-muted leading-relaxed font-medium mb-3">
+                                                                    {notif.message}
+                                                                </p>
+                                                                <div className="flex items-center gap-2 text-[9px] font-black text-text-muted uppercase tracking-[.2em]">
+                                                                    <Clock className="h-2.5 w-2.5" />
+                                                                    {formatDistanceToNow(new Date(notif.createdAt), { addSuffix: true })}
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
 
-                                <div className="p-3 border-t border-zinc-900 bg-zinc-950 text-center">
-                                    <p className="text-[9px] text-zinc-600 font-black uppercase tracking-[0.2em]">End of Archive</p>
-                                </div>
-                            </div>
-                        )}
+                                    <div className="p-4 border-t border-white/5 bg-white/[0.02] text-center">
+                                        <p className="text-[9px] font-black text-text-muted uppercase tracking-[0.4em]">Protocol Archive V1</p>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
 
-                    {/* User */}
-                    <div className="flex items-center gap-3 pl-3 border-l border-border ml-3">
+                    {/* User Profile */}
+                    <div className="flex items-center gap-3 pl-4 border-l border-white/5 h-10 ml-2">
                         <div className="hidden sm:block text-right">
                             <p className="text-xs font-black text-text-primary leading-none tracking-tight">{user?.name}</p>
-                            <p className="text-[9px] text-text-secondary font-bold uppercase tracking-widest mt-1">
-                                {isAdmin ? 'Administrator' : 'Verified Entity'}
+                            <p className="text-[9px] text-accent font-black uppercase tracking-[0.2em] mt-1.5">
+                                {isAdmin ? 'ADMINISTRATOR' : 'VERIFIED USER'}
                             </p>
                         </div>
-                        <div className="h-9 w-9 rounded-full border border-accent bg-surface-raised flex items-center justify-center text-xs font-black text-accent">
+                        <div className="h-10 w-10 rounded-xl border border-accent/30 bg-accent/10 flex items-center justify-center text-xs font-black text-accent shadow-[0_0_15px_rgba(201,168,76,0.1)]">
                             {getInitials(user?.name)}
                         </div>
                     </div>
