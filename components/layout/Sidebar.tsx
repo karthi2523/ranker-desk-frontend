@@ -40,13 +40,10 @@ export function Sidebar() {
                             className="h-6 w-6 object-contain transition-opacity"
                         />
                     </div>
-                    <div className="flex flex-col leading-none">
-                        <span className="text-sm font-black text-text-primary tracking-tight transition-colors">
-                            All government
-                        </span>
-                        <span className="text-[10px] font-black text-accent tracking-widest mt-1">
-                            Alerts
-                        </span>
+                    <div className="flex flex-col">
+                        <h1 className="text-sm font-black bg-clip-text text-transparent bg-[linear-gradient(110deg,#f0f2f5,45%,#c9a84c,55%,#f0f2f5)] bg-[length:200%_100%] animate-shimmer whitespace-nowrap leading-none tracking-tighter">
+                            All Government Alerts
+                        </h1>
                     </div>
                 </Link>
             </div>

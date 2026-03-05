@@ -205,11 +205,11 @@ function StoreContent() {
                                         onClick={() => handleDownloadDemo(item.id)}
                                         className="text-[10px] font-bold text-accent hover:text-accent uppercase tracking-widest transition-colors mb-3 w-full text-center"
                                     >
-                                        PREVIEW DEMO &rarr;
+                                        Preview Material &rarr;
                                     </button>
                                 ) : (
                                     <div className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-3 w-full text-center">
-                                        MULTIPLE ASSETS BUNDLE
+                                        Complete Bundle
                                     </div>
                                 )}
 
@@ -220,20 +220,11 @@ function StoreContent() {
                                     >
                                         <span className="flex items-center justify-center gap-2 tracking-tight text-sm">
                                             <ShoppingCart className="h-4 w-4" />
-                                            Acquire Access
+                                            Buy Now
                                         </span>
                                     </Button>
 
-                                    {item.type === 'material' && (
-                                        <Button
-                                            variant="outline"
-                                            className="border-border bg-transparent text-text-secondary hover:bg-surface hover:text-text-primary px-0 w-11 h-11 rounded-lg shrink-0 transition-colors"
-                                            onClick={() => handleDownloadDemo(item.id)}
-                                            title="View Demo PDF"
-                                        >
-                                            <ExternalLink className="h-4 w-4" />
-                                        </Button>
-                                    )}
+
                                 </div>
                             </CardFooter>
                         </Card>

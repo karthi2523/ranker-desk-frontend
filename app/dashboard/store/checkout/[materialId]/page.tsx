@@ -260,7 +260,7 @@ export default function CheckoutPage({ params }: { params: { materialId: string 
                     Accepted Payment Methods
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
-                    {["UPI (PhonePe, GPay, Paytm)", "Debit / Credit Card", "Net Banking", "Razorpay Wallet"].map((method) => (
+                    {["UPI (PhonePe, GPay, Paytm)", "Debit / Credit Card", "Razorpay Wallet"].map((method) => (
                         <div key={method} className="border border-border rounded-xl p-4 text-center text-[10px] font-black uppercase tracking-widest text-text-muted bg-background">
                             {method}
                         </div>
