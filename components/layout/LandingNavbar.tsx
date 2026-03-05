@@ -188,7 +188,7 @@ export function LandingNavbar() {
                                 >
                                     <Link href="/register" onClick={() => setIsMobileMenuOpen(false)}>
                                         <Button className="w-full bg-accent text-background hover:bg-accent-hover h-16 rounded-2xl text-xl font-black tracking-tight shadow-xl">
-                                            Begin Registration
+                                            Sign Up
                                         </Button>
                                     </Link>
                                     <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>

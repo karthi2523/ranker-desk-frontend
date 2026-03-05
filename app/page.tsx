@@ -88,13 +88,13 @@ export default function Home() {
                     >
                         <Link href="/register">
                             <Button size="lg" className="bg-gradient-to-r from-white to-gray-200 hover:from-white hover:to-white text-background px-12 h-16 text-xl font-black tracking-tight rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] group shadow-[0_10px_40px_-10px_rgba(255,255,255,0.3)]">
-                                Begin Identity Verification
+                                Sign Up
                                 <ArrowRight className="ml-3 h-5 w-5 transition-transform group-hover:translate-x-1" />
                             </Button>
                         </Link>
                         <Link href="/login">
                             <Button size="lg" variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 text-white backdrop-blur-sm px-12 h-16 text-xl font-black tracking-tight rounded-xl transition-all hover:border-accent/50 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.05)]">
-                                Access Vault
+                                Log In
                             </Button>
                         </Link>
                     </motion.div>
@@ -167,7 +167,9 @@ export default function Home() {
             <section id="features" className="py-24 bg-background border-y border-border">
                 <div className="container mx-auto px-6">
                     <div className="text-center mb-20">
-                        <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-text-primary">Why Choose All Gov?</h2>
+                        <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-text-primary">
+                            Why Choose <span className="bg-clip-text text-transparent bg-[linear-gradient(110deg,#f0f2f5,45%,#c9a84c,55%,#f0f2f5)] bg-[length:200%_100%] animate-shimmer">All Government Alerts</span>?
+                        </h2>
                         <p className="text-text-muted text-lg max-w-2xl mx-auto font-medium leading-relaxed">We combine premium content with state-of-the-art security to ensure your study journey is uninterrupted and successful.</p>
                     </div>
 
