@@ -10,11 +10,11 @@ import {
 import { useAuth } from "@/context/AuthContext"
 
 const sidebarItems = [
-    { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
     { icon: ShoppingCart, label: "Store", href: "/dashboard/store", roles: ["USER"] },
-    { icon: Lock, label: "My Vault", href: "/dashboard/vault", roles: ["USER"] },
-    { icon: ShoppingCart, label: "Orders", href: "/dashboard/orders", roles: ["USER"] },
-    { icon: MonitorSmartphone, label: "Devices", href: "/dashboard/devices", roles: ["USER"] },
+    { icon: Lock, label: "My Library", href: "/dashboard/vault", roles: ["USER"] },
+    { icon: ShoppingCart, label: "Purchase History", href: "/dashboard/orders", roles: ["USER"] },
+    { icon: MonitorSmartphone, label: "Active Devices", href: "/dashboard/devices", roles: ["USER"] },
     { icon: Upload, label: "Upload", href: "/dashboard/upload", roles: ["ADMIN"] },
     { icon: Users, label: "Users", href: "/dashboard/users", roles: ["ADMIN"] },
     { icon: DollarSign, label: "Sales", href: "/dashboard/sales", roles: ["ADMIN"] },

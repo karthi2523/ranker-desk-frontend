@@ -19,11 +19,11 @@ interface MobileNavProps {
 }
 
 const userItems = [
-    { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
     { icon: ShoppingCart, label: "Store", href: "/dashboard/store" },
-    { icon: Lock, label: "My Vault", href: "/dashboard/vault" },
-    { icon: ShoppingCart, label: "Orders", href: "/dashboard/orders" },
-    { icon: MonitorSmartphone, label: "Devices", href: "/dashboard/devices" },
+    { icon: Lock, label: "My Library", href: "/dashboard/vault" },
+    { icon: ShoppingCart, label: "Purchase History", href: "/dashboard/orders" },
+    { icon: MonitorSmartphone, label: "Active Devices", href: "/dashboard/devices" },
     { icon: Settings, label: "Settings", href: "/dashboard/settings" },
 ]
 
