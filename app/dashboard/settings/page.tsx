@@ -17,6 +17,7 @@ export default function SettingsPage() {
     const { refresh: refreshNotifications } = useNotifications()
     const [isLoading, setIsLoading] = useState(false)
     const [name, setName] = useState(user?.name || "")
+    const [phone, setPhone] = useState(user?.phone || "")
 
     const handleUpdateProfile = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -24,10 +25,11 @@ export default function SettingsPage() {
 
         setIsLoading(true)
         try {
-            const response = await api.put("/auth/update-profile", { name })
+            const response = await api.put("/auth/update-profile", { name, phone })
             showToast("Profile updated successfully", "success")
             if (setUser) {
-                setUser(prev => prev ? { ...prev, name: response.data.user.name } : null)
+                const updatedUser = response.data.user;
+                setUser(prev => prev ? { ...prev, name: updatedUser.name, phone: updatedUser.phone } : null)
             }
         } catch (error: any) {
             showToast(error.response?.data?.message || "Update failed", "error")
@@ -119,9 +121,20 @@ export default function SettingsPage() {
                                 <Label htmlFor="email" className="text-text-secondary text-opacity-50">Email Address (Fixed)</Label>
                                 <Input id="email" type="email" defaultValue={user?.email} disabled className="bg-background border-border text-text-muted cursor-not-allowed" />
                             </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="phone" className="text-text-secondary">Mobile Number</Label>
+                                <Input
+                                    id="phone"
+                                    type="tel"
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
+                                    className="bg-background border-border text-text-primary"
+                                    placeholder="Enter mobile number"
+                                />
+                            </div>
                             <Button
                                 type="submit"
-                                disabled={isLoading || name === user?.name}
+                                disabled={isLoading || (name === user?.name && phone === user?.phone)}
                                 className="w-full sm:w-auto bg-accent hover:bg-accent"
                             >
                                 {isLoading ? "Updating..." : "Update Profile"}

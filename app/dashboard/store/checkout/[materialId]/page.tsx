@@ -40,6 +40,7 @@ export default function CheckoutPage({ params }: { params: { materialId: string 
     const searchParams = useSearchParams()
     const type = searchParams.get("type") || "material"
     const { user } = useAuth()
+    console.log("📌 CHECKOUT RENDER USER:", user);
     const { refresh: refreshNotifications } = useNotifications()
     const [item, setItem] = useState<Item | null>(null)
     const [isLoading, setIsLoading] = useState(true)
@@ -101,6 +102,13 @@ export default function CheckoutPage({ params }: { params: { materialId: string 
             }
 
             // STEP 2: Open Razorpay modal with the order
+            console.log("🚨 [RAZORPAY DEBUG] Prefill Data:", {
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                computedContact: user.phone ? (user.phone.startsWith("+") ? user.phone : `+91${user.phone}`) : "EMPTY"
+            });
+
             const options = {
                 key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
                 amount: orderData.amount,
@@ -112,6 +120,11 @@ export default function CheckoutPage({ params }: { params: { materialId: string 
                 prefill: {
                     name: user.name || "",
                     email: user.email || "",
+                    contact: user.phone ? (user.phone.startsWith("+") ? user.phone : `+91${user.phone}`) : "",
+                },
+                readonly: {
+                    contact: !!user.phone,
+                    email: true,
                 },
                 handler: async function (response: {
                     razorpay_payment_id: string

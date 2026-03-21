@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Shield, Mail, ArrowRight, RefreshCw } from "lucide-react"
+import { Shield, Mail, ArrowRight, RefreshCw, AlertCircle } from "lucide-react"
 import api from "@/lib/api"
 import { useToast } from "@/context/ToastContext"
 
@@ -77,8 +77,11 @@ function VerifyEmailForm() {
                     <CardTitle className="text-2xl font-black text-white tracking-tight">Verify Your Email</CardTitle>
                     <CardDescription className="text-slate-400 font-medium tracking-tight">
                         We&apos;ve sent a 6-digit code to <span className="text-indigo-400">{email}</span>
-                        <span className="block mt-2 text-xs opacity-80">If you don't see it in your primary inbox, please check your spam folder.</span>
                     </CardDescription>
+                    <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/25 rounded-xl text-xs text-amber-200/90 flex items-start gap-2 text-left max-w-md mx-auto">
+                        <AlertCircle className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
+                        <span>If you don't see it in your primary inbox, please check your spam folder.</span>
+                    </div>
                 </div>
             </CardHeader>
             <CardContent>
