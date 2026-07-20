@@ -2,7 +2,8 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Shield, User, Menu, X, ChevronRight, Instagram, Youtube, Send, Facebook } from "lucide-react"
+import { User, Menu, X, ChevronRight, Instagram, Youtube, Send } from "lucide-react"
+import { ThemeToggle } from "@/components/ThemeToggle"
 import { FaWhatsapp } from "react-icons/fa"
 import { useAuth } from "@/context/AuthContext"
 import { useState, useEffect } from "react"
@@ -40,24 +41,23 @@ export function LandingNavbar() {
         <>
             <header
                 className={`fixed top-0 z-[100] w-full transition-all duration-300 ${isScrolled
-                    ? "py-3 bg-background/80 backdrop-blur-xl border-b border-white/5 shadow-2xl"
+                    ? "py-4 bg-background/90 backdrop-blur-md border-b border-border shadow-sm"
                     : "py-6 bg-transparent"
                     }`}
             >
                 <nav className="container mx-auto px-6 flex items-center justify-between" aria-label="Global">
-                    {/* Logo & Brand - STARK & MONOCHROMATIC */}
+                    {/* Logo & Brand */}
                     <div className="flex lg:flex-1">
-                        <Link href="/" className="group flex items-center gap-4">
-                            <div className="relative h-11 w-11 rounded-xl border border-white/10 bg-background/50 backdrop-blur-sm flex items-center justify-center transition-all duration-500 group-hover:border-accent/40 group-hover:shadow-[0_0_20px_rgba(201,168,76,0.15)] overflow-hidden">
-                                <div className="absolute inset-0 bg-gradient-to-tr from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <Link href="/" className="group flex items-center gap-3">
+                            <div className="h-10 w-10 flex items-center justify-center transition-transform group-hover:scale-105">
                                 <img
                                     src="/logo.png"
                                     alt="All Gov Logo"
-                                    className="h-6 w-6 object-contain relative z-10 filter brightness-110"
+                                    className="h-8 w-8 object-contain"
                                 />
                             </div>
                             <div className="flex flex-col">
-                                <h1 className="text-xl md:text-2xl font-black tracking-tighter bg-clip-text text-transparent bg-[linear-gradient(110deg,#f0f2f5,45%,#c9a84c,55%,#f0f2f5)] bg-[length:200%_100%] animate-shimmer whitespace-nowrap group-hover:scale-[1.02] transition-transform">
+                                <h1 className="text-xl font-bold tracking-tight text-text-primary group-hover:text-accent transition-colors">
                                     All Government Alerts
                                 </h1>
                             </div>
@@ -65,39 +65,39 @@ export function LandingNavbar() {
                     </div>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden md:flex items-center gap-10">
+                    <nav className="hidden md:flex items-center gap-8">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.name}
                                 href={link.href}
-                                className="text-[13px] font-black uppercase tracking-widest text-text-muted hover:text-text-primary transition-all duration-300 relative group"
+                                className="text-sm font-medium text-text-secondary hover:text-accent transition-colors"
                             >
                                 {link.name}
-                                <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-accent transition-all duration-300 group-hover:w-full" />
                             </Link>
                         ))}
                     </nav>
 
-                    {/* Action Buttons - MINIMALIST */}
+                    {/* Action Buttons */}
                     <div className="flex lg:flex-1 justify-end gap-6 items-center">
+                        <ThemeToggle />
                         {isLoading ? (
-                            <div className="h-10 w-24 animate-pulse rounded-full bg-white/5 border border-white/10" />
+                            <div className="h-10 w-24 animate-pulse rounded-md bg-surface border border-border" />
                         ) : user ? (
                             <Link href="/dashboard">
-                                <Button className="bg-white hover:bg-white/90 text-background gap-2 h-11 px-7 rounded-full font-black tracking-tight transition-all active:scale-95 shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+                                <Button className="bg-accent hover:bg-accent-hover text-white gap-2 h-10 px-6 rounded-md font-medium shadow-sm transition-all">
                                     <User className="h-4 w-4" />
                                     Dashboard
                                 </Button>
                             </Link>
                         ) : (
-                            <div className="hidden sm:flex items-center gap-4">
+                            <div className="hidden sm:flex items-center gap-3">
                                 <Link href="/login">
-                                    <Button variant="ghost" className="text-text-muted hover:text-text-primary font-black text-[13px] uppercase tracking-widest h-11 px-6 rounded-full transition-all">
-                                        Log In
+                                    <Button variant="ghost" className="text-text-secondary hover:text-text-primary hover:bg-surface font-medium text-sm h-10 px-5 rounded-md transition-all">
+                                        Sign In
                                     </Button>
                                 </Link>
                                 <Link href="/register">
-                                    <Button className="bg-accent text-background hover:bg-accent-hover h-11 px-8 rounded-full font-black tracking-tight shadow-[0_8px_20px_-6px_rgba(201,168,76,0.3)] transition-all active:scale-95">
+                                    <Button className="bg-accent text-white hover:bg-accent-hover h-10 px-6 rounded-md font-medium shadow-sm transition-all">
                                         Get Started
                                     </Button>
                                 </Link>
@@ -106,121 +106,84 @@ export function LandingNavbar() {
 
                         {/* Mobile Menu Toggle */}
                         <button
-                            className="md:hidden relative z-[110] p-2 text-text-muted hover:text-text-primary transition-colors focus:outline-none"
+                            className="md:hidden relative z-[110] p-2 text-text-secondary hover:text-text-primary transition-colors focus:outline-none"
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         >
                             {isMobileMenuOpen ? (
-                                <X className="h-7 w-7 text-white" />
+                                <X className="h-6 w-6" />
                             ) : (
-                                <Menu className="h-7 w-7" />
+                                <Menu className="h-6 w-6" />
                             )}
                         </button>
                     </div>
                 </nav>
             </header>
 
-            {/* Premium Mobile Menu Overlay - OUTSIDE HEADER to fix scroll clipping */}
+            {/* Mobile Menu Overlay */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, scale: 1.1 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 1.05 }}
-                        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                        className="fixed inset-0 z-[120] bg-background md:hidden flex flex-col"
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.2 }}
+                        className="fixed inset-0 z-[105] bg-background md:hidden flex flex-col pt-24"
                     >
-                        {/* Background Decorative Elements */}
-                        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                            <div className="absolute top-[-10%] right-[-10%] w-[70%] h-[70%] bg-accent/5 rounded-full blur-[120px]" />
-                            <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] bg-white/5 rounded-full blur-[100px]" />
-                            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0iIzI3MjcyYSIvPjwvc3ZnPg==')] opacity-20" />
-                        </div>
-
-                        <div className="relative z-10 flex flex-col h-full overflow-y-auto px-8 pt-8 pb-12">
-                            {/* Mobile Header in Overlay */}
-                            <div className="flex items-center justify-between mb-12">
-                                <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-4">
-                                    <div className="h-10 w-10 rounded-xl border border-white/10 bg-background/50 flex items-center justify-center">
-                                        <img src="/logo.png" alt="Logo" className="h-5 w-5 object-contain" />
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <h2 className="text-xl font-black tracking-tighter bg-clip-text text-transparent bg-[linear-gradient(110deg,#f0f2f5,45%,#c9a84c,55%,#f0f2f5)] bg-[length:200%_100%] animate-shimmer whitespace-nowrap">
-                                            All Government Alerts
-                                        </h2>
-                                    </div>
-                                </Link>
-                                <button
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                    className="p-2 text-text-muted hover:text-white transition-colors"
-                                    aria-label="Close Menu"
-                                >
-                                    <X className="h-8 w-8 text-white" />
-                                </button>
-                            </div>
+                        <div className="relative z-10 flex flex-col h-full overflow-y-auto px-6 pb-12">
                             {/* Mobile Links */}
-                            <div className="flex flex-col gap-6 mb-12">
+                            <div className="flex flex-col gap-2 mb-8">
                                 {navLinks.map((link, i) => (
                                     <motion.div
                                         key={link.name}
-                                        initial={{ opacity: 0, x: -20 }}
+                                        initial={{ opacity: 0, x: -10 }}
                                         animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: 0.1 + i * 0.1 }}
+                                        transition={{ delay: i * 0.05 }}
                                     >
                                         <Link
                                             href={link.href}
                                             onClick={() => setIsMobileMenuOpen(false)}
-                                            className="text-4xl font-black tracking-tighter text-text-primary hover:text-accent transition-colors flex items-center justify-between group"
+                                            className="text-2xl font-semibold text-text-primary hover:text-accent transition-colors flex items-center justify-between p-4 rounded-lg hover:bg-surface group"
                                         >
                                             {link.name}
-                                            <ChevronRight className="h-6 w-6 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-accent" />
+                                            <ChevronRight className="h-5 w-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-accent" />
                                         </Link>
                                     </motion.div>
                                 ))}
                             </div>
 
-                            <div className="mt-auto space-y-10">
+                            <div className="mt-auto space-y-8">
                                 {/* Auth Actions */}
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.5 }}
-                                    className="grid grid-cols-1 gap-4"
-                                >
+                                <div className="grid grid-cols-1 gap-3">
                                     <Link href="/register" onClick={() => setIsMobileMenuOpen(false)}>
-                                        <Button className="w-full bg-accent text-background hover:bg-accent-hover h-16 rounded-2xl text-xl font-black tracking-tight shadow-xl">
+                                        <Button className="w-full bg-accent text-white hover:bg-accent-hover h-14 rounded-xl text-lg font-semibold shadow-subtle">
                                             Sign Up
                                         </Button>
                                     </Link>
                                     <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                                        <Button variant="outline" className="w-full border-white/10 bg-white/5 hover:bg-white/10 text-white h-16 rounded-2xl text-xl font-black tracking-tight">
-                                            Log In
+                                        <Button variant="outline" className="w-full border-border bg-surface hover:bg-surface-raised text-text-primary h-14 rounded-xl text-lg font-semibold">
+                                            Sign In
                                         </Button>
                                     </Link>
-                                </motion.div>
+                                </div>
 
                                 {/* Social Links & Footer */}
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: 0.7 }}
-                                    className="pt-8 border-t border-white/5"
-                                >
-                                    <div className="flex items-center justify-center gap-6 mb-8">
+                                <div className="pt-6 border-t border-border">
+                                    <div className="flex items-center justify-center gap-4 mb-6">
                                         {socialLinks.map((social) => (
                                             <Link
                                                 key={social.name}
                                                 href={social.href}
                                                 target="_blank"
-                                                className="h-12 w-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-text-muted hover:text-white hover:border-white transition-all active:scale-90"
+                                                className="h-10 w-10 rounded-full bg-surface border border-border flex items-center justify-center text-text-muted hover:text-accent hover:border-accent transition-all active:scale-95"
                                             >
                                                 {social.icon}
                                             </Link>
                                         ))}
                                     </div>
-                                    <p className="text-center text-[10px] font-black text-text-muted uppercase tracking-[0.3em]">
-                                        © 2026 ALL GOVERNMENT ALERTS
+                                    <p className="text-center text-xs font-semibold text-text-muted uppercase tracking-wider">
+                                        © {new Date().getFullYear()} All Government Alerts
                                     </p>
-                                </motion.div>
+                                </div>
                             </div>
                         </div>
                     </motion.div>

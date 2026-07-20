@@ -7,23 +7,43 @@ html {
 }
 
 :root {
-  /* ── Core Palette (Navy / Slate) ─────────────────────────────── */
-  --background: #0a0e1a;
-  --surface: #111827;
-  --surface-raised: #1a2235;
-  --border-color: #1e2d45;
+  /* ── Core Palette (Clean Light Mode) ─────────────────────────────── */
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-raised: #FFFFFF;
+  --border-color: #E2E8F0;
 
   /* ── Text ─────────────────────────────────────── */
-  --foreground: #f0f2f5;
-  --text-primary: #f0f2f5;
-  --text-secondary: #8a9bb0;
-  --text-muted: #4a5a70;
+  --foreground: #0F172A;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
 
-  /* ── Accent: Gold / Amber ────────────────────────── */
-  --accent: #c9a84c;
-  --accent-hover: #dbb95c;
-  --accent-muted: #c9a84c1a;
-  --error: #e05252;
+  /* ── Accent: Primary Blue ────────────────────────── */
+  --accent: #2563EB;
+  --accent-hover: #1D4ED8;
+  --accent-muted: #EFF6FF;
+  --error: #EF4444;
+}
+
+.dark {
+  /* ── Core Palette (Dark Mode) ─────────────────────────────── */
+  --background: #0F172A;
+  --surface: #1E293B;
+  --surface-raised: #1F2937;
+  --border-color: #334155;
+
+  /* ── Text ─────────────────────────────────────── */
+  --foreground: #FFFFFF;
+  --text-primary: #FFFFFF;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+
+  /* ── Accent: Primary Blue ────────────────────────── */
+  --accent: #2563EB;
+  --accent-hover: #3B82F6;
+  --accent-muted: #1E3A8A;
+  --error: #F87171;
 }
 
 body {
@@ -40,8 +60,8 @@ body {
   }
 
   .custom-scrollbar::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
@@ -49,19 +69,19 @@ body {
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: var(--border-color);
+    background: #cbd5e1;
     border-radius: 99px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: var(--accent);
+    background: #94a3b8;
   }
 }
 
 /* ─── Global Scrollbar ───────────────────────────── */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -69,12 +89,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border-color);
+  background: #cbd5e1;
   border-radius: 99px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+  background: #94a3b8;
 }
 
 /* ─── Secure PDF Viewer ──────────────────────────── */

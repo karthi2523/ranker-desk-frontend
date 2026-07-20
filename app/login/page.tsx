@@ -128,7 +128,7 @@ export default function LoginPage() {
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 className="w-full max-w-sm relative z-10"
             >
-                <Card className="border-white/10 bg-surface/80 backdrop-blur-xl shadow-2xl">
+                <Card className="border-border bg-surface/80 backdrop-blur-xl shadow-2xl">
                     <CardHeader className="space-y-4">
                         <div className="flex justify-center">
                             <div className="h-20 w-20 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(201,168,76,0.2)] border border-accent/20 transition-transform hover:scale-105 duration-500 bg-background flex items-center justify-center p-2">
@@ -140,7 +140,7 @@ export default function LoginPage() {
                             </div>
                         </div>
                         <div className="text-center">
-                            <CardTitle className="text-3xl font-black text-text-primary tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70">
+                            <CardTitle className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-b from-text-primary to-text-secondary tracking-tight">
                                 {step === "LOGIN" ? "Welcome Back" : "Security Verification"}
                             </CardTitle>
                             <CardDescription className="text-text-secondary font-medium tracking-tight mt-1">
@@ -283,11 +283,11 @@ export default function LoginPage() {
                             </form>
                         )}
                     </CardContent>
-                    <CardFooter className="flex flex-col gap-4 text-center text-sm text-text-secondary border-t border-white/5 mt-4 pt-6">
-                        <Link href="/register" className="underline underline-offset-4 hover:text-white transition-colors font-semibold">
+                    <CardFooter className="flex flex-col gap-4 text-center text-sm text-text-secondary border-t border-border mt-4 pt-6">
+                        <Link href="/register" className="underline underline-offset-4 hover:text-text-primary transition-colors font-semibold">
                             Don&apos;t have an account? Sign Up
                         </Link>
-                        <Link href="/" className="hover:text-white transition-colors text-xs font-bold flex items-center gap-1 group">
+                        <Link href="/" className="hover:text-text-primary transition-colors text-xs font-bold flex items-center gap-1 group">
                             <span className="group-hover:-translate-x-1 transition-transform">←</span> Back to Home
                         </Link>
                     </CardFooter>

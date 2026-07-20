@@ -11,15 +11,12 @@ import {
     Award,
     FileText,
     Star,
-    Users,
-    Target,
     ArrowRight,
-    ChevronRight,
     Youtube,
     Instagram,
     Send,
     Facebook,
-    MessageCircle
+    Target
 } from "lucide-react"
 import Link from "next/link"
 import { FaWhatsapp } from "react-icons/fa"
@@ -35,104 +32,94 @@ export default function Home() {
     ]
 
     return (
-        <div className="min-h-screen bg-background text-text-primary selection:bg-surface-raised">
+        <div className="min-h-screen bg-background text-text-primary selection:bg-accent-muted selection:text-accent">
             <LandingNavbar />
 
             {/* Hero Section */}
-            <section className="relative pt-24 pb-12 lg:pt-36 lg:pb-24 overflow-hidden border-b border-white/5 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-surface-raised via-background to-background">
-                {/* Vibrant Ambient Glows */}
-                <div className="absolute top-[-20%] left-[10%] w-[50%] h-[50%] bg-accent/10 rounded-full blur-[150px] pointer-events-none" />
-                <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
-
-                <div className="container mx-auto px-6 text-center relative z-10">
+            <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-surface">
+                {/* Clean dot pattern background */}
+                <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] opacity-50" />
+                
+                <div className="container mx-auto px-6 text-center relative z-10 max-w-5xl">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
-                        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-background text-xs font-black tracking-widest uppercase mb-12 shadow-sm"
+                        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface border border-border text-text-secondary text-sm font-medium mb-8 shadow-subtle"
                     >
-                        <Star className="h-3 w-3 fill-black" />
-                        <span>#1 Trusted Platform for Govt Aspirants</span>
+                        <Star className="h-4 w-4 text-accent fill-accent" />
+                        <span>Trusted by over 50,000 aspirants nationwide</span>
                     </motion.div>
 
                     <motion.h1
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.1 }}
-                        className="text-5xl lg:text-8xl xl:text-[9rem] font-black tracking-tighter mb-8 leading-[0.85]"
+                        className="text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 text-text-primary leading-[1.1]"
                     >
-                        <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/80">
-                            Master Exams.
-                        </span>
-                        <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-yellow-400 to-accent-hover italic drop-shadow-[0_0_20px_rgba(250,204,21,0.2)]">
-                            Secure Future.
-                        </span>
+                        Master Your Exams.<br/>
+                        <span className="text-accent">Secure Your Future.</span>
                     </motion.h1>
 
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.8, delay: 0.3 }}
-                        className="text-xl lg:text-2xl text-text-muted max-w-3xl mx-auto mb-16 leading-relaxed font-medium tracking-tight"
+                        className="text-lg lg:text-xl text-text-muted max-w-2xl mx-auto mb-12 leading-relaxed"
                     >
-                        Access premium, verified, and watermarked study materials for Indian Government Exams.
-                        We provide the exact edge you need.
+                        Access high-quality, verified study materials for Indian Government Exams. Designed to help you focus and succeed.
                     </motion.p>
 
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.4 }}
-                        className="flex flex-col sm:flex-row items-center justify-center gap-6"
+                        className="flex flex-col sm:flex-row items-center justify-center gap-4"
                     >
                         <Link href="/register">
-                            <Button size="lg" className="bg-gradient-to-r from-white to-gray-200 hover:from-white hover:to-white text-background px-12 h-16 text-xl font-black tracking-tight rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] group shadow-[0_10px_40px_-10px_rgba(255,255,255,0.3)]">
-                                Sign Up
-                                <ArrowRight className="ml-3 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                            <Button size="lg" className="bg-accent hover:bg-accent-hover text-white px-8 h-14 text-base font-semibold rounded-lg shadow-float transition-all">
+                                Start Learning Now
+                                <ArrowRight className="ml-2 h-4 w-4" />
                             </Button>
                         </Link>
                         <Link href="/login">
-                            <Button size="lg" variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 text-white backdrop-blur-sm px-12 h-16 text-xl font-black tracking-tight rounded-xl transition-all hover:border-accent/50 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.05)]">
-                                Log In
+                            <Button size="lg" variant="outline" className="bg-surface border-border hover:bg-surface-raised text-text-primary px-8 h-14 text-base font-semibold rounded-lg transition-all">
+                                View Demo
                             </Button>
                         </Link>
                     </motion.div>
+                </div>
+            </section>
 
-                    {/* Social Proof Stats */}
-                    {/* Platform Stats */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-24 pt-12 border-t border-border">
+            {/* Platform Stats */}
+            <section className="border-y border-border bg-surface-raised">
+                <div className="container mx-auto px-6 py-12">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-border">
                         {[
                             { value: "50K+", label: "Active Students" },
                             { value: "10K+", label: "Study Materials" },
                             { value: "98%", label: "Success Rate" },
-                            { value: "24/7", label: "Support" },
+                            { value: "24/7", label: "Expert Support" },
                         ].map((stat, i) => (
-                            <motion.div
-                                key={stat.label}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: i * 0.1 }}
-                            >
-                                <div className="text-4xl font-black text-text-primary mb-2 tracking-tighter">{stat.value}</div>
-                                <div className="text-[10px] text-text-muted uppercase tracking-[0.2em] font-black">{stat.label}</div>
-                            </motion.div>
+                            <div key={stat.label} className="px-4">
+                                <div className="text-3xl lg:text-4xl font-bold text-text-primary mb-2">{stat.value}</div>
+                                <div className="text-sm text-text-muted font-medium">{stat.label}</div>
+                            </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-
-            <section id="exams" className="py-24 relative overflow-hidden bg-background">
-                <div className="container mx-auto px-6">
+            {/* Categories Section */}
+            <section id="exams" className="py-24 bg-surface">
+                <div className="container mx-auto px-6 max-w-6xl">
                     <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
                         <div className="max-w-2xl">
-                            <h2 className="text-[10px] font-black text-text-muted uppercase tracking-[0.3em] mb-4">Study Materials</h2>
-                            <h3 className="text-5xl font-black text-text-primary tracking-tight">Select Category</h3>
-                            <p className="text-text-muted mt-6 leading-relaxed text-lg font-medium">Premium PDF notes tailored for every major government recruitment board in India.</p>
+                            <h2 className="text-sm font-semibold text-accent uppercase tracking-wider mb-2">Study Materials</h2>
+                            <h3 className="text-3xl lg:text-4xl font-bold text-text-primary tracking-tight">Browse by Category</h3>
+                            <p className="text-text-muted mt-4 text-lg">Find the exact study notes you need for any major government exam in India.</p>
                         </div>
-                        <Link href="/register" className="text-text-primary hover:text-text-secondary font-black tracking-tight flex items-center gap-2 group transition-colors">
+                        <Link href="/register" className="text-accent hover:text-accent-hover font-medium flex items-center gap-2 group transition-colors">
                             View All Categories <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </div>
@@ -141,21 +128,21 @@ export default function Home() {
                         {categories.map((cat, index) => (
                             <motion.div
                                 key={cat.name}
-                                initial={{ opacity: 0, y: 30 }}
+                                initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="group p-8 bg-surface-raised/30 border border-border hover:border-accent/40 transition-all duration-300 hover:shadow-[0_0_30px_rgba(201,168,76,0.05)]"
+                                className="group p-8 bg-surface-raised border border-border rounded-2xl shadow-subtle hover:shadow-float hover:border-accent/30 transition-all duration-300"
                             >
-                                <div className="h-12 w-12 bg-surface flex items-center justify-center mb-8 border border-border group-hover:border-accent/50 group-hover:bg-accent/10 transition-colors">
-                                    <div className="text-text-primary group-hover:text-accent transition-colors">{cat.icon}</div>
+                                <div className="h-12 w-12 bg-accent-muted rounded-xl flex items-center justify-center mb-6 text-accent">
+                                    {cat.icon}
                                 </div>
-                                <h4 className="text-2xl font-black text-text-primary tracking-tight mb-2 group-hover:text-accent transition-colors">{cat.name}</h4>
-                                <p className="text-[10px] text-text-muted font-black uppercase tracking-widest mb-6">{cat.count}</p>
+                                <h4 className="text-xl font-bold text-text-primary mb-2">{cat.name}</h4>
+                                <p className="text-sm text-text-muted font-medium mb-6">{cat.count}</p>
                                 <Link href="/register">
-                                    <Button variant="ghost" className="p-0 h-auto text-text-secondary group-hover:text-accent hover:bg-transparent -ml-1 transition-colors font-bold tracking-tight">
-                                        View Details <ArrowRight className="ml-2 h-4 w-4" />
-                                    </Button>
+                                    <span className="text-accent group-hover:text-accent-hover font-medium text-sm flex items-center transition-colors">
+                                        Explore Collection <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                    </span>
                                 </Link>
                             </motion.div>
                         ))}
@@ -164,20 +151,20 @@ export default function Home() {
             </section>
 
             {/* Features Section */}
-            <section id="features" className="py-24 bg-background border-y border-border">
-                <div className="container mx-auto px-6">
+            <section id="features" className="py-24 bg-surface-raised">
+                <div className="container mx-auto px-6 max-w-6xl">
                     <div className="text-center mb-20">
-                        <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-text-primary">
-                            Why Choose <span className="bg-clip-text text-transparent bg-[linear-gradient(110deg,#f0f2f5,45%,#c9a84c,55%,#f0f2f5)] bg-[length:200%_100%] animate-shimmer">All Government Alerts</span>?
+                        <h2 className="text-3xl lg:text-4xl font-bold mb-6 tracking-tight text-text-primary">
+                            Why Choose All Government Alerts?
                         </h2>
-                        <p className="text-text-muted text-lg max-w-2xl mx-auto font-medium leading-relaxed">We combine premium content with state-of-the-art security to ensure your study journey is uninterrupted and successful.</p>
+                        <p className="text-text-muted text-lg max-w-2xl mx-auto">We combine premium content with state-of-the-art security to ensure your study journey is uninterrupted and successful.</p>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-12">
                         {[
-                            { icon: <Shield className="h-6 w-6 text-text-primary group-hover:text-accent transition-colors" />, title: "Cryptographic Watermark", desc: "Your content is uniquely assigned to you with real-time watermarking to prevent unauthorized sharing and protect your license." },
-                            { icon: <FileText className="h-6 w-6 text-text-primary group-hover:text-accent transition-colors" />, title: "Verified Publications", desc: "We only host content from top-tier publishers and retired bureaucrats. No junk, just high-yield study notes." },
-                            { icon: <Zap className="h-6 w-6 text-text-primary group-hover:text-accent transition-colors" />, title: "Zero-Day Intel", desc: "Get instant alerts for new vacancies, admit cards, and results. Stay one step ahead of the official portals." },
+                            { icon: <Shield className="h-6 w-6" />, title: "Secure Downloads", desc: "Every file you download is securely protected and linked to your account, ensuring a safe and personal learning experience." },
+                            { icon: <FileText className="h-6 w-6" />, title: "Trusted Sources", desc: "Study from materials created by experienced educators and top publishers. Get only the best notes without any extra fluff." },
+                            { icon: <Zap className="h-6 w-6" />, title: "Instant Updates", desc: "Receive immediate notifications for new job openings, admit cards, and exam results. Never miss an important deadline again." },
                         ].map((feat, i) => (
                             <motion.div
                                 key={feat.title}
@@ -185,13 +172,13 @@ export default function Home() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: i * 0.2 }}
-                                className="text-left group border-t-2 border-border pt-8 hover:border-accent/50 transition-colors"
+                                className="text-left"
                             >
-                                <div className="h-12 w-12 bg-surface flex items-center justify-center mb-8 border border-border group-hover:border-accent/50 group-hover:bg-accent/10 transition-colors">
+                                <div className="h-12 w-12 bg-accent-muted text-accent rounded-xl flex items-center justify-center mb-6">
                                     {feat.icon}
                                 </div>
-                                <h3 className="text-2xl font-black tracking-tight mb-4 text-text-primary group-hover:text-accent transition-colors">{feat.title}</h3>
-                                <p className="text-text-muted leading-relaxed font-medium">
+                                <h3 className="text-xl font-bold mb-3 text-text-primary">{feat.title}</h3>
+                                <p className="text-text-muted leading-relaxed">
                                     {feat.desc}
                                 </p>
                             </motion.div>
@@ -201,162 +188,97 @@ export default function Home() {
             </section>
 
             {/* Pricing Section */}
-            <section id="pricing" className="py-24 bg-background relative overflow-hidden">
-                <div className="container mx-auto px-6">
-                    <div className="text-center mb-20">
-                        <h2 className="text-[10px] font-black text-text-muted uppercase tracking-[0.3em] mb-4">Pricing Plans</h2>
-                        <h3 className="text-5xl font-black text-text-primary tracking-tight">Pay Per PDF Module</h3>
-                        <p className="text-text-muted mt-6 max-w-2xl mx-auto font-medium text-lg leading-relaxed">No subscriptions. Free portal access and alerts. Purchase only premium, verifiable study assets on a per-module basis.</p>
+            <section id="pricing" className="py-24 bg-surface">
+                <div className="container mx-auto px-6 max-w-5xl">
+                    <div className="text-center mb-16">
+                        <h2 className="text-sm font-semibold text-accent uppercase tracking-wider mb-2">Pricing Plans</h2>
+                        <h3 className="text-3xl lg:text-4xl font-bold text-text-primary tracking-tight">Pay Only For What You Need</h3>
+                        <p className="text-text-muted mt-4 max-w-2xl mx-auto text-lg">No expensive subscriptions. Get free access to alerts and pay only for the specific study notes you want to download.</p>
                     </div>
 
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="grid md:grid-cols-2 lg:grid-cols-3 gap-0 max-w-6xl mx-auto border border-border bg-background shadow-[0_0_50px_rgba(201,168,76,0.05)]"
+                        transition={{ duration: 0.6 }}
+                        className="bg-surface-raised rounded-3xl border border-border shadow-float overflow-hidden flex flex-col lg:flex-row"
                     >
-                        {/* Price Range Info */}
-                        <div className="lg:col-span-1 p-12 bg-white flex flex-col justify-center border-r border-border">
-                            <div className="text-background font-black mb-6 uppercase tracking-widest text-[10px]">Price Range</div>
-                            <div className="text-6xl font-black text-background mb-4 tracking-tighter">₹50<span className="text-3xl font-normal text-text-secondary mx-2">-</span>₹1k</div>
-                            <p className="text-text-muted font-bold leading-relaxed tracking-tight">
-                                Affordable pricing mapped precisely to material density and exam complexity. (Alerts & job updates remain strictly free.)
+                        <div className="lg:w-1/3 p-10 bg-accent text-white flex flex-col justify-center">
+                            <div className="font-semibold mb-4 text-accent-muted text-sm uppercase tracking-wider">Affordable Pricing</div>
+                            <div className="text-5xl font-bold mb-6 tracking-tight">₹50 - ₹1k</div>
+                            <p className="text-accent-muted text-sm leading-relaxed mb-8">
+                                Our materials are priced fairly based on the exam and content size. All exam alerts and job updates are completely free.
                             </p>
+                            <Button className="w-full bg-surface text-accent hover:bg-surface-raised font-semibold h-12 rounded-lg text-base">
+                                View Catalog
+                            </Button>
                         </div>
-
-                        {/* Exam Price Highlights */}
-                        <div className="lg:col-span-2 grid sm:grid-cols-2">
+                        
+                        <div className="lg:w-2/3 p-10 grid sm:grid-cols-2 gap-8">
                             {[
-                                { name: "Micro Assets", price: "Starts at ₹50", desc: "Topic-wise PDFs and quick revision formulas." },
-                                { name: "SSC / Bank Capsules", price: "₹150 - ₹350", desc: "Complete syllabus coverage modules." },
-                                { name: "UPSC Core Intel", price: "₹500 - ₹850", desc: "In-depth strategic notes from veterans." },
-                                { name: "Master Architecture", price: "Ceiling ₹1000", desc: "Unrestricted material access per domain." },
-                            ].map((item, i) => (
-                                <div key={item.name} className={`p-10 hover:bg-background transition-colors flex flex-col justify-between group ${i % 2 === 0 ? 'border-r border-border' : ''} ${i < 2 ? 'border-b border-border' : ''}`}>
-                                    <div>
-                                        <div className="flex justify-between items-start mb-6">
-                                            <h4 className="text-xl font-black tracking-tight text-text-primary group-hover:text-text-secondary transition-colors">{item.name}</h4>
-                                        </div>
-                                        <div className="text-text-primary font-black text-sm px-4 py-2 border border-border bg-surface inline-block mb-4 tracking-tight">{item.price}</div>
-                                        <p className="text-text-muted text-sm font-medium leading-relaxed">{item.desc}</p>
-                                    </div>
-                                    <Link href="/register" className="mt-8 block">
-                                        <Button variant="ghost" className="p-0 h-auto text-text-primary group-hover:pl-2 transition-all font-black tracking-tight rounded-none">
-                                            Buy Material <ArrowRight className="ml-2 h-4 w-4" />
-                                        </Button>
-                                    </Link>
+                                { name: "Quick Revisions", price: "Starts at ₹50", desc: "Topic-wise PDFs and quick revision formulas." },
+                                { name: "Complete Syllabus Guides", price: "₹150 - ₹350", desc: "Everything you need for comprehensive exam preparation." },
+                                { name: "In-Depth Study Notes", price: "₹500 - ₹850", desc: "Detailed, high-quality notes from experienced educators." },
+                                { name: "Full Access Passes", price: "Max ₹1000", desc: "Complete access to all materials for a specific exam." },
+                            ].map((item) => (
+                                <div key={item.name} className="flex flex-col">
+                                    <h4 className="text-lg font-bold text-text-primary mb-2">{item.name}</h4>
+                                    <div className="text-accent font-semibold text-sm mb-3">{item.price}</div>
+                                    <p className="text-text-muted text-sm leading-relaxed">{item.desc}</p>
                                 </div>
                             ))}
                         </div>
                     </motion.div>
-
-                    <div className="mt-16 py-6 border-y border-border text-center max-w-6xl mx-auto">
-                        <p className="text-text-muted font-bold tracking-tight text-sm flex items-center justify-center gap-3">
-                            <Zap className="h-4 w-4 text-text-primary" />
-                            LIFETIME ACCESS ON ALL PURCHASED MATERIALS • SECURE PDF DOWNLOADS
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            {/* About Section */}
-            <section id="about" className="py-24 bg-background border-y border-border">
-                <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
-                    <div className="flex-1">
-                        <h2 className="text-[10px] font-black text-text-muted uppercase tracking-[0.3em] mb-4">Our Mission</h2>
-                        <h3 className="text-4xl md:text-5xl font-black text-text-primary mb-8 tracking-tight">Setting the Standard Since 2024</h3>
-                        <p className="text-text-secondary leading-relaxed mb-10 font-medium text-lg">
-                            All Gov started with a strict directive: centralize, secure, and distribute premium study materials. We eradicated data leaks and eliminated hyper-inflated academy fees.
-                        </p>
-                        <div className="grid grid-cols-2 gap-12 border-t border-border pt-8">
-                            <div>
-                                <div className="text-4xl font-black text-text-primary tracking-tighter mb-2">50K<span className="text-text-muted">+</span></div>
-                                <p className="text-[10px] text-text-muted font-black tracking-widest uppercase">Registered Students</p>
-                            </div>
-                            <div>
-                                <div className="text-4xl font-black text-text-primary tracking-tighter mb-2">1M<span className="text-text-muted">/30</span></div>
-                                <p className="text-[10px] text-text-muted font-black tracking-widest uppercase">Successful Exams</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex-1 w-full max-w-lg aspect-square bg-background border border-border flex items-center justify-center relative bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0iIzI3MjcyYSIvPjwvc3ZnPg==')]">
-                        <Shield className="h-32 w-32 text-text-primary" />
-                    </div>
                 </div>
             </section>
 
             {/* Final CTA */}
-            <section className="py-24 bg-background">
-                <div className="container mx-auto px-6">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="border border-border bg-background p-12 md:p-24 text-center relative overflow-hidden group hover:border-accent/30 hover:shadow-[0_0_50px_rgba(201,168,76,0.1)] transition-all duration-500"
-                    >
-                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-accent/5 via-background to-background pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-                        <div className="absolute inset-0 bg-[linear-gradient(to_right,#27272a_1px,transparent_1px),linear-gradient(to_bottom,#27272a_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 group-hover:opacity-40 transition-opacity duration-1000" />
-
-                        <div className="relative z-10">
-                            <h2 className="text-4xl md:text-7xl font-black text-text-primary mb-8 tracking-tighter">Start Learning.</h2>
-                            <p className="text-text-muted text-xl max-w-2xl mx-auto mb-12 font-medium tracking-tight">
-                                Get immediate access to premium exam materials today.
-                            </p>
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                                <Link href="/register">
-                                    <Button size="lg" className="bg-white text-background hover:bg-accent-hover px-12 h-16 text-lg font-black tracking-tight rounded-none transition-all active:scale-95">
-                                        Sign Up Now
-                                    </Button>
-                                </Link>
-                                <Link href="/login">
-                                    <Button size="lg" variant="outline" className="bg-background text-text-primary border-border hover:bg-surface px-12 h-16 text-lg font-black tracking-tight rounded-none transition-all">
-                                        Log In
-                                    </Button>
-                                </Link>
-                            </div>
-                        </div>
-                    </motion.div>
+            <section className="py-24 bg-surface-raised border-y border-border">
+                <div className="container mx-auto px-6 max-w-4xl text-center">
+                    <h2 className="text-3xl lg:text-5xl font-bold text-text-primary mb-6 tracking-tight">Ready to Start Learning?</h2>
+                    <p className="text-text-muted text-lg mb-10">
+                        Join over 50,000 students and get immediate access to premium exam materials today.
+                    </p>
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <Link href="/register">
+                            <Button size="lg" className="bg-accent text-white hover:bg-accent-hover px-10 h-14 text-base font-semibold rounded-lg transition-all shadow-subtle">
+                                Create Free Account
+                            </Button>
+                        </Link>
+                        <Link href="/login">
+                            <Button size="lg" variant="outline" className="bg-surface text-text-primary border-border hover:bg-surface-raised px-10 h-14 text-base font-semibold rounded-lg transition-all">
+                                Sign In
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </section>
 
             {/* Footer */}
-            <footer className="py-20 border-t border-border bg-background">
-                <div className="container mx-auto px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+            <footer className="py-16 bg-surface">
+                <div className="container mx-auto px-6 max-w-6xl">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
                         <div className="col-span-1 md:col-span-2">
-                            <Link href="/" className="group flex items-center gap-5 mb-10">
-                                <div className="h-16 w-16 border border-border bg-background flex items-center justify-center group-hover:border-slate-500 transition-colors">
-                                    <img
-                                        src="/logo.png"
-                                        alt="Logo"
-                                        className="h-8 w-8 object-contain"
-                                    />
-                                </div>
-                                <div className="flex flex-col">
-                                    <h1 className="text-3xl font-black bg-clip-text text-transparent bg-[linear-gradient(110deg,#f0f2f5,45%,#c9a84c,55%,#f0f2f5)] bg-[length:200%_100%] animate-shimmer whitespace-nowrap leading-none tracking-tighter">
-                                        All Government Alerts
-                                    </h1>
-                                </div>
+                            <Link href="/" className="flex items-center gap-3 mb-6">
+                                <img src="/logo.png" alt="Logo" className="h-8 w-8 object-contain" />
+                                <span className="text-xl font-bold text-text-primary tracking-tight">All Government Alerts</span>
                             </Link>
-                            <p className="text-text-muted font-bold max-w-sm leading-relaxed mb-8 tracking-tight">
-                                India's strict-access platform for government exam study materials. High security. No noise.
+                            <p className="text-text-muted text-sm leading-relaxed max-w-sm mb-8">
+                                India's trusted platform for high-quality government exam study materials. Build your future with verified resources.
                             </p>
-                            <div className="flex flex-wrap gap-4">
+                            <div className="flex gap-4">
                                 {[
                                     { name: "Instagram", href: "https://www.instagram.com/all_government_alerts/", icon: <Instagram className="h-5 w-5" /> },
                                     { name: "YouTube", href: "https://youtube.com/@all_government_alerts", icon: <Youtube className="h-5 w-5" /> },
                                     { name: "WhatsApp", href: "https://whatsapp.com/channel/0029VanToDy3gvWdW6pOsQ3J", icon: <FaWhatsapp className="h-5 w-5" /> },
                                     { name: "Telegram", href: "https://t.me/all_government_alerts", icon: <Send className="h-5 w-5" /> },
-                                    { name: "Facebook", href: "https://www.facebook.com/share/1ByyLMZpZN/", icon: <Facebook className="h-5 w-5" /> },
                                 ].map((social) => (
                                     <Link
                                         key={social.name}
                                         href={social.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="h-12 w-12 bg-background border border-border flex items-center justify-center text-text-muted hover:text-text-primary hover:border-white transition-all duration-300 hover:scale-110"
+                                        className="h-10 w-10 rounded-full bg-surface-raised border border-border flex items-center justify-center text-text-muted hover:text-accent hover:border-accent transition-colors"
                                         title={social.name}
                                     >
                                         {social.icon}
@@ -366,35 +288,35 @@ export default function Home() {
                         </div>
 
                         <div>
-                            <h5 className="text-text-primary font-black text-[10px] uppercase tracking-[0.3em] mb-8">Directories</h5>
-                            <div className="flex flex-col gap-5 text-text-muted font-bold text-sm tracking-tight">
-                                <Link href="#exams" className="hover:text-text-primary transition-colors">Browse Index</Link>
-                                <Link href="#features" className="hover:text-text-primary transition-colors">Spec Sheet</Link>
-                                <Link href="#pricing" className="hover:text-text-primary transition-colors">Financials</Link>
+                            <h5 className="text-text-primary font-semibold text-sm mb-4">Platform</h5>
+                            <div className="flex flex-col gap-3 text-text-muted text-sm">
+                                <Link href="#exams" className="hover:text-accent transition-colors">Browse Materials</Link>
+                                <Link href="#features" className="hover:text-accent transition-colors">Features</Link>
+                                <Link href="#pricing" className="hover:text-accent transition-colors">Pricing Plans</Link>
                             </div>
                         </div>
 
                         <div>
-                            <h5 className="text-text-primary font-black text-[10px] uppercase tracking-[0.3em] mb-8">Protocol</h5>
-                            <div className="flex flex-col gap-5 text-text-muted font-bold text-sm tracking-tight">
-                                <Link href="/privacy" className="hover:text-text-primary transition-colors">Data Privacy</Link>
-                                <Link href="/terms" className="hover:text-text-primary transition-colors">Terms of Service</Link>
-                                <Link href="/license" className="hover:text-text-primary transition-colors">License Agreement</Link>
+                            <h5 className="text-text-primary font-semibold text-sm mb-4">Legal</h5>
+                            <div className="flex flex-col gap-3 text-text-muted text-sm">
+                                <Link href="/privacy" className="hover:text-accent transition-colors">Privacy Policy</Link>
+                                <Link href="/terms" className="hover:text-accent transition-colors">Terms of Service</Link>
+                                <Link href="/license" className="hover:text-accent transition-colors">License Agreement</Link>
                             </div>
                         </div>
                     </div>
 
-                    <div className="pt-10 border-t border-border flex flex-col md:flex-row items-center justify-between gap-8">
-                        <div className="text-[10px] text-text-muted font-black tracking-[0.2em] uppercase">
-                            © 2026 ALL GOVERNMENT ALERTS. ALL RIGHTS RESERVED.
-                        </div>
-                        <div className="flex items-center gap-3 px-4 py-2 border border-border bg-background">
-                            <div className="h-1.5 w-1.5 rounded-full bg-white" />
-                            <span className="text-[10px] font-black text-text-primary uppercase tracking-widest">System Online</span>
+                    <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
+                        <p className="text-sm text-text-muted">
+                            © {new Date().getFullYear()} All Government Alerts. All rights reserved.
+                        </p>
+                        <div className="flex items-center gap-2">
+                            <div className="h-2 w-2 rounded-full bg-green-500" />
+                            <span className="text-sm text-text-muted">All systems operational</span>
                         </div>
                     </div>
                 </div>
-            </footer >
-        </div >
+            </footer>
+        </div>
     )
 }

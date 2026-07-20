@@ -168,7 +168,7 @@ export function VaultViewer({ materialId }: { materialId: string }) {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-1 md:gap-2 bg-background/50 p-1 rounded-xl border border-white/5">
+                <div className="flex items-center gap-1 md:gap-2 bg-background/50 p-1 rounded-xl border border-border">
                     <Button
                         variant="ghost"
                         size="sm"
@@ -228,7 +228,7 @@ export function VaultViewer({ materialId }: { materialId: string }) {
                     >
                         {pdfUrl ? (
                             <div
-                                className="relative flex-1 w-full bg-white shadow-none overflow-auto"
+                                className="relative flex-1 w-full bg-background shadow-none overflow-auto"
                                 style={{
                                     zoom: `${zoom}%`,
                                 }}
@@ -273,7 +273,7 @@ export function VaultViewer({ materialId }: { materialId: string }) {
                 {/* ── Focus-loss Overlay ── no transition so it appears instantly ─ */}
                 {isBlurred && !isLoading && (
                     <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-background/95">
-                        <div className="h-20 w-20 rounded-full bg-surface flex items-center justify-center border border-white/5 shadow-none mb-6">
+                        <div className="h-20 w-20 rounded-full bg-surface flex items-center justify-center border border-border shadow-none mb-6">
                             <EyeOff className="h-10 w-10 text-text-muted" />
                         </div>
                         <h3 className="text-2xl font-bold text-text-primary tracking-tight mb-2">Secure Shield Active</h3>

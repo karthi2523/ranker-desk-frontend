@@ -74,7 +74,7 @@ function VerifyEmailForm() {
                     </div>
                 </div>
                 <div className="text-center">
-                    <CardTitle className="text-2xl font-black text-white tracking-tight">Verify Your Email</CardTitle>
+                    <CardTitle className="text-2xl font-black text-text-primary tracking-tight">Verify Your Email</CardTitle>
                     <CardDescription className="text-slate-400 font-medium tracking-tight">
                         We&apos;ve sent a 6-digit code to <span className="text-indigo-400">{email}</span>
                     </CardDescription>
@@ -112,12 +112,12 @@ function VerifyEmailForm() {
                 <button
                     onClick={onResend}
                     disabled={isResending}
-                    className="flex items-center justify-center gap-2 hover:text-white transition-colors disabled:opacity-50"
+                    className="flex items-center justify-center gap-2 hover:text-text-primary transition-colors disabled:opacity-50"
                 >
                     <RefreshCw className={cn("h-4 w-4", isResending && "animate-spin")} />
                     Didn't receive a code? Resend
                 </button>
-                <Link href="/register" className="hover:text-white transition-colors">
+                <Link href="/register" className="hover:text-text-primary transition-colors">
                     Back to Sign Up
                 </Link>
             </CardFooter>
@@ -139,7 +139,7 @@ export default function VerifyEmailPage() {
                 <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-purple-600/20 rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
             </div>
 
-            <Suspense fallback={<div className="text-white">Loading...</div>}>
+            <Suspense fallback={<div className="text-text-primary">Loading...</div>}>
                 <VerifyEmailForm />
             </Suspense>
         </div>

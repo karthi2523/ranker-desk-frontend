@@ -62,7 +62,7 @@ export default function TermsPage() {
                             transition={{ delay: i * 0.1 }}
                             className="bg-surface/20 border border-border p-8 hover:border-white/20 transition-colors"
                         >
-                            <h2 className="text-xl font-black tracking-tight text-white mb-4 flex items-center gap-2">
+                            <h2 className="text-xl font-black tracking-tight text-text-primary mb-4 flex items-center gap-2">
                                 <ChevronRight className="h-5 w-5 text-accent" />
                                 {section.title}
                             </h2>
@@ -75,7 +75,7 @@ export default function TermsPage() {
 
                 <div className="mt-20 pt-10 border-t border-border flex justify-between items-center">
                     <Link href="/">
-                        <Button variant="ghost" className="text-text-muted hover:text-white font-bold tracking-tight px-0">
+                        <Button variant="ghost" className="text-text-muted hover:text-text-primary font-bold tracking-tight px-0">
                             ← Back to Home
                         </Button>
                     </Link>

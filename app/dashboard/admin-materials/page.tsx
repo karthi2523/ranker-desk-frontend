@@ -55,7 +55,7 @@ export default function AdminMaterialsPage() {
             setMaterials(response.data)
         } catch (error) {
             console.error("Failed to fetch materials", error)
-            showToast("Failed to scan asset inventory", "error")
+            showToast("Failed to load materials", "error")
         } finally {
             setIsLoading(false)
         }
@@ -84,12 +84,12 @@ export default function AdminMaterialsPage() {
         setIsActionLoading(true)
         try {
             await api.delete(`/materials/${materialToDelete.id}`)
-            showToast(`Asset "${materialToDelete.title}" purged from inventory`, "success")
+            showToast(`Material "${materialToDelete.title}" deleted`, "success")
             setMaterials(materials.filter(m => m.id !== materialToDelete.id))
             setDeleteModalOpen(false)
             setMaterialToDelete(null)
         } catch (error: any) {
-            showToast(error.response?.data?.message || "Purge operation failed", "error")
+            showToast(error.response?.data?.message || "Failed to delete material", "error")
         } finally {
             setIsActionLoading(false)
         }
@@ -114,12 +114,12 @@ export default function AdminMaterialsPage() {
                 ...editFormData,
                 price: parseFloat(editFormData.price)
             })
-            showToast("Asset metadata updated successfully", "success")
+            showToast("Material updated successfully", "success")
             setMaterials(materials.map(m => m.id === materialToEdit.id ? { ...response.data, isActive: m.isActive } : m))
             setEditModalOpen(false)
             setMaterialToEdit(null)
         } catch (error: any) {
-            showToast(error.response?.data?.message || "Failed to update asset", "error")
+            showToast(error.response?.data?.message || "Failed to update material", "error")
         } finally {
             setIsActionLoading(false)
         }
@@ -137,7 +137,7 @@ export default function AdminMaterialsPage() {
         return (
             <div className="flex flex-col items-center justify-center h-[500px] gap-4">
                 <Loader2 className="h-8 w-8 animate-spin text-accent" />
-                <p className="text-xs font-black text-text-muted uppercase tracking-widest">Scanning Asset Inventory...</p>
+                <p className="text-xs font-black text-text-muted uppercase tracking-widest">Loading materials...</p>
             </div>
         )
     }
@@ -148,14 +148,14 @@ export default function AdminMaterialsPage() {
                 <div className="space-y-2">
                     <div className="flex items-center gap-3">
                         <FileText className="h-6 w-6 text-accent" />
-                        <h2 className="text-2xl md:text-3xl font-black text-text-primary uppercase tracking-tighter">Asset Inventory</h2>
+                        <h2 className="text-2xl md:text-3xl font-black text-text-primary uppercase tracking-tighter">Materials</h2>
                     </div>
-                    <p className="text-sm text-text-secondary font-medium">Review, inspect, and manage all deployed intellectual assets on the sovereign network.</p>
+                    <p className="text-sm text-text-secondary font-medium">Manage all your uploaded study materials in one place.</p>
                 </div>
                 <Link href="/dashboard/upload">
                     <Button className="h-12 px-6 bg-accent hover:bg-accent text-background font-black uppercase tracking-widest text-[10px] gap-2 shadow-none border-none transition-all hover:scale-[1.02] active:scale-[0.98]">
                         <Plus className="h-4 w-4" />
-                        Deploy New Asset
+                        Add Material
                     </Button>
                 </Link>
             </div>
@@ -193,16 +193,16 @@ export default function AdminMaterialsPage() {
                                             </Badge>
                                         </div>
                                         <p className="text-xs text-text-secondary font-medium line-clamp-1 opacity-70">
-                                            {material.description || "No description provided for this secure asset."}
+                                            {material.description || "No description provided."}
                                         </p>
                                         <div className="flex flex-wrap items-center gap-4 pt-3">
                                             <div className="flex items-center gap-1.5 text-[9px] font-black text-text-muted uppercase tracking-widest">
                                                 <Calendar className="h-3 w-3 text-accent" />
-                                                Seeded: {new Date(material.createdAt).toLocaleDateString()}
+                                                Added: {new Date(material.createdAt).toLocaleDateString()}
                                             </div>
                                             <div className="flex items-center gap-1.5 text-[9px] font-black text-background uppercase tracking-widest bg-accent px-2.5 py-1 rounded border border-accent/40">
                                                 <DollarSign className="h-3 w-3" />
-                                                Valuation: ₹{material.price}
+                                                Price: ₹{material.price}
                                             </div>
                                             <div className="text-[9px] font-black text-text-muted uppercase tracking-widest">
                                                 ID: {material.id.substring(0, 8)}
@@ -284,10 +284,10 @@ export default function AdminMaterialsPage() {
                 {materials.length === 0 && (
                     <div className="flex flex-col items-center justify-center h-[300px] rounded-2xl border-2 border-dashed border-border bg-surface">
                         <FileText className="h-10 w-20 text-text-muted mb-4" />
-                        <h3 className="text-lg font-black text-text-secondary uppercase tracking-tighter">Inventory Empty</h3>
-                        <p className="text-xs text-text-muted font-bold mt-1">No secure assets have been deployed to the vault yet.</p>
+                        <h3 className="text-lg font-black text-text-secondary uppercase tracking-tighter">No Materials Yet</h3>
+                        <p className="text-xs text-text-muted font-bold mt-1">You haven't added any materials yet.</p>
                         <Link href="/dashboard/upload" className="mt-6">
-                            <Button className="bg-accent text-background font-black uppercase text-[10px] tracking-widest h-10 px-8">Initiate Deployment</Button>
+                            <Button className="bg-accent text-background font-black uppercase text-[10px] tracking-widest h-10 px-8">Add Your First Material</Button>
                         </Link>
                     </div>
                 )}
@@ -297,7 +297,7 @@ export default function AdminMaterialsPage() {
             <Modal
                 isOpen={deleteModalOpen}
                 onClose={() => !isActionLoading && setDeleteModalOpen(false)}
-                title="Asset Purge Authorization"
+                title="Delete Material"
             >
                 <div className="space-y-6">
                     <div className="flex items-center gap-4 p-4 rounded-xl bg-accent/10 border border-accent/30">
@@ -305,7 +305,7 @@ export default function AdminMaterialsPage() {
                             <ShieldAlert className="h-5 w-5 text-accent" />
                         </div>
                         <p className="text-xs font-bold text-accent leading-relaxed uppercase tracking-tight">
-                            Warning: You are about to permanently purge <span className="text-text-primary underline">{materialToDelete?.title}</span> from the sovereign vault. This action cannot be undone.
+                            Warning: You are about to delete <span className="text-text-primary underline">{materialToDelete?.title}</span>. This action cannot be undone.
                         </p>
                     </div>
 
@@ -316,14 +316,14 @@ export default function AdminMaterialsPage() {
                             variant="ghost"
                             className="flex-1 h-11 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted hover:text-text-primary"
                         >
-                            Abort
+                            Cancel
                         </Button>
                         <Button
                             disabled={isActionLoading}
                             onClick={handleDeleteMaterial}
                             className="flex-1 h-11 bg-accent/10 hover:bg-accent/10 text-text-primary text-[10px] font-black uppercase tracking-[0.2em] shadow-none"
                         >
-                            {isActionLoading ? "Purging Asset..." : "Confirm Purge"}
+                            {isActionLoading ? "Deleting..." : "Delete"}
                         </Button>
                     </div>
                 </div>
@@ -333,38 +333,38 @@ export default function AdminMaterialsPage() {
             <Modal
                 isOpen={editModalOpen}
                 onClose={() => !isActionLoading && setEditModalOpen(false)}
-                title="Update Asset Metadata"
+                title="Edit Material Details"
             >
                 <form onSubmit={handleUpdateMaterial} className="space-y-5">
                     <div className="space-y-2">
-                        <Label className="text-[10px] font-black text-text-muted uppercase tracking-widest">Asset Title</Label>
+                        <Label className="text-[10px] font-black text-text-muted uppercase tracking-widest">Title</Label>
                         <Input
                             value={editFormData.title}
                             onChange={(e) => setEditFormData({ ...editFormData, title: e.target.value })}
-                            placeholder="Enter asset title"
+                            placeholder="Enter title"
                             className="bg-surface"
                             required
                         />
                     </div>
 
                     <div className="space-y-2">
-                        <Label className="text-[10px] font-black text-text-muted uppercase tracking-widest">Valuation (₹)</Label>
+                        <Label className="text-[10px] font-black text-text-muted uppercase tracking-widest">Price (₹)</Label>
                         <Input
                             type="number"
                             value={editFormData.price}
                             onChange={(e) => setEditFormData({ ...editFormData, price: e.target.value })}
-                            placeholder="Set asset price"
+                            placeholder="Set price"
                             className="bg-surface"
                             required
                         />
                     </div>
 
                     <div className="space-y-2">
-                        <Label className="text-[10px] font-black text-text-muted uppercase tracking-widest">Asset Intel / Description</Label>
+                        <Label className="text-[10px] font-black text-text-muted uppercase tracking-widest">Description</Label>
                         <Textarea
                             value={editFormData.description}
                             onChange={(e) => setEditFormData({ ...editFormData, description: e.target.value })}
-                            placeholder="Describe the asset content..."
+                            placeholder="Describe this material..."
                             className="bg-surface resize-none h-32"
                         />
                     </div>

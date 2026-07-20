@@ -12,6 +12,7 @@ import { formatDistanceToNow } from "date-fns"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
+import { ThemeToggle } from "@/components/ThemeToggle"
 
 export function Topbar() {
     const { user } = useAuth()
@@ -67,10 +68,10 @@ export function Topbar() {
 
     const getNotifIcon = (type: string) => {
         switch (type) {
-            case "SUCCESS": return <CheckCircle2 className="h-4 w-4 text-zinc-300" />
-            case "WARNING": return <AlertTriangle className="h-4 w-4 text-zinc-400" />
-            case "ALERT": return <X className="h-4 w-4 text-text-primary" />
-            default: return <Info className="h-4 w-4 text-zinc-500" />
+            case "SUCCESS": return <CheckCircle2 className="h-4 w-4 text-green-500" />
+            case "WARNING": return <AlertTriangle className="h-4 w-4 text-yellow-500" />
+            case "ALERT": return <X className="h-4 w-4 text-error" />
+            default: return <Info className="h-4 w-4 text-text-muted" />
         }
     }
 
@@ -83,13 +84,13 @@ export function Topbar() {
 
     return (
         <>
-            <header className="flex h-16 items-center gap-4 border-b border-white/5 bg-background px-4 md:px-6 sticky top-0 z-40 backdrop-blur-md">
+            <header className="flex h-16 items-center gap-4 border-b border-border bg-background px-4 md:px-6 sticky top-0 z-40 backdrop-blur-md">
                 {/* Mobile Menu & Logo */}
                 <div className="flex md:hidden items-center gap-4">
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/5 text-text-muted hover:text-white border border-white/5 transition-all"
+                        className="h-10 w-10 flex items-center justify-center rounded-xl bg-surface text-text-muted hover:text-text-primary border border-border transition-all"
                         onClick={toggleMobileNav}
                     >
                         <Menu className="h-5 w-5" />
@@ -99,7 +100,7 @@ export function Topbar() {
                             <img src="/logo.png" alt="Logo" className="h-5 w-5 object-contain" />
                         </div>
                         <div className="flex flex-col hidden xs:flex">
-                            <h1 className="text-base font-black tracking-tight bg-clip-text text-transparent bg-[linear-gradient(110deg,#f0f2f5,45%,#c9a84c,55%,#f0f2f5)] bg-[length:200%_100%] animate-shimmer whitespace-nowrap">
+                            <h1 className="text-base font-black tracking-tight bg-clip-text text-transparent bg-[linear-gradient(110deg,#0f172a,45%,#c9a84c,55%,#0f172a)] dark:bg-[linear-gradient(110deg,#ffffff,45%,#c9a84c,55%,#ffffff)] bg-[length:200%_100%] animate-shimmer whitespace-nowrap">
                                 All Government Alerts
                             </h1>
                         </div>
@@ -111,7 +112,7 @@ export function Topbar() {
                     <form onSubmit={handleSubmit} className="relative max-w-sm hidden md:block group">
                         <button
                             type="submit"
-                            className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-text-primary hover:text-text-primary transition-colors"
+                            className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-text-primary hover:text-text-primary transition-colors"
                         >
                             <Search className="h-4 w-4" />
                         </button>
@@ -132,8 +133,8 @@ export function Topbar() {
                             variant="ghost"
                             size="icon"
                             className={cn(
-                                "h-10 w-10 rounded-xl bg-white/5 border border-white/5 text-text-secondary hover:text-white transition-all relative",
-                                isNotifOpen && "text-white bg-surface-raised border-accent/20"
+                                "h-10 w-10 rounded-xl bg-surface border border-border text-text-secondary hover:text-text-primary transition-all relative",
+                                isNotifOpen && "text-text-primary bg-surface-raised border-accent/20"
                             )}
                             onClick={() => setIsNotifOpen(!isNotifOpen)}
                         >
@@ -153,19 +154,19 @@ export function Topbar() {
                                     initial={{ opacity: 0, scale: 0.95, y: 10 }}
                                     animate={{ opacity: 1, scale: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                                    className="absolute right-0 mt-3 w-80 sm:w-96 rounded-2xl border border-white/10 bg-background/95 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[100] overflow-hidden"
+                                    className="absolute right-0 mt-3 w-80 sm:w-96 rounded-2xl border border-border bg-background/95 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.2)] z-[100] overflow-hidden"
                                 >
-                                    <div className="flex items-center justify-between p-5 border-b border-white/5 bg-white/5">
+                                    <div className="flex items-center justify-between p-5 border-b border-border bg-surface">
                                         <div className="flex items-center gap-2">
                                             <div className="h-6 w-6 rounded-md bg-accent/20 flex items-center justify-center">
                                                 <Bell className="h-3 w-3 text-accent" />
                                             </div>
-                                            <h3 className="text-[11px] font-black text-white uppercase tracking-widest">Live Archive</h3>
+                                            <h3 className="text-[11px] font-black text-text-primary uppercase tracking-widest">Live Archive</h3>
                                         </div>
                                         {notifications.length > 0 && (
                                             <button
                                                 onClick={clearAll}
-                                                className="text-[10px] font-black text-text-muted hover:text-white uppercase tracking-widest transition-colors flex items-center gap-1.5"
+                                                className="text-[10px] font-black text-text-muted hover:text-text-primary uppercase tracking-widest transition-colors flex items-center gap-1.5"
                                             >
                                                 <Trash2 className="h-3 w-3" />
                                                 Clear
@@ -176,24 +177,24 @@ export function Topbar() {
                                     <div className="max-h-[60vh] overflow-y-auto custom-scrollbar">
                                         {notifications.length === 0 ? (
                                             <div className="p-16 text-center">
-                                                <div className="h-14 w-14 rounded-full bg-white/5 border border-white/5 flex items-center justify-center mx-auto mb-6">
-                                                    <Bell className="h-6 w-6 text-white/20" />
+                                                <div className="h-14 w-14 rounded-full bg-surface border border-border flex items-center justify-center mx-auto mb-6">
+                                                    <Bell className="h-6 w-6 text-text-muted/50" />
                                                 </div>
                                                 <p className="text-sm font-black text-text-muted uppercase tracking-tighter">No alerts detected.</p>
                                             </div>
                                         ) : (
-                                            <div className="divide-y divide-white/5">
+                                            <div className="divide-y divide-border">
                                                 {notifications.map((notif) => (
                                                     <div
                                                         key={notif.id}
                                                         className={cn(
                                                             "p-5 transition-all group relative",
-                                                            !notif.isRead ? "bg-white/[0.03]" : "hover:bg-white/[0.02]"
+                                                            !notif.isRead ? "bg-surface" : "hover:bg-surface/50"
                                                         )}
                                                     >
                                                         <div className="flex gap-4">
                                                             <div className="mt-1 shrink-0">
-                                                                <div className="h-8 w-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+                                                                <div className="h-8 w-8 rounded-lg bg-surface border border-border flex items-center justify-center">
                                                                     {getNotifIcon(notif.type)}
                                                                 </div>
                                                             </div>
@@ -201,7 +202,7 @@ export function Topbar() {
                                                                 <div className="flex items-center justify-between gap-2 mb-1.5">
                                                                     <p className={cn(
                                                                         "text-[13px] font-black tracking-tight truncate",
-                                                                        !notif.isRead ? "text-white" : "text-text-muted"
+                                                                        !notif.isRead ? "text-text-primary" : "text-text-muted"
                                                                     )}>
                                                                         {notif.title}
                                                                     </p>
@@ -229,7 +230,7 @@ export function Topbar() {
                                         )}
                                     </div>
 
-                                    <div className="p-4 border-t border-white/5 bg-white/[0.02] text-center">
+                                    <div className="p-4 border-t border-border bg-surface/50 text-center">
                                         <p className="text-[9px] font-black text-text-muted uppercase tracking-[0.4em]">Protocol Archive V1</p>
                                     </div>
                                 </motion.div>
@@ -237,8 +238,10 @@ export function Topbar() {
                         </AnimatePresence>
                     </div>
 
+                    <ThemeToggle />
+
                     {/* User Profile */}
-                    <div className="flex items-center gap-3 pl-4 border-l border-white/5 h-10 ml-2">
+                    <div className="flex items-center gap-3 pl-4 border-l border-border h-10 ml-2">
                         <div className="hidden sm:block text-right">
                             <p className="text-xs font-black text-text-primary leading-none tracking-tight">{user?.name}</p>
                             <p className="text-[9px] text-accent font-black uppercase tracking-[0.2em] mt-1.5">

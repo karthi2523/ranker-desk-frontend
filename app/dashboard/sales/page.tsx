@@ -36,7 +36,7 @@ function ReceiptModal({ order, onClose }: { order: Order; onClose: () => void })
         doc.setFont("helvetica", "bold")
         doc.setFontSize(11)
         doc.setTextColor(10, 14, 26)
-        doc.text("SOVEREIGN RECEIPT", W / 2, 12, { align: "center" })
+        doc.text("RECEIPT", W / 2, 12, { align: "center" })
 
         // Body
         let y = 30
@@ -56,8 +56,8 @@ function ReceiptModal({ order, onClose }: { order: Order; onClose: () => void })
         label("Transaction ID", 14, y); value(order.id, 14, y + 5); y += 16
         label("Asset", 14, y); value(order.material?.title || order.package?.title || "Legacy Asset", 14, y + 5); y += 16
         label("Customer Name", 14, y); value(order.user.name || "N/A", 14, y + 5); y += 16
-        label("Acquiring Entity", 14, y); value(order.user.email, 14, y + 5); y += 16
-        label("Protocol Timestamp", 14, y); value(new Date(order.createdAt).toLocaleString(), 14, y + 5); y += 16
+        label("User", 14, y); value(order.user.email, 14, y + 5); y += 16
+        label("Date", 14, y); value(new Date(order.createdAt).toLocaleString(), 14, y + 5); y += 16
         label("Status", 14, y); value(order.status, 14, y + 5); y += 20
 
         // Divider
@@ -74,7 +74,7 @@ function ReceiptModal({ order, onClose }: { order: Order; onClose: () => void })
         doc.setFontSize(6.5)
         doc.setTextColor(74, 90, 112)
         doc.setFont("helvetica", "normal")
-        doc.text("All transactions are end-to-end encrypted and verified by RSA-2048", W / 2, y + 6, { align: "center" })
+        doc.text("Your payment records are securely stored", W / 2, y + 6, { align: "center" })
 
         doc.save(`receipt-${order.id.substring(0, 8)}.pdf`)
     }
@@ -90,7 +90,7 @@ function ReceiptModal({ order, onClose }: { order: Order; onClose: () => void })
                 <div className="bg-accent px-6 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <FileText className="h-5 w-5 text-background" />
-                        <span className="text-[11px] font-black uppercase tracking-[0.2em] text-background">Sovereign Receipt</span>
+                        <span className="text-[11px] font-black uppercase tracking-[0.2em] text-background">Receipt</span>
                     </div>
                     <button onClick={onClose} className="text-background/70 hover:text-background transition-colors">
                         <X className="h-4 w-4" />
@@ -125,14 +125,14 @@ function ReceiptModal({ order, onClose }: { order: Order; onClose: () => void })
                             <p className="text-xs font-bold text-text-primary">{order.user.name || <span className="text-text-muted italic">Not provided</span>}</p>
                         </div>
                         <div>
-                            <p className="text-[9px] font-black text-text-muted uppercase tracking-widest mb-1">Acquiring Entity</p>
+                            <p className="text-[9px] font-black text-text-muted uppercase tracking-widest mb-1">User</p>
                             <p className="text-xs font-bold text-text-secondary">{order.user.email}</p>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <p className="text-[9px] font-black text-text-muted uppercase tracking-widest mb-1">Timestamp</p>
+                            <p className="text-[9px] font-black text-text-muted uppercase tracking-widest mb-1">Date</p>
                             <p className="text-xs font-bold text-text-secondary">
                                 {new Date(order.createdAt).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}
                             </p>
@@ -141,14 +141,14 @@ function ReceiptModal({ order, onClose }: { order: Order; onClose: () => void })
 
                     <div className="border-t border-border pt-4 mt-2">
                         <div className="flex items-end justify-between">
-                            <p className="text-[9px] font-black text-text-muted uppercase tracking-widest">Acquisition Value</p>
+                            <p className="text-[9px] font-black text-text-muted uppercase tracking-widest">Amount</p>
                             <p className="text-3xl font-black text-accent tracking-tighter">₹{order.amount.toLocaleString()}</p>
                         </div>
                     </div>
 
                     <div className="p-3 rounded-xl bg-background border border-border">
                         <p className="text-[8px] text-text-muted uppercase tracking-widest text-center font-bold">
-                            End-to-end encrypted · Verified by RSA-2048
+                            Your payment records are securely stored
                         </p>
                     </div>
                 </div>
@@ -245,7 +245,7 @@ export default function SalesPage() {
         doc.setFont("helvetica", "bold")
         doc.setFontSize(13)
         doc.setTextColor(10, 14, 26)
-        doc.text("FINANCIAL AUDIT REPORT", W / 2, 14, { align: "center" })
+        doc.text("PAYMENTS REPORT", W / 2, 14, { align: "center" })
 
         // Subtitle
         doc.setFontSize(7)
@@ -260,7 +260,7 @@ export default function SalesPage() {
         doc.setFontSize(7)
         doc.setTextColor(74, 90, 112)
         doc.setFont("helvetica", "bold")
-        doc.text("TOTAL REVENUE", 22, y + 8)
+        doc.text("TOTAL EARNINGS", 22, y + 8)
         doc.text("TRANSACTIONS", W / 2 + 4, y + 8)
         doc.setFontSize(14)
         doc.setTextColor(201, 168, 76)
@@ -336,7 +336,7 @@ export default function SalesPage() {
         doc.setFontSize(6.5)
         doc.setTextColor(74, 90, 112)
         doc.setFont("helvetica", "normal")
-        doc.text("All transactions are end-to-end encrypted and verified by RSA-2048", W / 2, y, { align: "center" })
+        doc.text("Your payment records are securely stored", W / 2, y, { align: "center" })
 
         doc.save(`financial-audit-report-${Date.now()}.pdf`)
     }
@@ -345,7 +345,7 @@ export default function SalesPage() {
         return (
             <div className="flex flex-col items-center justify-center h-[500px] gap-4">
                 <Loader2 className="h-10 w-10 animate-spin text-accent" />
-                <p className="text-xs font-black text-text-secondary uppercase tracking-[0.2em]">Decrypting Financial Audit Feed...</p>
+                <p className="text-xs font-black text-text-secondary uppercase tracking-[0.2em]">Loading payments...</p>
             </div>
         )
     }
@@ -360,9 +360,9 @@ export default function SalesPage() {
                 <div className="space-y-2">
                     <div className="flex items-center gap-3">
                         <TrendingUp className="h-7 w-7 text-accent" />
-                        <h2 className="text-2xl md:text-3xl font-black text-text-primary uppercase tracking-tighter">Financial Audit</h2>
+                        <h2 className="text-2xl md:text-3xl font-black text-text-primary uppercase tracking-tighter">Payments</h2>
                     </div>
-                    <p className="text-sm text-text-secondary font-medium">Review all successful acquisition transactions and sovereign revenue flow.</p>
+                    <p className="text-sm text-text-secondary font-medium">View all payment and purchase records.</p>
                 </div>
 
                 <div className="flex items-center gap-3 shrink-0">
@@ -372,7 +372,7 @@ export default function SalesPage() {
                             <TrendingUp className="h-5 w-5 text-accent" />
                         </div>
                         <div>
-                            <p className="text-[9px] font-black text-text-muted uppercase tracking-[0.2em] mb-0.5">Total Revenue</p>
+                            <p className="text-[9px] font-black text-text-muted uppercase tracking-[0.2em] mb-0.5">Total Earnings</p>
                             <p className="text-xl font-black text-accent tracking-tighter leading-none">₹{totalSales.toLocaleString()}</p>
                             <p className="text-[8px] text-text-muted font-bold mt-0.5 uppercase tracking-widest">{orders.length} transactions</p>
                         </div>
@@ -384,7 +384,7 @@ export default function SalesPage() {
                         className="h-full px-5 py-3 bg-surface border border-border hover:border-accent/40 hover:bg-surface-raised text-text-secondary hover:text-accent flex flex-col items-center justify-center gap-1 rounded-2xl transition-all"
                     >
                         <Download className="h-5 w-5" />
-                        <span className="text-[8px] font-black uppercase tracking-widest whitespace-nowrap">Export PDF</span>
+                        <span className="text-[8px] font-black uppercase tracking-widest whitespace-nowrap">Download Report</span>
                     </button>
                 </div>
             </div>
@@ -395,7 +395,7 @@ export default function SalesPage() {
                     <div className="relative flex-1">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted" />
                         <Input
-                            placeholder="SEARCH TRANSACTION ID, ENTITY OR ASSET..."
+                            placeholder="Search by Order ID, User, or Material..."
                             className="pl-12 bg-surface border-border text-[10px] font-black tracking-widest uppercase h-12 rounded-xl focus:ring-1 focus:ring-accent"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -409,7 +409,7 @@ export default function SalesPage() {
                             }`}
                     >
                         <Filter className="h-4 w-4" />
-                        Advanced Filters
+                        Filters
                         {activeFilterCount > 0 && (
                             <span className="ml-1 h-5 w-5 rounded-full bg-accent text-background text-[9px] font-black flex items-center justify-center">
                                 {activeFilterCount}
@@ -527,14 +527,14 @@ export default function SalesPage() {
                                 <div className="p-6 lg:flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                                     <div className="flex flex-wrap items-center gap-8">
                                         <div className="space-y-1.5">
-                                            <p className="text-[9px] font-black text-text-muted uppercase tracking-widest">Acquiring Entity</p>
+                                            <p className="text-[9px] font-black text-text-muted uppercase tracking-widest">User</p>
                                             <div className="flex items-center gap-2 text-xs font-bold text-text-secondary">
                                                 <User className="h-3.5 w-3.5 text-accent" />
                                                 {order.user.email}
                                             </div>
                                         </div>
                                         <div className="space-y-1.5">
-                                            <p className="text-[9px] font-black text-text-muted uppercase tracking-widest">Protocol Timestamp</p>
+                                            <p className="text-[9px] font-black text-text-muted uppercase tracking-widest">Date</p>
                                             <div className="flex items-center gap-2 text-xs font-bold text-text-secondary">
                                                 <Calendar className="h-3.5 w-3.5 text-accent" />
                                                 {new Date(order.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
@@ -544,7 +544,7 @@ export default function SalesPage() {
 
                                     <div className="flex items-center gap-10 self-end sm:self-auto">
                                         <div className="text-right">
-                                            <p className="text-[9px] font-black text-text-muted uppercase tracking-widest">Acquisition Value</p>
+                                            <p className="text-[9px] font-black text-text-muted uppercase tracking-widest">Amount</p>
                                             <p className="text-2xl font-black text-text-primary tracking-tighter">₹{order.amount}</p>
                                         </div>
                                         <div className="flex flex-col items-end gap-3">
@@ -570,8 +570,8 @@ export default function SalesPage() {
                 {filteredOrders.length === 0 && (
                     <div className="flex flex-col items-center justify-center h-[300px] rounded-[2rem] border-2 border-dashed border-border bg-surface">
                         <DollarSign className="h-12 w-12 text-text-muted mb-4" />
-                        <h3 className="text-lg font-black text-text-secondary uppercase tracking-tighter">Registry Empty</h3>
-                        <p className="text-xs text-text-muted font-bold mt-1 uppercase tracking-widest">No matching acquisition records detected on the sovereign ledger.</p>
+                        <h3 className="text-lg font-black text-text-secondary uppercase tracking-tighter">No Transactions Yet</h3>
+                        <p className="text-xs text-text-muted font-bold mt-1 uppercase tracking-widest">No transactions found.</p>
                     </div>
                 )}
             </div>
@@ -579,7 +579,7 @@ export default function SalesPage() {
             {/* Security Banner */}
             <div className="p-4 rounded-2xl bg-background border border-border flex items-center justify-center gap-4">
                 <ShieldCheck className="h-4 w-4 text-accent" />
-                <p className="text-[10px] font-black text-text-muted uppercase tracking-[0.3em]">All transactions are end-to-end encrypted and verified by RSA-2048</p>
+                <p className="text-[10px] font-black text-text-muted uppercase tracking-[0.3em]">Your payment records are securely stored</p>
             </div>
         </div>
     )

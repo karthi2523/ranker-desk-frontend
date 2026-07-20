@@ -51,7 +51,7 @@ export default function DashboardPage() {
             <div className="pb-5 border-b border-border">
                 <h2 className="text-2xl font-black tracking-tight text-text-primary">Overview</h2>
                 <p className="text-text-muted text-sm mt-1 font-medium tracking-tight">
-                    Welcome back, <span className="text-accent font-black">{user?.name || 'Member'}</span>. Your encrypted vault is ready for access.
+                    Welcome back, <span className="text-accent font-black">{user?.name || 'Member'}</span>. Your dashboard is ready.
                 </p>
             </div>
 
@@ -68,33 +68,33 @@ export default function DashboardPage() {
                         <div className="text-4xl font-black text-text-primary tracking-tighter">
                             {isLoading ? <span className="text-text-muted">—</span> : stats.materialsCount}
                         </div>
-                        <p className="text-[10px] text-text-muted mt-2 font-black uppercase tracking-widest">Secure access granted</p>
+                        <p className="text-[10px] text-text-muted mt-2 font-black uppercase tracking-widest">Available in your library</p>
                     </CardContent>
                 </Card>
 
                 <Card className="bg-surface border-border hover:border-border transition-all duration-300 rounded-xl">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-                        <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-widest">Security Status</CardTitle>
+                        <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-widest">Account Status</CardTitle>
                         <div className="h-8 w-8 rounded-lg bg-transparent border border-accent/30 flex items-center justify-center">
                             <ShieldCheck className="h-4 w-4 text-accent" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-4xl font-black text-text-primary tracking-tighter">SECURE</div>
-                        <p className="text-[10px] text-text-muted mt-2 font-black uppercase tracking-widest">Device fingerprint verified</p>
+                        <div className="text-4xl font-black text-text-primary tracking-tighter">ACTIVE</div>
+                        <p className="text-[10px] text-text-muted mt-2 font-black uppercase tracking-widest">Your account is secure</p>
                     </CardContent>
                 </Card>
 
                 <Card className="bg-surface border-border hover:border-border transition-all duration-300 rounded-xl">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-                        <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-widest">Vault Access</CardTitle>
+                        <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-widest">Recent Access</CardTitle>
                         <div className="h-8 w-8 rounded-lg bg-transparent border border-accent/30 flex items-center justify-center">
                             <Clock className="h-4 w-4 text-accent" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-4xl font-black text-text-primary tracking-tighter">ACTIVE</div>
-                        <p className="text-[10px] text-text-muted mt-2 font-black uppercase tracking-widest">Session is currently live</p>
+                        <div className="text-4xl font-black text-text-primary tracking-tighter">ONLINE</div>
+                        <p className="text-[10px] text-text-muted mt-2 font-black uppercase tracking-widest">You are currently logged in</p>
                     </CardContent>
                 </Card>
             </div>
@@ -105,12 +105,12 @@ export default function DashboardPage() {
                 <Card className="lg:col-span-3 bg-surface border-border rounded-xl">
                     <CardHeader className="pb-4 border-b border-border">
                         <div className="flex items-center justify-between">
-                            <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-widest">Recent Acquisitions</CardTitle>
+                            <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-widest">Recent Purchases</CardTitle>
                             <Link
                                 href="/dashboard/vault"
                                 className="text-[10px] font-black text-accent hover:text-accent-hover flex items-center gap-1 transition-colors uppercase tracking-widest"
                             >
-                                Open vault <ArrowRight className="h-3 w-3" />
+                                View all materials <ArrowRight className="h-3 w-3" />
                             </Link>
                         </div>
                     </CardHeader>
@@ -148,8 +148,8 @@ export default function DashboardPage() {
                         ) : (
                             <div className="text-center py-16 px-6">
                                 <BookOpen className="h-12 w-12 text-text-muted mx-auto mb-6" />
-                                <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">No assets detected in vault.</p>
-                                <Link href="/dashboard/store" className="text-text-primary text-[10px] font-black hover:text-text-secondary mt-4 inline-block uppercase tracking-widest border-b border-white pb-1 transition-colors">
+                                <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">You haven't purchased any materials yet.</p>
+                                <Link href="/dashboard/store" className="text-text-primary text-[10px] font-black hover:text-text-secondary mt-4 inline-block uppercase tracking-widest border-b border-border pb-1 transition-colors">
                                     Browse the store →
                                 </Link>
                             </div>
@@ -160,27 +160,27 @@ export default function DashboardPage() {
                 {/* Security Info */}
                 <Card className="lg:col-span-2 bg-surface border-border rounded-xl">
                     <CardHeader className="pb-4 border-b border-border">
-                        <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-widest">Account Protection</CardTitle>
+                        <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-widest">Account Security</CardTitle>
                     </CardHeader>
                     <CardContent className="pt-6 space-y-4 px-6">
                         <div className="flex items-center justify-between p-4 border border-border bg-surface">
                             <div>
                                 <div className="text-[10px] font-black text-text-muted uppercase tracking-widest">License Status</div>
                                 <div className="text-xs text-accent font-black mt-1.5 uppercase tracking-widest flex items-center gap-2">
-                                    <div className="h-2 w-2 bg-white" />
+                                    <div className="h-2 w-2 bg-text-primary" />
                                     VALID & ACTIVE
                                 </div>
                             </div>
                         </div>
                         <div className="flex items-center justify-between p-4 border border-border bg-surface">
                             <div>
-                                <div className="text-[10px] font-black text-text-muted uppercase tracking-widest">Watermarking</div>
-                                <div className="text-xs text-accent font-black mt-1.5 uppercase tracking-widest">Enabled on all streams</div>
+                                <div className="text-[10px] font-black text-text-muted uppercase tracking-widest">Content Protection</div>
+                                <div className="text-xs text-accent font-black mt-1.5 uppercase tracking-widest">Active on your downloads</div>
                             </div>
                             <ShieldCheck className="h-4 w-4 text-accent" />
                         </div>
                         <p className="text-[10px] text-text-muted font-bold leading-relaxed pt-4 text-center uppercase tracking-widest">
-                            Your account is protected by hardware-bound verification and dynamic document serialization.
+                            Your account and downloaded materials are securely protected.
                         </p>
                     </CardContent>
                 </Card>
@@ -207,7 +207,7 @@ export default function DashboardPage() {
                                     href={social.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="aspect-square bg-background border border-border flex items-center justify-center text-text-muted hover:text-text-primary hover:border-white transition-all duration-300 hover:scale-105 rounded-lg"
+                                    className="aspect-square bg-background border border-border flex items-center justify-center text-text-muted hover:text-text-primary hover:border-text-secondary transition-all duration-300 hover:scale-105 rounded-lg"
                                     title={social.name}
                                 >
                                     {social.icon}

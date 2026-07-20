@@ -20,21 +20,21 @@ interface MobileNavProps {
 
 const userItems = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
-    { icon: ShoppingCart, label: "Store", href: "/dashboard/store" },
-    { icon: Lock, label: "My Library", href: "/dashboard/vault" },
+    { icon: ShoppingCart, label: "Buy Materials", href: "/dashboard/store" },
+    { icon: Lock, label: "My Downloads", href: "/dashboard/vault" },
     { icon: ShoppingCart, label: "Purchase History", href: "/dashboard/orders" },
-    { icon: MonitorSmartphone, label: "Active Devices", href: "/dashboard/devices" },
-    { icon: Settings, label: "Settings", href: "/dashboard/settings" },
+    { icon: MonitorSmartphone, label: "My Devices", href: "/dashboard/devices" },
+    { icon: Settings, label: "Account Settings", href: "/dashboard/settings" },
 ]
 
 const adminItems = [
-    { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
-    { icon: FileText, label: "Inventory", href: "/dashboard/admin-materials" },
-    { icon: Upload, label: "Deploy Asset", href: "/dashboard/upload" },
-    { icon: LayoutDashboard, label: "Packages", href: "/dashboard/packages" },
-    { icon: Users, label: "Users", href: "/dashboard/users" },
-    { icon: DollarSign, label: "Sales", href: "/dashboard/sales" },
-    { icon: Settings, label: "Settings", href: "/dashboard/settings" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+    { icon: FileText, label: "Study Materials", href: "/dashboard/admin-materials" },
+    { icon: Upload, label: "Upload File", href: "/dashboard/upload" },
+    { icon: LayoutDashboard, label: "Study Bundles", href: "/dashboard/packages" },
+    { icon: Users, label: "Students", href: "/dashboard/users" },
+    { icon: DollarSign, label: "Sales & Revenue", href: "/dashboard/sales" },
+    { icon: Settings, label: "Account Settings", href: "/dashboard/settings" },
 ]
 
 export function MobileNav({ isOpen, onClose, isAdmin }: MobileNavProps) {
@@ -76,12 +76,12 @@ export function MobileNav({ isOpen, onClose, isAdmin }: MobileNavProps) {
                         animate={{ x: 0 }}
                         exit={{ x: "-100%" }}
                         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                        className="fixed inset-y-0 left-0 z-[60] w-[85%] max-w-sm bg-background/95 backdrop-blur-2xl border-r border-white/5 p-8 shadow-[20px_0_50px_rgba(0,0,0,0.3)] md:hidden flex flex-col"
+                        className="fixed inset-y-0 left-0 z-[60] w-[85%] max-w-sm bg-background/95 backdrop-blur-2xl border-r border-border p-8 shadow-[20px_0_50px_rgba(0,0,0,0.1)] md:hidden flex flex-col"
                     >
                         {/* Drawer Header */}
                         <div className="flex items-center justify-between mb-10">
                             <Link href="/dashboard" className="group flex items-center gap-4" onClick={onClose}>
-                                <div className="relative h-11 w-11 rounded-xl border border-white/10 bg-surface flex items-center justify-center transition-all duration-300 group-hover:border-accent/50">
+                                <div className="relative h-11 w-11 rounded-xl border border-border bg-surface flex items-center justify-center transition-all duration-300 group-hover:border-accent/50">
                                     <img
                                         src="/logo.png"
                                         alt="Logo"
@@ -89,29 +89,29 @@ export function MobileNav({ isOpen, onClose, isAdmin }: MobileNavProps) {
                                     />
                                 </div>
                                 <div className="flex flex-col">
-                                    <h1 className="text-xl font-black tracking-tighter bg-clip-text text-transparent bg-[linear-gradient(110deg,#f0f2f5,45%,#c9a84c,55%,#f0f2f5)] bg-[length:200%_100%] animate-shimmer whitespace-nowrap">
+                                    <h1 className="text-xl font-black tracking-tighter bg-clip-text text-transparent bg-[linear-gradient(110deg,#0f172a,45%,#c9a84c,55%,#0f172a)] dark:bg-[linear-gradient(110deg,#ffffff,45%,#c9a84c,55%,#ffffff)] bg-[length:200%_100%] animate-shimmer whitespace-nowrap">
                                         All Government Alerts
                                     </h1>
                                 </div>
                             </Link>
                             <button
                                 onClick={onClose}
-                                className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/5 text-text-muted hover:text-white transition-all active:scale-90"
+                                className="h-10 w-10 flex items-center justify-center rounded-xl bg-surface border border-border text-text-muted hover:text-text-primary transition-all active:scale-90"
                             >
                                 <X className="h-5 w-5" />
                             </button>
                         </div>
 
                         {/* System Status - PREMIUM ELEMENT */}
-                        <div className="mb-10 p-4 rounded-2xl bg-white/5 border border-white/5 flex items-center gap-4">
+                        <div className="mb-10 p-4 rounded-2xl bg-surface border border-border flex items-center gap-4">
                             <div className="h-10 w-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center">
                                 <Activity className="h-5 w-5 text-accent animate-pulse" />
                             </div>
                             <div>
-                                <p className="text-[10px] font-black text-text-muted uppercase tracking-widest">Security Status</p>
-                                <p className="text-xs font-black text-white flex items-center gap-1.5 uppercase tracking-tighter mt-0.5">
+                                <p className="text-[10px] font-black text-text-muted uppercase tracking-widest">Account Status</p>
+                                <p className="text-xs font-black text-text-primary flex items-center gap-1.5 uppercase tracking-tighter mt-0.5">
                                     <ShieldCheck className="h-3 w-3 text-emerald-500" />
-                                    Active & Shielded
+                                    Secure
                                 </p>
                             </div>
                         </div>
@@ -134,7 +134,7 @@ export function MobileNav({ isOpen, onClose, isAdmin }: MobileNavProps) {
                                                 "flex items-center gap-4 rounded-2xl px-5 py-4 text-sm font-black transition-all group",
                                                 isActive
                                                     ? "bg-accent/10 text-accent border border-accent/20"
-                                                    : "text-text-muted hover:bg-white/5 hover:text-text-primary border border-transparent"
+                                                    : "text-text-muted hover:bg-surface-raised hover:text-text-primary border border-transparent"
                                             )}
                                         >
                                             <item.icon className={cn(
@@ -155,22 +155,22 @@ export function MobileNav({ isOpen, onClose, isAdmin }: MobileNavProps) {
                         </nav>
 
                         {/* Drawer Footer */}
-                        <div className="pt-8 border-t border-white/5 mt-auto">
+                        <div className="pt-8 border-t border-border mt-auto">
                             <button
                                 onClick={logout}
                                 className="flex w-full items-center gap-4 rounded-2xl px-5 py-4 text-sm font-black text-error transition-all hover:bg-error/10 border border-transparent hover:border-error/20 active:scale-[0.98] uppercase tracking-tight"
                             >
                                 <LogOut className="h-5 w-5" />
-                                Terminate Session
+                                Logout
                             </button>
                             <div className="mt-6 flex items-center justify-between px-2">
                                 <div className="flex items-center gap-2">
                                     <Cpu className="h-3 w-3 text-text-muted" />
-                                    <span className="text-[9px] font-black text-text-muted uppercase tracking-widest">V0.1.25 Stable</span>
+                                    <span className="text-[9px] font-black text-text-muted uppercase tracking-widest">App Version 1.0</span>
                                 </div>
                                 <div className="flex items-center gap-1.5">
                                     <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                    <span className="text-[9px] font-black text-text-muted uppercase tracking-widest">Core Online</span>
+                                    <span className="text-[9px] font-black text-text-muted uppercase tracking-widest">Online</span>
                                 </div>
                             </div>
                         </div>

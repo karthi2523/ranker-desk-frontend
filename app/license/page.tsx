@@ -39,7 +39,7 @@ export default function LicensePage() {
                         className="bg-accent/5 border border-accent/20 p-8 rounded-xl"
                     >
                         <Zap className="h-8 w-8 text-accent mb-6" />
-                        <h3 className="text-2xl font-black text-white mb-4">Authorized Use</h3>
+                        <h3 className="text-2xl font-black text-text-primary mb-4">Authorized Use</h3>
                         <p className="text-text-secondary font-medium leading-relaxed">
                             You are authorized to read and study the materials provided via our proprietary web-based PDF viewer interfaces. You may access this data across your personal fleet of mobile and desktop devices.
                         </p>
@@ -53,7 +53,7 @@ export default function LicensePage() {
                         className="bg-red-500/5 border border-red-500/20 p-8 rounded-xl"
                     >
                         <BookOpen className="h-8 w-8 text-red-400 mb-6" />
-                        <h3 className="text-2xl font-black text-white mb-4">Prohibited Actions</h3>
+                        <h3 className="text-2xl font-black text-text-primary mb-4">Prohibited Actions</h3>
                         <p className="text-text-secondary font-medium leading-relaxed">
                             Bypass of DRM (Digital Rights Management), extraction via automated scraping, unapproved API routing, localized printing, screenshot capturing, and screen recording processes are fundamentally banned and blocked at the engine layer.
                         </p>
@@ -66,7 +66,7 @@ export default function LicensePage() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="text-2xl font-black tracking-tight text-white mb-4 flex items-center gap-2">
+                        <h2 className="text-2xl font-black tracking-tight text-text-primary mb-4 flex items-center gap-2">
                             Intellectual Property Rights
                         </h2>
                         <p className="text-text-secondary leading-relaxed font-medium">
@@ -79,7 +79,7 @@ export default function LicensePage() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="text-2xl font-black tracking-tight text-white mb-4 flex items-center gap-2">
+                        <h2 className="text-2xl font-black tracking-tight text-text-primary mb-4 flex items-center gap-2">
                             Monitoring and Enforcement
                         </h2>
                         <p className="text-text-secondary leading-relaxed font-medium">
@@ -90,7 +90,7 @@ export default function LicensePage() {
 
                 <div className="mt-20 pt-10 border-t border-border flex justify-between items-center">
                     <Link href="/">
-                        <Button variant="ghost" className="text-text-muted hover:text-white font-bold tracking-tight px-0">
+                        <Button variant="ghost" className="text-text-muted hover:text-text-primary font-bold tracking-tight px-0">
                             ← Back to Home
                         </Button>
                     </Link>

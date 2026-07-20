@@ -11,14 +11,14 @@ import { useAuth } from "@/context/AuthContext"
 
 const sidebarItems = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
-    { icon: ShoppingCart, label: "Store", href: "/dashboard/store", roles: ["USER"] },
-    { icon: Lock, label: "My Library", href: "/dashboard/vault", roles: ["USER"] },
+    { icon: ShoppingCart, label: "Buy Materials", href: "/dashboard/store", roles: ["USER"] },
+    { icon: Lock, label: "My Downloads", href: "/dashboard/vault", roles: ["USER"] },
     { icon: ShoppingCart, label: "Purchase History", href: "/dashboard/orders", roles: ["USER"] },
-    { icon: MonitorSmartphone, label: "Active Devices", href: "/dashboard/devices", roles: ["USER"] },
-    { icon: Upload, label: "Upload", href: "/dashboard/upload", roles: ["ADMIN"] },
-    { icon: Users, label: "Users", href: "/dashboard/users", roles: ["ADMIN"] },
-    { icon: DollarSign, label: "Sales", href: "/dashboard/sales", roles: ["ADMIN"] },
-    { icon: Settings, label: "Settings", href: "/dashboard/settings" },
+    { icon: MonitorSmartphone, label: "My Devices", href: "/dashboard/devices", roles: ["USER"] },
+    { icon: Upload, label: "Upload File", href: "/dashboard/upload", roles: ["ADMIN"] },
+    { icon: Users, label: "Students", href: "/dashboard/users", roles: ["ADMIN"] },
+    { icon: DollarSign, label: "Sales & Revenue", href: "/dashboard/sales", roles: ["ADMIN"] },
+    { icon: Settings, label: "Account Settings", href: "/dashboard/settings" },
 ]
 
 export function Sidebar() {
@@ -41,7 +41,7 @@ export function Sidebar() {
                         />
                     </div>
                     <div className="flex flex-col">
-                        <h1 className="text-sm font-black bg-clip-text text-transparent bg-[linear-gradient(110deg,#f0f2f5,45%,#c9a84c,55%,#f0f2f5)] bg-[length:200%_100%] animate-shimmer whitespace-nowrap leading-none tracking-tighter">
+                        <h1 className="text-sm font-black bg-clip-text text-transparent bg-[linear-gradient(110deg,#0f172a,45%,#c9a84c,55%,#0f172a)] dark:bg-[linear-gradient(110deg,#ffffff,45%,#c9a84c,55%,#ffffff)] bg-[length:200%_100%] animate-shimmer whitespace-nowrap leading-none tracking-tighter">
                             All Government Alerts
                         </h1>
                     </div>

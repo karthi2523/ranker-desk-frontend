@@ -56,7 +56,7 @@ export default function PrivacyPage() {
                         viewport={{ once: true }}
                         className="space-y-6"
                     >
-                        <h2 className="text-2xl font-black tracking-tight text-white">2. Security Infrastructure</h2>
+                        <h2 className="text-2xl font-black tracking-tight text-text-primary">2. Security Infrastructure</h2>
                         <ul className="space-y-4 text-text-secondary font-medium list-disc list-inside">
                             <li>To inject unique, trace-capable watermarks directly into asset binaries upon requesting rendering.</li>
                             <li>To facilitate end-to-end encrypted storage pipelines utilizing AES-256 logic.</li>
@@ -70,7 +70,7 @@ export default function PrivacyPage() {
                         viewport={{ once: true }}
                         className="space-y-6"
                     >
-                        <h2 className="text-2xl font-black tracking-tight text-white">3. Third-Party Deployment</h2>
+                        <h2 className="text-2xl font-black tracking-tight text-text-primary">3. Third-Party Deployment</h2>
                         <p className="text-text-secondary leading-relaxed font-medium">
                             Your operational data is never sold, traded, or compromised to commercial entities. Data transmission only occurs via secure API relays to validated payment processors and necessary infrastructure hosting environments under strict SLA constraints.
                         </p>
@@ -82,7 +82,7 @@ export default function PrivacyPage() {
                         viewport={{ once: true }}
                         className="space-y-6"
                     >
-                        <h2 className="text-2xl font-black tracking-tight text-white">4. User Data Rights</h2>
+                        <h2 className="text-2xl font-black tracking-tight text-text-primary">4. User Data Rights</h2>
                         <p className="text-text-secondary leading-relaxed font-medium">
                             You maintain ultimate control over your data footprint. You hold the right to petition for a full data wipe (Account Deletion), which immediately cascades and erases all non-transactional database references. Note: Any previously watermarked study materials downloaded will retain its trace markers permanently.
                         </p>
@@ -91,7 +91,7 @@ export default function PrivacyPage() {
 
                 <div className="mt-20 pt-10 border-t border-border flex justify-between items-center">
                     <Link href="/">
-                        <Button variant="ghost" className="text-text-muted hover:text-white font-bold tracking-tight px-0">
+                        <Button variant="ghost" className="text-text-muted hover:text-text-primary font-bold tracking-tight px-0">
                             ← Back to Home
                         </Button>
                     </Link>

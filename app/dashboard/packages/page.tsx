@@ -51,7 +51,7 @@ export default function AdminPackagesPage() {
  setPackages(response.data)
  } catch (error) {
  console.error("Failed to fetch packages", error)
- showToast("Failed to compile package registry","error")
+ showToast("Failed to load packages","error")
  } finally {
  setIsLoading(false)
  }
@@ -62,12 +62,12 @@ export default function AdminPackagesPage() {
  setIsActionLoading(true)
  try {
  await api.delete(`/packages/${packageToDelete.id}`)
- showToast(`Package"${packageToDelete.title}"purged successfully`,"success")
+ showToast(`Package "${packageToDelete.title}" deleted`,"success")
  setPackages(packages.filter(p => p.id !== packageToDelete.id))
  setDeleteModalOpen(false)
  setPackageToDelete(null)
  } catch (error: any) {
- showToast(error.response?.data?.message ||"Purge operation failed","error")
+ showToast(error.response?.data?.message ||"Failed to delete package","error")
  } finally {
  setIsActionLoading(false)
  }
@@ -92,7 +92,7 @@ export default function AdminPackagesPage() {
  ...editFormData,
  price: parseFloat(editFormData.price)
  })
- showToast("Package details updated successfully","success")
+ showToast("Package updated successfully","success")
  setPackages(packages.map(p => p.id === packageToEdit.id ? response.data : p))
  setEditModalOpen(false)
  setPackageToEdit(null)
@@ -107,7 +107,7 @@ export default function AdminPackagesPage() {
  return (
  <div className="flex flex-col items-center justify-center h-[500px] gap-4">
  <Loader2 className="h-10 w-10 animate-spin text-accent"/>
- <p className="text-xs font-black text-text-secondary uppercase tracking-[0.2em]">Compiling Package Registry...</p>
+ <p className="text-xs font-black text-text-secondary uppercase tracking-[0.2em]">Loading packages...</p>
  </div>
  )
  }
@@ -118,9 +118,9 @@ export default function AdminPackagesPage() {
  <div className="space-y-2">
  <div className="flex items-center gap-3">
  <Package2 className="h-7 w-7 text-accent"/>
- <h2 className="text-2xl md:text-3xl font-black text-text-primary uppercase tracking-tighter">Package Management</h2>
+ <h2 className="text-2xl md:text-3xl font-black text-text-primary uppercase tracking-tighter">Packages</h2>
  </div>
- <p className="text-sm text-text-secondary font-medium">Configure and manage multi-asset study bundles on the marketplace.</p>
+ <p className="text-sm text-text-secondary font-medium">Create and manage course packages.</p>
  </div>
  <Link href="/dashboard/packages/create">
  <Button className="h-12 px-6 bg-accent hover:bg-accent text-background font-black uppercase tracking-widest text-[10px] gap-3 shadow-none shadow-none border-none transition-all hover:scale-[1.02] active:scale-[0.98]">
@@ -157,11 +157,11 @@ export default function AdminPackagesPage() {
  <div className="flex flex-wrap items-center gap-6 pt-4">
  <div className="flex items-center gap-2 text-[10px] font-black text-text-muted uppercase tracking-widest">
  <Calendar className="h-3.5 w-3.5 text-accent"/>
- Assembled: {new Date(pkg.createdAt).toLocaleDateString()}
+ Created: {new Date(pkg.createdAt).toLocaleDateString()}
  </div>
  <div className="flex items-center gap-2 text-[10px] font-black text-background uppercase tracking-widest bg-accent px-3 py-1.5 rounded-lg border border-accent/40">
  <DollarSign className="h-3.5 w-3.5"/>
- Bundle Value: ₹{pkg.price}
+ Price: ₹{pkg.price}
  </div>
  <div className="text-[10px] font-black text-text-muted uppercase tracking-widest px-3 py-1 bg-background rounded-lg border border-border">
  PKG-ID: {pkg.id.substring(0, 8)}
@@ -204,10 +204,10 @@ export default function AdminPackagesPage() {
  {packages.length === 0 && (
  <div className="flex flex-col items-center justify-center min-h-[400px] rounded-[2.5rem] border-2 border-dashed border-border bg-surface">
  <Package2 className="h-16 w-16 text-text-muted mb-6"/>
- <h3 className="text-xl font-black text-text-secondary uppercase tracking-tighter">No Packages</h3>
- <p className="text-xs text-text-muted font-bold mt-2 uppercase tracking-widest">Multi-asset bundles allow for high-value strategic deployments.</p>
+ <h3 className="text-xl font-black text-text-secondary uppercase tracking-tighter">No Packages Yet</h3>
+ <p className="text-xs text-text-muted font-bold mt-2 uppercase tracking-widest">Bundles allow you to sell multiple materials together.</p>
  <Link href="/dashboard/packages/create"className="mt-10">
- <Button className="bg-accent text-background font-black uppercase text-xs tracking-[0.2em] h-14 px-10 rounded-2xl shadow-none shadow-none">Assemble First Package</Button>
+ <Button className="bg-accent text-background font-black uppercase text-xs tracking-[0.2em] h-14 px-10 rounded-2xl shadow-none">Create Your First Package</Button>
  </Link>
  </div>
  )}
@@ -217,7 +217,7 @@ export default function AdminPackagesPage() {
  <Modal
  isOpen={deleteModalOpen}
  onClose={() => !isActionLoading && setDeleteModalOpen(false)}
- title="Package Dissolution"
+ title="Delete Package"
  >
  <div className="space-y-6 pt-2">
  <div className="flex items-center gap-5 p-5 rounded-2xl bg-accent/10 border border-accent/30">
@@ -225,7 +225,7 @@ export default function AdminPackagesPage() {
  <ShieldAlert className="h-6 w-6 text-accent"/>
  </div>
  <p className="text-xs font-bold text-accent leading-relaxed uppercase tracking-tight">
- Warning: You are about to dissolve bundle <span className="text-text-primary underline font-black">{packageToDelete?.title}</span>. This will revoke future acquisitions but preserve historical orders.
+ Warning: You are about to delete package <span className="text-text-primary underline font-black">{packageToDelete?.title}</span>. This will revoke future acquisitions but preserve historical orders.
  </p>
  </div>
 
@@ -243,7 +243,7 @@ export default function AdminPackagesPage() {
  onClick={handleDeletePackage}
  className="flex-1 h-12 bg-accent/10 hover:bg-accent/10 text-text-primary text-[10px] font-black uppercase tracking-[0.2em] shadow-none shadow-none"
  >
- Confirm Dissolution
+ Delete Package
  </Button>
  </div>
  </div>
@@ -253,7 +253,7 @@ export default function AdminPackagesPage() {
  <Modal
  isOpen={editModalOpen}
  onClose={() => !isActionLoading && setEditModalOpen(false)}
- title="Modify Configuration"
+ title="Edit Package"
  >
  <form onSubmit={handleUpdatePackage} className="space-y-6 pt-2">
  <div className="space-y-2.5">
@@ -268,7 +268,7 @@ export default function AdminPackagesPage() {
  </div>
 
  <div className="space-y-2.5">
- <Label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Bundle Valuation (₹)</Label>
+ <Label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Price (₹)</Label>
  <Input
  type="number"
  value={editFormData.price}
@@ -280,11 +280,11 @@ export default function AdminPackagesPage() {
  </div>
 
  <div className="space-y-2.5">
- <Label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Bundle Overview</Label>
+ <Label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Description</Label>
  <Textarea
  value={editFormData.description}
  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setEditFormData({ ...editFormData, description: e.target.value })}
- placeholder="Describe the strategic value of this bundle..."
+ placeholder="Describe this package..."
  className="bg-background border-border resize-none h-32 focus:ring-accent"
  />
  </div>
@@ -305,7 +305,7 @@ export default function AdminPackagesPage() {
  className="flex-1 h-12 bg-accent hover:bg-accent text-background text-[10px] font-black uppercase tracking-[0.2em] shadow-none shadow-none"
  >
  <Save className="mr-2 h-4 w-4"/>
- Save Configuration
+ Save Package
  </Button>
  </div>
  </form>

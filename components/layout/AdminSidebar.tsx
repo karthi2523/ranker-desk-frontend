@@ -7,12 +7,12 @@ import { LayoutDashboard, Upload, Users, DollarSign, LogOut, ShieldAlert, FileTe
 import { useAuth } from "@/context/AuthContext"
 
 const adminSidebarItems = [
-    { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
-    { icon: FileText, label: "Materials", href: "/dashboard/admin-materials" },
-    { icon: Upload, label: "Upload Material", href: "/dashboard/upload" },
-    { icon: Layers, label: "Packages", href: "/dashboard/packages" },
-    { icon: Users, label: "Users", href: "/dashboard/users" },
-    { icon: DollarSign, label: "Financials", href: "/dashboard/sales" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+    { icon: FileText, label: "Study Materials", href: "/dashboard/admin-materials" },
+    { icon: Upload, label: "Upload File", href: "/dashboard/upload" },
+    { icon: Layers, label: "Study Bundles", href: "/dashboard/packages" },
+    { icon: Users, label: "Students", href: "/dashboard/users" },
+    { icon: DollarSign, label: "Sales & Revenue", href: "/dashboard/sales" },
 ]
 
 export function AdminSidebar() {
@@ -33,7 +33,7 @@ export function AdminSidebar() {
                     </div>
                     <div className="flex flex-col">
                         <div className="flex items-center gap-2">
-                            <h1 className="text-sm font-black bg-clip-text text-transparent bg-[linear-gradient(110deg,#f0f2f5,45%,#c9a84c,55%,#f0f2f5)] bg-[length:200%_100%] animate-shimmer whitespace-nowrap leading-none tracking-tighter">
+                            <h1 className="text-sm font-black bg-clip-text text-transparent bg-[linear-gradient(110deg,#0f172a,45%,#c9a84c,55%,#0f172a)] dark:bg-[linear-gradient(110deg,#ffffff,45%,#c9a84c,55%,#ffffff)] bg-[length:200%_100%] animate-shimmer whitespace-nowrap leading-none tracking-tighter">
                                 All Government Alerts
                             </h1>
                             <span className="text-[8px] bg-accent text-background font-black px-1.5 py-0.5 rounded-sm uppercase tracking-tighter shrink-0">ADMIN</span>

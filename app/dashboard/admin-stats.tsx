@@ -56,17 +56,17 @@ export default function AdminStats() {
             <div className="pb-8 border-b border-border flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div className="space-y-3">
                     <div className="flex items-center gap-3">
-                        <Badge className="bg-accent-hover text-background font-black px-2 py-0.5 rounded-md uppercase tracking-wider text-[10px] border-none shadow-none shadow-amber-900/20">Security Control</Badge>
-                        <h2 className="text-3xl font-black tracking-tighter text-text-primary uppercase">Command Center</h2>
+                        <Badge className="bg-accent-hover text-background font-black px-2 py-0.5 rounded-md uppercase tracking-wider text-[10px] border-none shadow-none shadow-amber-900/20">Admin Panel</Badge>
+                        <h2 className="text-3xl font-black tracking-tighter text-text-primary uppercase">Dashboard Overview</h2>
                     </div>
                     <p className="text-text-secondary text-sm font-medium">
-                        Welcome, <span className="text-accent font-bold">{user?.name || 'Administrator'}</span>. All systems report nominal status.
+                        Welcome, <span className="text-accent font-bold">{user?.name || 'Administrator'}</span>. Everything is running smoothly.
                     </p>
                 </div>
                 <div className="flex items-center gap-4 bg-surface border border-border rounded-xl px-5 py-3">
                     <Activity className="h-5 w-5 text-accent" />
                     <div className="flex flex-col">
-                        <span className="text-[10px] font-black text-text-muted uppercase tracking-widest">Network Status</span>
+                        <span className="text-[10px] font-black text-text-muted uppercase tracking-widest">System Status</span>
                         <span className="text-xs font-bold text-accent uppercase tracking-widest">Operational</span>
                     </div>
                 </div>
@@ -87,7 +87,7 @@ export default function AdminStats() {
                                 ₹{isLoading ? "—" : stats.totalRevenue.toLocaleString()}
                             </div>
                             <p className="text-[9px] text-text-muted mt-2 font-black uppercase tracking-widest flex items-center gap-1">
-                                Lifetime Ledger <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                All-time earnings <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </p>
                         </CardContent>
                     </Card>
@@ -106,7 +106,7 @@ export default function AdminStats() {
                                 {isLoading ? "—" : stats.usersCount}
                             </div>
                             <p className="text-[9px] text-text-muted mt-2 font-black uppercase tracking-widest flex items-center gap-1">
-                                Registered Entities <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                Total students <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </p>
                         </CardContent>
                     </Card>
@@ -115,7 +115,7 @@ export default function AdminStats() {
                 <Link href="/dashboard/admin-materials" className="block group">
                     <Card className="bg-surface border-border group-hover:border-accent/40 transition-all duration-300 rounded-xl cursor-pointer h-full">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-                            <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em]">Deployed Assets</CardTitle>
+                            <CardTitle className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em]">Total Materials</CardTitle>
                             <div className="h-8 w-8 rounded-lg bg-transparent border border-accent/30 flex items-center justify-center group-hover:border-accent/60 transition-colors">
                                 <FileText className="h-4 w-4 text-accent" />
                             </div>
@@ -125,7 +125,7 @@ export default function AdminStats() {
                                 {isLoading ? "—" : stats.materialsCount}
                             </div>
                             <p className="text-[9px] text-text-muted mt-2 font-black uppercase tracking-widest flex items-center gap-1">
-                                Secure Materials <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                Uploaded notes & PDFs <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </p>
                         </CardContent>
                     </Card>
@@ -144,7 +144,7 @@ export default function AdminStats() {
                                 {isLoading ? "—" : stats.activeSessions}
                             </div>
                             <p className="text-[9px] text-text-muted mt-2 font-black uppercase tracking-widest flex items-center gap-1">
-                                Currently Monitored <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                Users currently online <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </p>
                         </CardContent>
                     </Card>
@@ -156,9 +156,9 @@ export default function AdminStats() {
                 <Card className="lg:col-span-4 bg-surface border-border rounded-xl">
                     <CardHeader className="pb-4 border-b border-border">
                         <div className="flex items-center justify-between">
-                            <CardTitle className="text-xs font-black text-text-primary uppercase tracking-[0.2em]">Recent Acquisitions Feed</CardTitle>
+                            <CardTitle className="text-xs font-black text-text-primary uppercase tracking-[0.2em]">Recent Sales</CardTitle>
                             <Link href="/dashboard/sales" className="text-[10px] font-black text-accent hover:text-amber-300 uppercase tracking-[0.2em] transition-colors">
-                                Full Audit Ledger →
+                                View all sales →
                             </Link>
                         </div>
                     </CardHeader>
@@ -194,7 +194,7 @@ export default function AdminStats() {
                         ) : (
                             <div className="py-20 text-center">
                                 <DollarSign className="h-12 w-12 text-text-muted mx-auto mb-4" />
-                                <p className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em]">No recent transactions detected on the ledger.</p>
+                                <p className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em]">No recent sales found.</p>
                             </div>
                         )}
                     </CardContent>
@@ -203,7 +203,7 @@ export default function AdminStats() {
                 {/* Operational Status */}
                 <Card className="lg:col-span-3 bg-surface border-border rounded-xl">
                     <CardHeader className="pb-4 border-b border-border">
-                        <CardTitle className="text-xs font-black text-text-primary uppercase tracking-[0.2em]">Sovereign Integrity Feed</CardTitle>
+                        <CardTitle className="text-xs font-black text-text-primary uppercase tracking-[0.2em]">System Health</CardTitle>
                     </CardHeader>
                     <CardContent className="p-8 space-y-5">
                         <Link href="/dashboard/users" className="block group">
@@ -211,7 +211,7 @@ export default function AdminStats() {
                                 <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                                 <div className="flex items-center gap-4 relative z-10">
                                     <ShieldCheck className="h-5 w-5 text-accent" />
-                                    <div className="text-sm font-bold text-text-primary">Auth Subsystems</div>
+                                    <div className="text-sm font-bold text-text-primary">Authentication</div>
                                 </div>
                                 <Badge className="bg-accent/10 text-accent border-accent/20 text-[9px] uppercase font-black px-3 border-none relative z-10">ACTIVE</Badge>
                             </div>
@@ -221,7 +221,7 @@ export default function AdminStats() {
                                 <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                                 <div className="flex items-center gap-4 relative z-10">
                                     <BookOpen className="h-5 w-5 text-accent" />
-                                    <div className="text-sm font-bold text-text-primary">Vault Streaming</div>
+                                    <div className="text-sm font-bold text-text-primary">File Delivery</div>
                                 </div>
                                 <Badge className="bg-accent/10 text-accent border-accent/20 text-[9px] uppercase font-black px-3 border-none relative z-10">ONLINE</Badge>
                             </div>
@@ -239,8 +239,7 @@ export default function AdminStats() {
                         <div className="pt-6">
                             <div className="p-4 bg-background border border-border rounded-2xl">
                                 <p className="text-[9px] text-text-muted font-bold leading-relaxed text-center uppercase tracking-widest">
-                                    All subsystems function within sovereign parameters.
-                                    RSA-2048 isolation verified.
+                                    All systems are running normally and user data is secure.
                                 </p>
                             </div>
                         </div>

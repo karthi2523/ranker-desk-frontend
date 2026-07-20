@@ -58,7 +58,7 @@ export default function UploadPage() {
                 router.push("/dashboard/admin-materials")
             }, 2000)
         } catch (err: any) {
-            setError(err.response?.data?.message || "Failed to initiate asset deployment.")
+            setError(err.response?.data?.message || "Failed to add material.")
         } finally {
             setIsLoading(false)
         }
@@ -70,13 +70,13 @@ export default function UploadPage() {
                 <div className="h-24 w-24 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mb-6">
                     <CheckCircle2 className="h-12 w-12 text-accent" />
                 </div>
-                <h2 className="text-3xl font-black text-text-primary uppercase tracking-tighter">Deployment Successful</h2>
+                <h2 className="text-3xl font-black text-text-primary uppercase tracking-tighter">Upload Successful</h2>
                 <p className="text-text-secondary mt-3 font-medium max-w-sm">
-                    The intellectual asset has been ingested, encrypted, and seeded to the sovereign network.
+                    The material has been added successfully.
                 </p>
                 <div className="mt-8 flex items-center gap-2 text-[10px] font-black text-accent uppercase tracking-[0.2em] bg-accent/10 px-4 py-2 rounded-lg border border-accent/20">
                     <Sparkles className="h-3 w-3" />
-                    Vault Hash Verified
+                    Ready to Share
                 </div>
             </div>
         )
@@ -88,13 +88,13 @@ export default function UploadPage() {
                 <div className="space-y-2">
                     <div className="flex items-center gap-3">
                         <Upload className="h-7 w-7 text-accent" />
-                        <h2 className="text-2xl md:text-3xl font-black text-text-primary uppercase tracking-tighter">Intel Ingestion</h2>
+                        <h2 className="text-2xl md:text-3xl font-black text-text-primary uppercase tracking-tighter">Add Material</h2>
                     </div>
-                    <p className="text-sm text-text-secondary font-medium">Deploy new high-fidelity study assets to the sovereign vault.</p>
+                    <p className="text-sm text-text-secondary font-medium">Upload a new material for your students.</p>
                 </div>
                 <div className="hidden md:flex items-center gap-2 text-[9px] font-black text-text-muted uppercase tracking-[0.2em]">
                     <ShieldAlert className="h-3.5 w-3.5" />
-                    SECURE LINE ACTIVE
+                    READY TO UPLOAD
                 </div>
             </div>
 
@@ -103,8 +103,8 @@ export default function UploadPage() {
                     <Card className="border-border bg-surface shadow-none">
                         <CardContent className="p-8 space-y-8">
                             <div className="space-y-1">
-                                <h3 className="text-xs font-black text-text-primary uppercase tracking-[0.2em]">Metadata Registry</h3>
-                                <p className="text-[10px] text-text-muted font-bold uppercase tracking-tight">Define the core identifiers for this intellectual asset.</p>
+                                <h3 className="text-xs font-black text-text-primary uppercase tracking-[0.2em]">Material Details</h3>
+                                <p className="text-[10px] text-text-muted font-bold uppercase tracking-tight">Enter details about this material.</p>
                             </div>
 
                             {error && (
@@ -116,7 +116,7 @@ export default function UploadPage() {
 
                             <div className="grid gap-6 sm:grid-cols-2">
                                 <div className="space-y-2.5">
-                                    <label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Material Title</label>
+                                    <label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Title</label>
                                     <Input
                                         placeholder="E.G. QUANTUM ECONOMY PACK"
                                         className="bg-background border-border h-12 text-sm font-bold text-text-primary focus:ring-1 focus:ring-accent focus:border-accent/40"
@@ -126,7 +126,7 @@ export default function UploadPage() {
                                 </div>
 
                                 <div className="space-y-2.5">
-                                    <label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Acquisition Price (₹)</label>
+                                    <label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Price (₹)</label>
                                     <Input
                                         type="number"
                                         placeholder="499"
@@ -138,9 +138,9 @@ export default function UploadPage() {
                             </div>
 
                             <div className="space-y-2.5">
-                                <label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Asset Description</label>
+                                <label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Description</label>
                                 <Textarea
-                                    placeholder="PROVIDE ARCHITECTURAL DETAILS ABOUT THIS MATERIAL..."
+                                    placeholder="Describe this material..."
                                     className="bg-background border-border min-h-[140px] text-sm font-medium text-text-secondary focus:ring-1 focus:ring-accent focus:border-accent/40 resize-none"
                                     value={form.description}
                                     onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setForm({ ...form, description: e.target.value })}
@@ -149,7 +149,7 @@ export default function UploadPage() {
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div className="space-y-2.5">
-                                    <label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Secure Core (PDF)</label>
+                                    <label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Main PDF</label>
                                     <div className="relative border-2 border-dashed border-border rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer hover:border-accent/40 hover:bg-accent transition-all group">
                                         <input
                                             type="file"
@@ -162,12 +162,12 @@ export default function UploadPage() {
                                         />
                                         <FileIcon className={`h-12 w-12 mb-4 transition-colors ${files.secureFile ? 'text-accent' : 'text-text-muted'}`} />
                                         <span className="text-[10px] uppercase font-black tracking-[0.2em] text-text-muted group-hover:text-text-primary transition-colors text-center px-4">
-                                            {files.secureFile ? files.secureFile.name : 'UPLOAD SECURE ASSET'}
+                                            {files.secureFile ? files.secureFile.name : 'UPLOAD MAIN PDF'}
                                         </span>
                                     </div>
                                 </div>
                                 <div className="space-y-2.5">
-                                    <label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Demo Preview (PDF)</label>
+                                    <label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Preview PDF (Optional)</label>
                                     <div className="relative border-2 border-dashed border-border rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer hover:border-accent/20 hover:bg-accent/10 transition-all group">
                                         <input
                                             type="file"
@@ -180,7 +180,7 @@ export default function UploadPage() {
                                         />
                                         <FileIcon className={`h-12 w-12 mb-4 transition-colors ${files.demoFile ? 'text-accent' : 'text-text-muted'}`} />
                                         <span className="text-[10px] uppercase font-black tracking-[0.2em] text-text-muted group-hover:text-text-primary transition-colors text-center px-4">
-                                            {files.demoFile ? files.demoFile.name : 'UPLOAD DEMO STREAM'}
+                                            {files.demoFile ? files.demoFile.name : 'UPLOAD PREVIEW PDF'}
                                         </span>
                                     </div>
                                 </div>
@@ -193,7 +193,7 @@ export default function UploadPage() {
                             >
                                 <span className="flex items-center gap-3 uppercase tracking-[0.2em] text-xs">
                                     <Upload className="h-5 w-5" />
-                                    Initiate Deployment Protocol
+                                    Save Material
                                 </span>
                             </Button>
                         </CardContent>
@@ -203,7 +203,7 @@ export default function UploadPage() {
                 <div className="lg:col-span-2 space-y-6">
                     <Card className="border-border bg-surface">
                         <CardContent className="p-7 space-y-5">
-                            <h3 className="text-xs font-black text-text-primary uppercase tracking-[0.2em]">Protocol Rules</h3>
+                            <h3 className="text-xs font-black text-text-primary uppercase tracking-[0.2em]">Upload Guidelines</h3>
                             <ul className="space-y-4">
                                 {[
                                     "Assets must be in PDF format for secure streaming.",
@@ -224,11 +224,11 @@ export default function UploadPage() {
                         <CardContent className="p-7 space-y-5">
                             <h3 className="text-xs font-black text-accent uppercase tracking-[0.2em] flex items-center gap-2">
                                 <ShieldAlert className="h-4 w-4" />
-                                Security Warning
+                                Important
                             </h3>
                             <div className="p-4 bg-accent/10 border border-accent/30 rounded-xl">
                                 <p className="text-[10px] font-bold text-accent leading-relaxed text-center uppercase tracking-tighter">
-                                    DEPLOYING ASSETS TO THE SOVEREIGN NETWORK IS IRREVERSIBLE ONCE SEEDED. VERIFY ALL METADATA BEFORE INITIATION.
+                                    PLEASE CHECK YOUR DETAILS BEFORE SAVING.
                                 </p>
                             </div>
                         </CardContent>

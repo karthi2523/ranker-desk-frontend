@@ -6,25 +6,26 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        background: "#0a0e1a",
-        foreground: "#f0f2f5",
-        surface: "#111827",
-        "surface-raised": "#1a2235",
-        border: "#1e2d45",
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        surface: "var(--surface)",
+        "surface-raised": "var(--surface-raised)",
+        border: "var(--border-color)",
         accent: {
-          DEFAULT: "#c9a84c",
-          hover: "#dbb95c",
-          muted: "#c9a84c1a",
+          DEFAULT: "var(--accent)",
+          hover: "var(--accent-hover)",
+          muted: "var(--accent-muted)",
         },
         text: {
-          primary: "#f0f2f5",
-          secondary: "#8a9bb0",
-          muted: "#4a5a70",
+          primary: "var(--text-primary)",
+          secondary: "var(--text-secondary)",
+          muted: "var(--text-muted)",
         },
-        error: "#e05252",
+        error: "var(--error)",
       },
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
@@ -32,15 +33,10 @@ const config: Config = {
       borderColor: {
         DEFAULT: "var(--border-color)",
       },
-      keyframes: {
-        shimmer: {
-          '0%': { backgroundPosition: '200% center' },
-          '100%': { backgroundPosition: '-200% center' },
-        },
-      },
-      animation: {
-        shimmer: 'shimmer 4s linear infinite',
-      },
+      boxShadow: {
+        'subtle': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        'float': '0 10px 40px -10px rgba(0,0,0,0.08)',
+      }
     },
   },
   plugins: [],

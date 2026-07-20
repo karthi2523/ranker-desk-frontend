@@ -84,7 +84,7 @@ export function PdfSecureViewer({ pdfUrl, title }: PdfSecureViewerProps) {
                 </div>
 
                 {/* Zoom controls */}
-                <div className="flex items-center gap-0.5 bg-background/60 border border-white/5 rounded-lg p-0.5">
+                <div className="flex items-center gap-0.5 bg-background/60 border border-border rounded-lg p-0.5">
                     <Button variant="ghost" size="icon" className="h-7 w-7 text-text-secondary p-0" onClick={zoomOut}>
                         <ZoomOut className="h-3.5 w-3.5" />
                     </Button>

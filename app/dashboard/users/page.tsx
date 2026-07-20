@@ -47,7 +47,7 @@ export default function UsersPage() {
             setUsers(response.data)
         } catch (error) {
             console.error("Failed to fetch users", error)
-            showToast("Failed to access personnel registry", "error")
+            showToast("Failed to load users", "error")
         } finally {
             setIsLoading(false)
         }
@@ -63,7 +63,7 @@ export default function UsersPage() {
             setDeleteModalOpen(false)
             setUserToDelete(null)
         } catch (error: any) {
-            const message = error.response?.data?.message || "Purge operation failed"
+            const message = error.response?.data?.message || "Failed to delete user"
             showToast(message, "error")
         } finally {
             setIsActionLoading(false)
@@ -90,7 +90,7 @@ export default function UsersPage() {
         return (
             <div className="flex flex-col items-center justify-center h-[500px] gap-4">
                 <Loader2 className="h-10 w-10 animate-spin text-accent" />
-                <p className="text-xs font-black text-text-secondary uppercase tracking-[0.2em]">Accessing Personnel Registry...</p>
+                <p className="text-xs font-black text-text-secondary uppercase tracking-[0.2em]">Loading users...</p>
             </div>
         )
     }
@@ -101,13 +101,13 @@ export default function UsersPage() {
                 <div className="space-y-2">
                     <div className="flex items-center gap-3">
                         <Users className="h-7 w-7 text-accent" />
-                        <h2 className="text-2xl md:text-3xl font-black text-text-primary uppercase tracking-tighter">Personnel Registry</h2>
+                        <h2 className="text-2xl md:text-3xl font-black text-text-primary uppercase tracking-tighter">Users</h2>
                     </div>
-                    <p className="text-sm text-text-secondary font-medium">Manage all registered entities and their authorization levels on the network.</p>
+                    <p className="text-sm text-text-secondary font-medium">View and manage all registered users.</p>
                 </div>
                 <div className="flex items-center gap-3 bg-surface border border-border rounded-2xl px-5 py-3 shadow-none">
                     <div className="text-right">
-                        <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-0.5">Total Registry</p>
+                        <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-0.5">Total Users</p>
                         <p className="text-2xl font-black text-text-primary leading-none">{users.length}</p>
                     </div>
                 </div>
@@ -162,7 +162,7 @@ export default function UsersPage() {
                                     variant="secondary"
                                     className="flex-1 h-10 text-[10px] font-black uppercase tracking-widest bg-surface-raised hover:bg-surface text-text-secondary"
                                 >
-                                    AUDIT LOGS
+                                    ACTIVITY
                                 </Button>
                                 <Button
                                     onClick={() => {
@@ -192,8 +192,8 @@ export default function UsersPage() {
                 {users.length === 0 && (
                     <div className="col-span-full flex flex-col items-center justify-center h-[300px] rounded-3xl border-2 border-dashed border-border bg-surface">
                         <Users className="h-12 w-12 text-text-muted mb-4" />
-                        <h3 className="text-lg font-black text-text-secondary uppercase tracking-tighter">Registry Empty</h3>
-                        <p className="text-xs text-text-muted font-bold mt-1">No personnel records detected on the sovereign network.</p>
+                        <h3 className="text-lg font-black text-text-secondary uppercase tracking-tighter">No Users Found</h3>
+                        <p className="text-xs text-text-muted font-bold mt-1">No users have registered yet.</p>
                     </div>
                 )}
             </div>
@@ -202,7 +202,7 @@ export default function UsersPage() {
             <Modal
                 isOpen={deleteModalOpen}
                 onClose={() => !isActionLoading && setDeleteModalOpen(false)}
-                title="Sovereign Purge Request"
+                title="Delete User"
             >
                 <div className="space-y-6">
                     <div className="flex items-center gap-4 p-5 rounded-2xl bg-accent/10 border border-accent/30">
@@ -210,7 +210,7 @@ export default function UsersPage() {
                             <ShieldAlert className="h-6 w-6 text-accent" />
                         </div>
                         <p className="text-xs font-bold text-accent leading-relaxed uppercase tracking-tight">
-                            Warning: This operation will permanently remove all access privileges and records for <span className="text-text-primary underline">{userToDelete?.email}</span>. This action is irreversible.
+                            Warning: This will permanently delete the user <span className="text-text-primary underline">{userToDelete?.email}</span>. This cannot be undone.
                         </p>
                     </div>
 
@@ -221,14 +221,14 @@ export default function UsersPage() {
                             variant="ghost"
                             className="flex-1 h-12 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted hover:text-text-primary"
                         >
-                            Abort
+                            Cancel
                         </Button>
                         <Button
                             isLoading={isActionLoading}
                             onClick={handleDeleteUser}
                             className="flex-1 h-12 bg-accent/10 hover:bg-accent/10 text-text-primary text-[10px] font-black uppercase tracking-[0.2em] shadow-none shadow-none"
                         >
-                            Confirm Purge
+                            Delete User
                         </Button>
                     </div>
                 </div>
@@ -238,11 +238,11 @@ export default function UsersPage() {
             <Modal
                 isOpen={auditModalOpen}
                 onClose={() => setAuditModalOpen(false)}
-                title="Personnel Audit Feed"
+                title="User Activity"
             >
                 <div className="space-y-6">
                     <div className="p-5 rounded-2xl bg-background border border-border">
-                        <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-5">Security Activity Logs: {userForAudit?.email}</p>
+                        <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-5">Activity Logs: {userForAudit?.email}</p>
                         <div className="space-y-5">
                             <div className="flex items-start gap-4 pb-4 border-b border-border/50">
                                 <Activity className="h-5 w-5 text-accent mt-0.5" />
@@ -274,12 +274,12 @@ export default function UsersPage() {
             <Modal
                 isOpen={roleModalOpen}
                 onClose={() => !isActionLoading && setRoleModalOpen(false)}
-                title="Registry Access Control"
+                title="Manage Role"
             >
                 <div className="space-y-6">
                     <div className="p-5 rounded-2xl bg-accent border border-accent/40">
                         <p className="text-xs font-bold text-background leading-relaxed uppercase tracking-tight">
-                            Manage authorization level for <span className="text-background underline">{userForRole?.email}</span>. Higher clearance levels grant access to the sovereign command center.
+                            Manage role for <span className="text-background underline">{userForRole?.email}</span>. Higher clearance levels grant access to the sovereign command center.
                         </p>
                     </div>
 
