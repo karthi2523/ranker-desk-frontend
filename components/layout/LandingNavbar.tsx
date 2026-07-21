@@ -40,7 +40,7 @@ export function LandingNavbar() {
     return (
         <>
             <header
-                className={`fixed top-0 z-[100] w-full transition-all duration-300 ${isScrolled
+                className={`fixed top-0 z-[110] w-full transition-all duration-300 ${isScrolled
                     ? "py-4 bg-background/90 backdrop-blur-md border-b border-border shadow-sm"
                     : "py-6 bg-transparent"
                     }`}

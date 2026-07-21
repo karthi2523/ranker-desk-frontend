@@ -79,24 +79,24 @@ export function MobileNav({ isOpen, onClose, isAdmin }: MobileNavProps) {
                         className="fixed inset-y-0 left-0 z-[60] w-[85%] max-w-sm bg-background/95 backdrop-blur-2xl border-r border-border p-8 shadow-[20px_0_50px_rgba(0,0,0,0.1)] md:hidden flex flex-col"
                     >
                         {/* Drawer Header */}
-                        <div className="flex items-center justify-between mb-10">
-                            <Link href="/dashboard" className="group flex items-center gap-4" onClick={onClose}>
-                                <div className="relative h-11 w-11 rounded-xl border border-border bg-surface flex items-center justify-center transition-all duration-300 group-hover:border-accent/50">
+                        <div className="flex items-center justify-between mb-10 gap-2">
+                            <Link href="/dashboard" className="group flex items-center gap-3 min-w-0" onClick={onClose}>
+                                <div className="relative h-10 w-10 shrink-0 rounded-xl border border-border bg-surface flex items-center justify-center transition-all duration-300 group-hover:border-accent/50">
                                     <img
                                         src="/logo.png"
                                         alt="Logo"
-                                        className="h-6 w-6 object-contain"
+                                        className="h-5 w-5 object-contain"
                                     />
                                 </div>
-                                <div className="flex flex-col">
-                                    <h1 className="text-xl font-black tracking-tighter bg-clip-text text-transparent bg-[linear-gradient(110deg,#0f172a,45%,#c9a84c,55%,#0f172a)] dark:bg-[linear-gradient(110deg,#ffffff,45%,#c9a84c,55%,#ffffff)] bg-[length:200%_100%] animate-shimmer whitespace-nowrap">
+                                <div className="flex flex-col min-w-0">
+                                    <h1 className="text-lg font-black tracking-tighter bg-clip-text text-transparent bg-[linear-gradient(110deg,#0f172a,45%,#c9a84c,55%,#0f172a)] dark:bg-[linear-gradient(110deg,#ffffff,45%,#c9a84c,55%,#ffffff)] bg-[length:200%_100%] animate-shimmer truncate">
                                         All Government Alerts
                                     </h1>
                                 </div>
                             </Link>
                             <button
                                 onClick={onClose}
-                                className="h-10 w-10 flex items-center justify-center rounded-xl bg-surface border border-border text-text-muted hover:text-text-primary transition-all active:scale-90"
+                                className="h-10 w-10 shrink-0 flex items-center justify-center rounded-xl bg-surface border border-border text-text-muted hover:text-text-primary transition-all active:scale-90"
                             >
                                 <X className="h-5 w-5" />
                             </button>
