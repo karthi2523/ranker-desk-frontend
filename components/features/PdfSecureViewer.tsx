@@ -4,6 +4,7 @@ import { useState, useCallback, useRef, useEffect } from "react"
 import { Document, Page, pdfjs } from "react-pdf"
 import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Cookies from "js-cookie"
 
 pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js"
 
@@ -117,7 +118,12 @@ export function PdfSecureViewer({ pdfUrl, title }: PdfSecureViewerProps) {
                 }}
             >
                 <Document
-                    file={pdfUrl}
+                    file={{
+                        url: pdfUrl,
+                        httpHeaders: {
+                            Authorization: `Bearer ${Cookies.get('token')}`
+                        }
+                    }}
                     onLoadSuccess={onDocumentLoadSuccess}
                     onLoadError={(err) => console.error("[VaultPDF] load error:", err)}
                     loading={

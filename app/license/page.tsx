@@ -22,7 +22,7 @@ export default function LicensePage() {
                         <span>Usage License</span>
                     </div>
 
-                    <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white to-text-secondary">
+                    <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-r from-text-primary to-text-secondary">
                         End-User License Agreement (EULA)
                     </h1>
 

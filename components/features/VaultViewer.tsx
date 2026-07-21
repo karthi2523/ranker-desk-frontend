@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button"
 import api from "@/lib/api"
 import { useAuth } from "@/context/AuthContext"
 import dynamic from "next/dynamic"
+import { useInactivityTimeout } from "@/hooks/useInactivityTimeout"
+import { useDevToolsDetector } from "@/hooks/useDevToolsDetector"
 
 // Load PdfSecureViewer client-side ONLY — pdfjs-dist must never run in Node.js (server).
 // This is the fix for:"Object.defineProperty called on non-object"from pdfjs-dist v5.
@@ -38,10 +40,29 @@ export function VaultViewer({ materialId }: { materialId: string }) {
     const [material, setMaterial] = useState<(Material & { hasAccess: boolean, fileExists: boolean }) | null>(null)
     const [pdfUrl, setPdfUrl] = useState<string | null>(null)
     const [isBlurred, setIsBlurred] = useState(false)
-    const [showSessionAlert] = useState(false)
+    const [showSessionAlert, setShowSessionAlert] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [isFlashActive, setIsFlashActive] = useState(false)
     const [zoom, setZoom] = useState(100)
+
+    const logSecurityEvent = async (eventType: string, metadata?: any) => {
+        try {
+            await api.post('/security/events', { eventType, metadata });
+        } catch (e) {
+            console.error("Failed to log security event", e);
+        }
+    };
+
+    useInactivityTimeout(15, () => {
+        setShowSessionAlert(true);
+        logSecurityEvent('INACTIVITY_TIMEOUT');
+    });
+
+    const isDevToolsOpen = useDevToolsDetector(() => {
+        logSecurityEvent('DEV_TOOLS_DETECTED');
+    });
+
+    const activeBlur = isBlurred || isDevToolsOpen;
 
     // ─── Security Event Listeners ─────────────────────────────────────────────
     useEffect(() => {
@@ -65,9 +86,16 @@ export function VaultViewer({ materialId }: { materialId: string }) {
                 e.stopPropagation()
                 // Visual flash to signal the block
                 setIsFlashActive(true)
+                logSecurityEvent('BLOCKED_SHORTCUT', { key: e.key });
                 setTimeout(() => setIsFlashActive(false), 180)
             }
         }
+
+        // Prevent clipboard & selection
+        const handleClipboard = (e: Event) => {
+            e.preventDefault();
+            logSecurityEvent('CLIPBOARD_ATTEMPT', { type: e.type });
+        };
 
         // Blur content when tab is hidden (protects against screen-share + tab-switch)
         const handleVisibilityChange = () => setIsBlurred(document.hidden)
@@ -78,6 +106,11 @@ export function VaultViewer({ materialId }: { materialId: string }) {
         document.addEventListener('contextmenu', handleContextMenu)
         document.addEventListener('keydown', handleKeyDown, true)
         document.addEventListener('visibilitychange', handleVisibilityChange)
+        document.addEventListener('copy', handleClipboard)
+        document.addEventListener('cut', handleClipboard)
+        document.addEventListener('paste', handleClipboard)
+        document.addEventListener('selectstart', handleClipboard)
+        document.addEventListener('dragstart', handleClipboard)
         window.addEventListener('blur', handleWindowBlur)
         window.addEventListener('focus', handleWindowFocus)
 
@@ -85,6 +118,11 @@ export function VaultViewer({ materialId }: { materialId: string }) {
             document.removeEventListener('contextmenu', handleContextMenu)
             document.removeEventListener('keydown', handleKeyDown, true)
             document.removeEventListener('visibilitychange', handleVisibilityChange)
+            document.removeEventListener('copy', handleClipboard)
+            document.removeEventListener('cut', handleClipboard)
+            document.removeEventListener('paste', handleClipboard)
+            document.removeEventListener('selectstart', handleClipboard)
+            document.removeEventListener('dragstart', handleClipboard)
             window.removeEventListener('blur', handleWindowBlur)
             window.removeEventListener('focus', handleWindowFocus)
 
@@ -218,12 +256,12 @@ export function VaultViewer({ materialId }: { materialId: string }) {
                     </div>
                 ) : material && material.hasAccess ? (
                     <div
-                        className={`relative w-full flex-1 min-h-0 flex flex-col items-center ${isBlurred
+                        className={`relative w-full flex-1 min-h-0 flex flex-col items-center ${activeBlur
                             ? "blur-3xl grayscale brightness-50"
                             : ""
                             }`}
                         style={{
-                            transition: isBlurred ? "none" : "filter 0.4s",
+                            transition: activeBlur ? "none" : "filter 0.4s",
                         }}
                     >
                         {pdfUrl ? (
@@ -271,14 +309,18 @@ export function VaultViewer({ materialId }: { materialId: string }) {
                 )}
 
                 {/* ── Focus-loss Overlay ── no transition so it appears instantly ─ */}
-                {isBlurred && !isLoading && (
+                {activeBlur && !isLoading && (
                     <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-background/95">
                         <div className="h-20 w-20 rounded-full bg-surface flex items-center justify-center border border-border shadow-none mb-6">
                             <EyeOff className="h-10 w-10 text-text-muted" />
                         </div>
-                        <h3 className="text-2xl font-bold text-text-primary tracking-tight mb-2">Secure Shield Active</h3>
-                        <p className="text-text-secondary text-sm font-medium">
-                            Content is hidden while vault is out of focus
+                        <h3 className="text-2xl font-bold text-text-primary tracking-tight mb-2">
+                            {isDevToolsOpen ? "Security Policy Violation" : "Secure Shield Active"}
+                        </h3>
+                        <p className="text-text-secondary text-sm font-medium text-center px-4 max-w-sm">
+                            {isDevToolsOpen 
+                                ? "Developer tools detected. Session recorded and flagged."
+                                : "Content is hidden while vault is out of focus."}
                         </p>
                         <div className="mt-6 px-4 py-2 rounded-xl border border-accent/20 bg-accent/5 text-[10px] font-bold text-accent tracking-widest uppercase">
                             Official Audit: {user.id.substring(0, 12)}

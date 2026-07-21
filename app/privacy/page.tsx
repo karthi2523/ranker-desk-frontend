@@ -22,7 +22,7 @@ export default function PrivacyPage() {
                         <span>Data Privacy Hub</span>
                     </div>
 
-                    <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white to-text-secondary">
+                    <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-r from-text-primary to-text-secondary">
                         Data Privacy & Security Core
                     </h1>
 

@@ -36,18 +36,25 @@ export default function Home() {
             <LandingNavbar />
 
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-surface">
-                {/* Clean dot pattern background */}
-                <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] opacity-50" />
+            <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-background">
+                {/* Background Image */}
+                <div 
+                    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                    style={{ backgroundImage: 'url("/hero-bg.jpg")' }}
+                />
+                {/* Gradient Overlay for Text Readability */}
+                <div className="absolute inset-0 bg-background/80 md:bg-gradient-to-r md:from-background md:via-background/90 md:to-background/20" />
+                {/* Top gradient specifically for navbar readability */}
+                <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-background via-background/80 to-transparent" />
                 
-                <div className="container mx-auto px-6 text-center relative z-10 max-w-5xl">
+                <div className="container mx-auto px-6 relative z-10 max-w-6xl flex flex-col items-center text-center md:items-start md:text-left">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
-                        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface border border-border text-text-secondary text-sm font-medium mb-8 shadow-subtle"
+                        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface/50 backdrop-blur-md border border-border/50 text-text-primary text-sm font-medium mb-8 shadow-subtle"
                     >
-                        <Star className="h-4 w-4 text-accent fill-accent" />
+                        <Star className="h-4 w-4 text-accent fill-accent drop-shadow-md" />
                         <span>Trusted by over 50,000 aspirants nationwide</span>
                     </motion.div>
 
@@ -55,7 +62,7 @@ export default function Home() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.1 }}
-                        className="text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 text-text-primary leading-[1.1]"
+                        className="text-5xl lg:text-7xl font-extrabold tracking-tight mb-6 text-text-primary leading-[1.1] max-w-3xl drop-shadow-md"
                     >
                         Master Your Exams.<br/>
                         <span className="text-accent">Secure Your Future.</span>
@@ -65,7 +72,7 @@ export default function Home() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.8, delay: 0.3 }}
-                        className="text-lg lg:text-xl text-text-muted max-w-2xl mx-auto mb-12 leading-relaxed"
+                        className="text-lg lg:text-xl text-text-secondary max-w-xl mb-12 leading-relaxed drop-shadow-sm"
                     >
                         Access high-quality, verified study materials for Indian Government Exams. Designed to help you focus and succeed.
                     </motion.p>
@@ -74,16 +81,16 @@ export default function Home() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.4 }}
-                        className="flex flex-col sm:flex-row items-center justify-center gap-4"
+                        className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto"
                     >
-                        <Link href="/register">
-                            <Button size="lg" className="bg-accent hover:bg-accent-hover text-white px-8 h-14 text-base font-semibold rounded-lg shadow-float transition-all">
+                        <Link href="/register" className="w-full sm:w-auto">
+                            <Button size="lg" className="w-full sm:w-auto bg-accent hover:bg-accent-hover text-white px-8 h-14 text-base font-semibold rounded-lg shadow-float transition-all">
                                 Start Learning Now
                                 <ArrowRight className="ml-2 h-4 w-4" />
                             </Button>
                         </Link>
-                        <Link href="/login">
-                            <Button size="lg" variant="outline" className="bg-surface border-border hover:bg-surface-raised text-text-primary px-8 h-14 text-base font-semibold rounded-lg transition-all">
+                        <Link href="/login" className="w-full sm:w-auto">
+                            <Button size="lg" variant="outline" className="w-full sm:w-auto bg-surface/50 backdrop-blur-sm border-border hover:bg-surface-raised text-text-primary px-8 h-14 text-base font-semibold rounded-lg transition-all">
                                 View Demo
                             </Button>
                         </Link>

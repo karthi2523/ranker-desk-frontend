@@ -19,6 +19,7 @@ interface Package {
  description: string | null
  price: number
  createdAt: string
+ thumbnail?: string | null
 }
 
 export default function AdminPackagesPage() {
@@ -136,9 +137,13 @@ export default function AdminPackagesPage() {
  <CardContent className="p-0">
  <div className="flex flex-col md:flex-row">
  {/* Visual Indicator */}
- <div className="p-8 md:w-40 bg-background border-b md:border-b-0 md:border-r border-border/50 flex items-center justify-center shrink-0">
- <div className="h-16 w-16 rounded-2xl bg-surface border border-border flex items-center justify-center shadow-inner group-hover:border-accent/40 transition-all duration-500 group-hover:scale-110">
+ <div className="p-6 md:w-64 bg-background border-b md:border-b-0 md:border-r border-border/50 flex items-center justify-center shrink-0">
+ <div className="w-full aspect-video rounded-2xl bg-surface border border-border flex items-center justify-center shadow-inner group-hover:border-accent/40 transition-all duration-500 group-hover:scale-105 overflow-hidden relative">
+ {pkg.thumbnail ? (
+ <img src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'}`.replace(/\/api\/?$/, '') + pkg.thumbnail} alt={pkg.title} className="w-full h-full object-cover" />
+ ) : (
  <Layers className="h-7 w-7 text-accent"/>
+ )}
  </div>
  </div>
 

@@ -6,11 +6,12 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import {
     ShoppingBag, Star, ShieldCheck, ShoppingCart, Search,
-    Loader2, BookOpen, ExternalLink, ShieldAlert, Package2, FileText, Sparkles
+    Loader2, BookOpen, ExternalLink, ShieldAlert, Package2, FileText, Sparkles, Info
 } from "lucide-react"
 import api from "@/lib/api"
 import { useAuth } from "@/context/AuthContext"
 import { useRouter, useSearchParams } from "next/navigation"
+import { Modal } from "@/components/ui/modal"
 
 interface Material {
     id: string
@@ -27,7 +28,9 @@ interface Package {
     description: string
     price: number
     isActive: boolean
+    thumbnail?: string
     type?: 'package'
+    packageFiles?: { id: string, displayName: string, mimeType: string }[]
 }
 
 function StoreContent() {
@@ -36,6 +39,7 @@ function StoreContent() {
     const [items, setItems] = useState<(Material | Package)[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const [detailsItem, setDetailsItem] = useState<(Material | Package) | null>(null)
     const searchParams = useSearchParams()
 
     useEffect(() => {
@@ -166,10 +170,14 @@ function StoreContent() {
                                 </Badge>
                             </div>
 
-                            {/* Interactive Thumbnail */}
-                            <div className="h-[200px] w-full bg-background flex items-center justify-center">
+                            {/* Static Thumbnail */}
+                            <div className="h-[200px] w-full bg-background flex items-center justify-center relative overflow-hidden">
                                 {item.type === 'package' ? (
-                                    <Package2 className="h-16 w-16 text-text-muted" />
+                                    item.thumbnail ? (
+                                        <img src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'}`.replace(/\/api\/?$/, '') + item.thumbnail} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                    ) : (
+                                        <Package2 className="h-16 w-16 text-text-muted" />
+                                    )
                                 ) : (
                                     <FileText className="h-16 w-16 text-text-muted" />
                                 )}
@@ -215,16 +223,21 @@ function StoreContent() {
 
                                 <div className="flex w-full gap-3">
                                     <Button
+                                        variant="outline"
+                                        onClick={() => setDetailsItem(item)}
+                                        className="flex-1 border-border text-text-primary hover:bg-accent/5 font-bold h-11 rounded-lg transition-all"
+                                    >
+                                        View Details
+                                    </Button>
+                                    <Button
                                         onClick={() => handleBuy(item.id, item.type as 'material' | 'package')}
                                         className="flex-1 bg-accent hover:bg-accent-hover text-background font-black h-11 rounded-lg transition-all"
                                     >
                                         <span className="flex items-center justify-center gap-2 tracking-tight text-sm">
                                             <ShoppingCart className="h-4 w-4" />
-                                            Buy Now
+                                            Buy
                                         </span>
                                     </Button>
-
-
                                 </div>
                             </CardFooter>
                         </Card>
@@ -233,6 +246,106 @@ function StoreContent() {
             )}
 
             {/* Removed Premium Security Block */}
+
+            {/* Premium Details Modal */}
+            <Modal
+                isOpen={!!detailsItem}
+                onClose={() => setDetailsItem(null)}
+                title=""
+                hideHeader={true}
+                className="max-w-2xl bg-surface backdrop-blur-xl border border-border p-0 overflow-hidden shadow-2xl"
+            >
+                {detailsItem && (
+                    <div className="flex flex-col max-h-[85vh]">
+                        {/* Header Banner */}
+                        <div className="relative h-48 w-full bg-surface shrink-0">
+                            {detailsItem.type === 'package' && (detailsItem as Package).thumbnail ? (
+                                <img 
+                                    src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'}`.replace(/\/api\/?$/, '') + (detailsItem as Package).thumbnail} 
+                                    alt={detailsItem.title} 
+                                    className="w-full h-full object-cover opacity-60"
+                                />
+                            ) : (
+                                <div className="w-full h-full bg-gradient-to-tr from-accent/20 to-background flex items-center justify-center">
+                                    <Sparkles className="w-12 h-12 text-accent/50" />
+                                </div>
+                            )}
+                            <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/80 to-transparent" />
+                            
+                            <div className="absolute bottom-6 left-8 right-8 flex items-end justify-between">
+                                <div className="space-y-2">
+                                    <Badge className="bg-accent/10 text-accent border-accent/20 text-[10px] px-3 py-1 uppercase tracking-widest backdrop-blur-md shadow-sm">
+                                        {detailsItem.type === 'package' ? 'Premium Bundle' : 'Premium Material'}
+                                    </Badge>
+                                    <h2 className="text-2xl md:text-3xl font-black text-text-primary tracking-tight drop-shadow-sm">
+                                        {detailsItem.title}
+                                    </h2>
+                                </div>
+                                <div className="text-right shrink-0">
+                                    <span className="block text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1 drop-shadow-sm">Total Price</span>
+                                    <span className="text-3xl font-black text-text-primary drop-shadow-sm">₹{detailsItem.price}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Scrollable Content area */}
+                        <div className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar">
+                            
+                            {/* Description */}
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <BookOpen className="w-4 h-4 text-accent" />
+                                    <h4 className="text-xs font-black text-text-primary uppercase tracking-widest">About this {detailsItem.type === 'package' ? 'Bundle' : 'Material'}</h4>
+                                </div>
+                                <div className="p-5 rounded-2xl bg-surface-raised border border-border backdrop-blur-sm shadow-sm">
+                                    <p className="text-sm text-text-secondary whitespace-pre-wrap leading-relaxed">
+                                        {detailsItem.description || "No description provided."}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Package Contents */}
+                            {detailsItem.type === 'package' && (detailsItem as Package).packageFiles && ((detailsItem as Package).packageFiles!.length > 0) && (
+                                <div className="space-y-3">
+                                    <div className="flex items-center gap-2">
+                                        <Package2 className="w-4 h-4 text-accent" />
+                                        <h4 className="text-xs font-black text-text-primary uppercase tracking-widest">Included Contents</h4>
+                                    </div>
+                                    <div className="grid gap-2">
+                                        {(detailsItem as Package).packageFiles!.map(file => {
+                                            // Clean up ugly UUIDs from filenames if present
+                                            const cleanName = file.displayName.replace(/_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/i, '');
+                                            return (
+                                                <div key={file.id} className="group flex items-center gap-4 p-3 px-4 rounded-xl bg-background border border-border hover:border-accent transition-colors shadow-sm">
+                                                    <div className="h-8 w-8 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
+                                                        <FileText className="w-4 h-4 text-accent group-hover:scale-110 transition-transform" />
+                                                    </div>
+                                                    <span className="text-sm font-medium text-text-secondary group-hover:text-text-primary transition-colors truncate">
+                                                        {cleanName}
+                                                    </span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Sticky Action Footer */}
+                        <div className="shrink-0 p-6 bg-surface border-t border-border shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
+                            <Button
+                                onClick={() => {
+                                    handleBuy(detailsItem.id, detailsItem.type as 'material' | 'package')
+                                    setDetailsItem(null)
+                                }}
+                                className="w-full h-14 bg-accent hover:bg-accent-hover text-background font-black text-sm uppercase tracking-widest shadow-lg shadow-accent/20 hover:shadow-accent/40 transition-all hover:-translate-y-0.5 rounded-xl"
+                            >
+                                <ShoppingCart className="h-5 w-5 mr-3" /> Secure This {detailsItem.type === 'package' ? 'Bundle' : 'Material'}
+                            </Button>
+                        </div>
+                    </div>
+                )}
+            </Modal>
         </div>
     )
 }
