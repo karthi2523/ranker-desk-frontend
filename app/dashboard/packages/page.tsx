@@ -31,15 +31,6 @@ export default function AdminPackagesPage() {
  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
  const [packageToDelete, setPackageToDelete] = useState<Package | null>(null)
 
- // Edit State
- const [editModalOpen, setEditModalOpen] = useState(false)
- const [packageToEdit, setPackageToEdit] = useState<Package | null>(null)
- const [editFormData, setEditFormData] = useState({
- title:"",
- price:"",
- description:""
- })
-
  const { showToast } = useToast()
 
  useEffect(() => {
@@ -69,36 +60,6 @@ export default function AdminPackagesPage() {
  setPackageToDelete(null)
  } catch (error: any) {
  showToast(error.response?.data?.message ||"Failed to delete package","error")
- } finally {
- setIsActionLoading(false)
- }
- }
-
- const handleOpenEdit = (pkg: Package) => {
- setPackageToEdit(pkg)
- setEditFormData({
- title: pkg.title,
- price: pkg.price.toString(),
- description: pkg.description ||""
- })
- setEditModalOpen(true)
- }
-
- const handleUpdatePackage = async (e: React.FormEvent) => {
- e.preventDefault()
- if (!packageToEdit) return
- setIsActionLoading(true)
- try {
- const response = await api.patch(`/packages/${packageToEdit.id}`, {
- ...editFormData,
- price: parseFloat(editFormData.price)
- })
- showToast("Package updated successfully","success")
- setPackages(packages.map(p => p.id === packageToEdit.id ? response.data : p))
- setEditModalOpen(false)
- setPackageToEdit(null)
- } catch (error: any) {
- showToast(error.response?.data?.message ||"Failed to update package","error")
  } finally {
  setIsActionLoading(false)
  }
@@ -182,13 +143,14 @@ export default function AdminPackagesPage() {
  <ArrowRight className="h-4 w-4"/>
  </Button>
  </Link>
+ <Link href={`/dashboard/packages/${pkg.id}/edit`}>
  <Button
- onClick={() => handleOpenEdit(pkg)}
  variant="outline"
  className="h-11 w-11 p-0 border-border text-text-muted hover:text-text-primary hover:bg-surface-raised rounded-xl"
  >
  <Edit3 className="h-4 w-4"/>
  </Button>
+ </Link>
  <Button
  onClick={() => {
  setPackageToDelete(pkg);
@@ -252,68 +214,6 @@ export default function AdminPackagesPage() {
  </Button>
  </div>
  </div>
- </Modal>
-
- {/* Edit Modal */}
- <Modal
- isOpen={editModalOpen}
- onClose={() => !isActionLoading && setEditModalOpen(false)}
- title="Edit Package"
- >
- <form onSubmit={handleUpdatePackage} className="space-y-6 pt-2">
- <div className="space-y-2.5">
- <Label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Package Title</Label>
- <Input
- value={editFormData.title}
- onChange={(e) => setEditFormData({ ...editFormData, title: e.target.value })}
- placeholder="Enter package name"
- className="bg-background h-12 border-border font-bold focus:ring-accent"
- required
- />
- </div>
-
- <div className="space-y-2.5">
- <Label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Price (₹)</Label>
- <Input
- type="number"
- value={editFormData.price}
- onChange={(e) => setEditFormData({ ...editFormData, price: e.target.value })}
- placeholder="Set package price"
- className="bg-background h-12 border-border font-bold focus:ring-accent"
- required
- />
- </div>
-
- <div className="space-y-2.5">
- <Label className="text-[10px] font-black text-text-muted uppercase tracking-widest pl-1">Description</Label>
- <Textarea
- value={editFormData.description}
- onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setEditFormData({ ...editFormData, description: e.target.value })}
- placeholder="Describe this package..."
- className="bg-background border-border resize-none h-32 focus:ring-accent"
- />
- </div>
-
- <div className="flex items-center gap-3 pt-6">
- <Button
- type="button"
- disabled={isActionLoading}
- onClick={() => setEditModalOpen(false)}
- variant="ghost"
- className="flex-1 h-12 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted hover:text-text-primary"
- >
- Cancel
- </Button>
- <Button
- type="submit"
- isLoading={isActionLoading}
- className="flex-1 h-12 bg-accent hover:bg-accent text-background text-[10px] font-black uppercase tracking-[0.2em] shadow-none shadow-none"
- >
- <Save className="mr-2 h-4 w-4"/>
- Save Package
- </Button>
- </div>
- </form>
  </Modal>
  </div>
  )
